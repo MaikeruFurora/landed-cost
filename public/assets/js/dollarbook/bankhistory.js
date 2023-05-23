@@ -59,6 +59,12 @@ $(document).on('click','button[name=print]',function(){
 
 $(document).on('click','button[name=editBtn_bankHistory]',function(){
 
+    let dataRow = bankHistoryTable.row($(this).closest('tr'));
+
+    bankFormModal.find(".my-card-header em").text(dataRow.data()['companyname'])
+
+    bankFormModal.find(".modal-dialog").removeClass("modal-xl").addClass("modal-md")
+
     $.ajax({
         
         url:`dollarbook/bankinfo/edit/${$(this).val()}`,
@@ -66,11 +72,8 @@ $(document).on('click','button[name=editBtn_bankHistory]',function(){
         type:'GET',
         
     }).done(function(data){
-        console.log(data.exchangeRate*data.amount);
 
         clearForm()
-
-        bankFormModal.find(".modal-dialog").removeClass("modal-xl").addClass("modal-md")
 
         form01.show()
 
@@ -81,8 +84,11 @@ $(document).on('click','button[name=editBtn_bankHistory]',function(){
             bankFormModal.find(".aod-requisite").show()
             autoComputeUSDAmount(data.amount,data.exchangeRate)
         } else {
+            toCardAccount.show()
             bankFormModal.find(".aod-requisite").hide()
         }
+
+        $("input[name=dated_at]").val((data.exchangeRateDate!=null)? data.exchangeRateDate : data.dated_at)
         
         $(".prefixCurrency").text(data.account.currencyType)
 
@@ -95,7 +101,7 @@ $(document).on('click','button[name=editBtn_bankHistory]',function(){
         $("input[name=attention]").val(data.attention)
 
         $("input[name=exchangeRate]").val(data.exchangeRate)
-
+        
         $("input[name=exchangeRateDate]").val(data.exchangeRateDate)
 
         $("input[name=phpAmount]").val(data.exchangeRate*data.amount)
@@ -103,7 +109,6 @@ $(document).on('click','button[name=editBtn_bankHistory]',function(){
         $("input[name=amount]").val(data.amount)
 
         $("input[name=subject]").val(data.subject)
-
 
         $("select[name=toCurrencyType]").val(data.toCurrencyType)
 

@@ -15,6 +15,12 @@
                     <div class="form01">
                         <div class="input-group input-group-sm mb-3">
                             <div class="input-group-prepend">
+                              <span class="input-group-text px-4">Date</span>
+                            </div>
+                            <input type="text" class="form-control" autocomplete="off" name="dated_at" maxlength="10" required>
+                        </div>
+                        <div class="input-group input-group-sm mb-3">
+                            <div class="input-group-prepend">
                               <span class="input-group-text px-3">Subject</span>
                             </div>
                             <input type="text" class="form-control" autocomplete="off" name="subject" maxlength="50" required>

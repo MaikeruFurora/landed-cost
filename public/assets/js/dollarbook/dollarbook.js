@@ -8,13 +8,30 @@ let form01          = $(".form01")
 
 let form02          = $(".form02")
 
+let dated_at        = $('input[name=dated_at]')
+
+let exchangeRateDate= $('input[name=exchangeRateDate]')
+
 $('input[name=amount]').number( true, 2 );
 $('input[name=exchangeRate]').number( true, 2 );
 $('input[name=phpAmount]').number( true, 2 );
 
-$('input[name=exchangeRateDate]').datepicker({
+exchangeRateDate.datepicker({
     toggleActive: true,
+    autoclose: true,
     format: "yyyy-mm-dd",
+    startDate: new Date()
+}).on('change',function(){
+    dated_at.val($(this).val())
+});
+
+dated_at.datepicker({
+    toggleActive: true,
+    autoclose: true,
+    format: "yyyy-mm-dd",
+    startDate: new Date()
+}).on('change',function(){
+    exchangeRateDate.val($(this).val())
 });
 
 $('#date-range').datepicker({
@@ -129,40 +146,33 @@ let companybankTable = $("#companybankTable").DataTable({
     ]
 })
 
-$(document).on('click','button[name=aod]',function(){
+const generalSetting = (data,aodRequisite=false,datedAt=false,types,needToAccnt=false,modalLabel)=>{
     clearForm()
-    let dataRow         = companybankTable.row($(this).closest('tr'));
-    bankFormModal.find(".aod-requisite").show()
+    bankFormModal.find(".my-card-header em").text(data.data()['companyname'])
+    bankFormModal.find(".prefixCurrency").text(data.data()['currencyType'])
     bankFormModal.find(".modal-dialog").removeClass("modal-xl").addClass("modal-md")
-    $("#bankFormModalLabel").text('AUTHORITY TO DEBIT')
-    bankFormModal.find(".my-card-header em").text(dataRow.data()['companyname'])
-    bankFormModal.find(".prefixCurrency").text(dataRow.data()['currencyType'])
-    bankFormModal.find("input[name='account']").val($(this).val())
     bankFormModal.find("input[name='subject']").val('REQUEST TO DEBIT ACCOUNT')
     bankFormModal.find("input[name='attention']").val('Ms. Vanessa')
-    bankFormModal.find("input[name='types']").val('AOD')
+    bankFormModal.find("input[name='types']").val(types)
+    $("#bankFormModalLabel").text(modalLabel)
+    dated_at.prop('readonly',datedAt)
+    if (aodRequisite) {  bankFormModal.find(".aod-requisite").show() }else{  bankFormModal.find(".aod-requisite").hide() }
+    if (needToAccnt) {   toCardAccount.hide() } else {  toCardAccount.show()  }
     form01.show()
     form02.hide()
-    toCardAccount.hide()
     bankFormModal.modal("show")
+}
+
+$(document).on('click','button[name=aod]',function(){
+    let dataRow = companybankTable.row($(this).closest('tr'));
+    generalSetting(dataRow,true,true,'AOD',true,'AUTHORITY TO DEBIT	')
+    bankFormModal.find("input[name='account']").val($(this).val())
 })
 
 $(document).on('click','button[name=tof]',function(){
-    clearForm()
-    let dataRow         = companybankTable.row($(this).closest('tr'));
-    bankFormModal.find(".prefixCurrency").text(dataRow.data()['currencyType'])
-    bankFormModal.find(".my-card-header em").text(dataRow.data()['companyname'])
-    bankFormModal.find(".aod-requisite").hide()
-    bankFormModal.find(".modal-dialog").removeClass("modal-xl").addClass("modal-md")
-    $("#bankFormModalLabel").text('TRANSFER OF FUND')
+    let dataRow = companybankTable.row($(this).closest('tr'));
+    generalSetting(dataRow,false,false,'TOF',false,'TRANSFER OF FUND')
     bankFormModal.find("input[name='account']").val($(this).val())
-    bankFormModal.find("input[name='subject']").val('REQUEST TO TRANSFER OF FUND')
-    bankFormModal.find("input[name='attention']").val('Ms. Vanessa')
-    bankFormModal.find("input[name='types']").val('TOF')
-    form01.show()
-    form02.hide()
-    toCardAccount.show()
-    bankFormModal.modal("show")
 })
 
 $(document).on('click','button[name=tta]',function(){

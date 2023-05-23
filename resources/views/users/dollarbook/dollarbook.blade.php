@@ -9,16 +9,10 @@
         <!-- Summernote css -->
         <link href="{{ asset('plugins/summernote/summernote-bs4.css') }}" rel="stylesheet" />
         <link href="{{ asset('plugins/bootstrap-datepicker/css/bootstrap-datepicker.min.css') }}" rel="stylesheet">
-        <link href="https://cdn.jsdelivr.net/npm/tom-select@2.2.2/dist/css/tom-select.css" rel="stylesheet">
+        <link href="{{ asset('plugins/bootstrap-datepicker/css/bootstrap-datepicker.min.css') }}" rel="stylesheet">
 @endsection
 @section('content')
 <style>
-    /* .table>thead>tr>th, .table>tbody>tr>th, .table>tfoot>tr>th, .table>thead>tr>td, .table>tbody>tr>td, .table>tfoot>tr>td{
-        padding: 4px;
-    }
-    .modal>label{
-        font-size: 10px
-    } */
     .summernote-content p {
         display: inline; 
         margin: 0; 
@@ -33,11 +27,6 @@
     .nav-item{
         cursor: pointer;
     }
-
-    
-    /* #FundForm .form-control-sm{
-        border:.52px solid orange
-    } */
 </style>
 <x-page-title title="FUND">
 
@@ -54,21 +43,21 @@
 <!-- Button trigger modal -->
 <div class="card">
     <div class="card-body">
-        <ul class="nav nav-tabs" id="myTab" role="tablist">
-            <li class="nav-item border" role="presentation">
+       <ul class="nav nav-tabs" id="myTab" role="tablist">
+            <li class="nav-item " role="presentation">
               <a class="nav-link active" id="account-tab" data-toggle="tab" data-target="#account" type="button" role="tab" aria-controls="account" aria-selected="true"><i class="fas fa-file-invoice"></i> Account</a>
             </li>
-            <li class="nav-item border" role="presentation">
+            <li class="nav-item " role="presentation">
               <a class="nav-link" id="records-tab" data-toggle="tab" data-target="#records" type="button" role="tab" aria-controls="records" aria-selected="false"><i class="fas fa-list-ul"></i> Records ( ToF / AoD )</a>
             </li>
-            <li class="nav-item border" role="presentation">
+            <li class="nav-item " role="presentation">
                 <a class="nav-link" id="config-tab" data-toggle="tab" data-target="#config" type="button" role="tab" aria-controls="config" aria-selected="false"><i class="fas fa-list-ul"></i> Record for Telegraphic</a>
               </li>
           </ul>
          
           <div class="tab-content" id="myTabContent">
             <div class="tab-pane fade show active" id="account" role="tabpanel" aria-labelledby="account-tab">
-               <div class="table-responsive mt-4">
+                <div class="table-responsive mt-4">
                 {{-- <button class="btn btn-sm btn-primary float-left my-2" style="font-size: 10px">Refresh</button> --}}
                 <table id="companybankTable" class="table table-sm table-bordered text-center" style="font-size: 10px" width="100%">
                     <thead class="bg-secondary text-white">

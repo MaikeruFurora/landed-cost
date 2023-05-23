@@ -87,6 +87,7 @@ class BankHistory extends Model implements Auditable
             'toBranchname'     => $request->input('toBranchName'),
             'toAccountNo'      => $request->input('toAccountNo'),
             'purpose'          => $request->input('purpose'),
+            'dated_at'          => $request->input('dated_at'),
         ];
 
     }
