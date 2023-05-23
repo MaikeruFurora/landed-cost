@@ -29,6 +29,7 @@ return new class extends Migration
             $table->double('exchangeRate',18,4);
             $table->date('exchangeRateDate')->nullable();
             $table->text('purpose');
+            $table->date('dated_at')->nullable();
             $table->timestamps();
         });
     }
