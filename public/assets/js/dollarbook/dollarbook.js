@@ -29,7 +29,7 @@ dated_at.datepicker({
     toggleActive: true,
     autoclose: true,
     format: "yyyy-mm-dd",
-    startDate: new Date()
+    // startDate: new Date()
 }).on('change',function(){
     exchangeRateDate.val($(this).val())
 });

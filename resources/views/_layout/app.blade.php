@@ -117,7 +117,11 @@
                                 </li>
 
                                 <li class="has-submenu">
-                                    <a href="{{ route('authenticate.opening.charge') }}"><i class="fas fa-funnel-dollar"></i> LC Open Amount</a>
+                                    <a href="#"><i class="fab fa-gripfire" style="color: #2a58a7;"></i> LC & Advance Payment<i class="mdi mdi-chevron-down mdi-drop"></i></a>
+                                    <ul class="submenu">
+                                        <li><a href="{{ route('authenticate.opening.charge') }}"><i class="fas fa-wallet mr-2"></i>LC Open Amount</a></li>
+                                        <li><a href="{{ route('authenticate.opening.charge') }}"><i class="far fa-credit-card mr-2"></i>Advance Payment</a></li>
+                                    </ul>
                                 </li>
                                 
                                 @if(auth()->user()->findOtherPrev('Generate-Report'))
