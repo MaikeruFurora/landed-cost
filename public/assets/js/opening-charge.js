@@ -107,8 +107,7 @@ let openAmountId  = $("input[name=id_lcopc]")
         ]
     });
 
-    $(".btnCancel").hide()
-    $(".btnCancel").on('click',function(){
+    $(".btnCancel").hide().on('click',function(){
         $(this).hide()
         $("#formAmount")[0].reset()
     })
@@ -117,10 +116,10 @@ let openAmountId  = $("input[name=id_lcopc]")
         e.preventDefault()
         var row = $("#datatable").DataTable().row($(this).closest('tr'));
         $(".btnCancel").show()
-        $("input[name=id]").val(row.data()['id'])
-        $("input[name=amount]").val(row.data()['lc_amount'])
-        $("input[name=mt]").val(row.data()['lc_mt'])
-        $("input[name=reference]").val(row.data()['lc_reference'])
+        // $("input[name=id]").val(row.data()['id'])
+        // $("input[name=amount]").val(row.data()['lc_amount'])
+        // $("input[name=mt]").val(row.data()['lc_mt'])
+        // $("input[name=reference]").val(row.data()['lc_reference'])
     })
 
 
@@ -162,7 +161,7 @@ let openAmountId  = $("input[name=id_lcopc]")
         e.preventDefault()
        if($('input[name="search"]').val()!=""){
             $.ajax({
-            url:`charge/invoice/search/item/${openAmountId.val() }`,
+            url:`charge/invoice/search/item`,
             type: "GET",
             data:{
                 whse:$('select[name="whse"]').val(),
@@ -202,47 +201,47 @@ let openAmountId  = $("input[name=id_lcopc]")
     })
 
     const dataTable = (data)=>{
-    let hold=``
-    if(data.length>0){
-        data.forEach((val,i) => {
-            hold+=` <tr class="header">
-                        <form id="poForm" >
-                            <input type="hidden" name="itemcode-${i}" value="${ val['itemcode'] }"> 
-                            <input type="hidden" name="cardname-${i}" value="${ val['cardname'] }"> 
-                            <input type="hidden" name="cardcode-${i}" value="${ val['cardcode'] }">
-                            <input type="hidden" name="pono-${i}" value="${ val['pono'] }">
-                            <input type="hidden" name="vessel-${i}" value="${ val['vessel'] }">
-                            <input type="hidden" name="description-${i}" value="${ val['description'] }">
-                            <input type="hidden" name="invoiceno-${i}" value="${ val['invoiceno'] }">
-                            <input type="hidden" name="broker-${i}" value="${ val['broker'] }"> 
-                            <input type="hidden" name="createdate-${i}" value="${ val['createdate'] }">
-                            <input type="hidden" name="docdate-${i}" value="${ val['docdate'] }">
-                            <input type="hidden" name="weight-${i}" value="${ val['weight'] }">
-                            <input type="hidden" name="quantity-${i}" value="${ val['quantity'] }">
-                            <input type="hidden" name="qtykls-${i}" value="${ val['qtykls'] }">
-                            <input type="hidden" name="qtymt-${i}" value="${ val['qtymt'] }">
-                            <input type="hidden" name="fcl-${i}" value="${ val['fcl'] }"> 
-                            <td>${ val['pono'] }</td>
-                            <td>${ val['description'] } </td>
-                            <td>${ val['invoiceno'] } </td>
-                            <td>${ val['qtymt'] } </td>
-                            <td>${ val['fcl'] } </td>
-                            <td style="font-size: 6;">
-                                <button class="btnSave btn btn-sm btn-primary m-0" type="submit" value="${i}">Add <i class="fas fa-plus"></i></button>
-                            </td>
-                        </form>
-                    </tr>
-                `
-        });
-    }else{
-        hold=` <tr class="header text-center">
-                    <td colspan="6">No data available</td>
-                </tr>`
-    }
-    
-    $(".showData").html(hold)
-    
-}
+            let hold=``
+            if(data.length>0){
+                data.forEach((val,i) => {
+                    hold+=` <tr class="header">
+                                <form id="poForm" >
+                                    <input type="hidden" name="itemcode-${i}" value="${ val['itemcode'] }"> 
+                                    <input type="hidden" name="cardname-${i}" value="${ val['cardname'] }"> 
+                                    <input type="hidden" name="cardcode-${i}" value="${ val['cardcode'] }">
+                                    <input type="hidden" name="pono-${i}" value="${ val['pono'] }">
+                                    <input type="hidden" name="vessel-${i}" value="${ val['vessel'] }">
+                                    <input type="hidden" name="description-${i}" value="${ val['description'] }">
+                                    <input type="hidden" name="invoiceno-${i}" value="${ val['invoiceno'] }">
+                                    <input type="hidden" name="broker-${i}" value="${ val['broker'] }"> 
+                                    <input type="hidden" name="createdate-${i}" value="${ val['createdate'] }">
+                                    <input type="hidden" name="docdate-${i}" value="${ val['docdate'] }">
+                                    <input type="hidden" name="weight-${i}" value="${ val['weight'] }">
+                                    <input type="hidden" name="quantity-${i}" value="${ val['quantity'] }">
+                                    <input type="hidden" name="qtykls-${i}" value="${ val['qtykls'] }">
+                                    <input type="hidden" name="qtymt-${i}" value="${ val['qtymt'] }">
+                                    <input type="hidden" name="fcl-${i}" value="${ val['fcl'] }"> 
+                                    <td>${ val['pono'] }</td>
+                                    <td>${ val['description'] } </td>
+                                    <td>${ val['invoiceno'] } </td>
+                                    <td>${ val['qtymt'] } </td>
+                                    <td>${ val['fcl'] } </td>
+                                    <td style="font-size: 6;">
+                                        <button class="btnSave btn btn-sm btn-primary m-0" type="submit" value="${i}" style="font-size:9px"><i class="fas fa-plus"></i> Add</button>
+                                    </td>
+                                </form>
+                            </tr>
+                        `
+                });
+            }else{
+                hold=` <tr class="header text-center">
+                            <td colspan="6">No data available</td>
+                        </tr>`
+            }
+            
+            $(".showData").html(hold)
+            
+        }
 
 
 $(document).on('click','.btnSave',function(){

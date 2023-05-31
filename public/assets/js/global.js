@@ -11,6 +11,10 @@ const BaseModel = {
         amount.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")
     },
 
+    disabledProperties:(target,bool=true) =>{
+        $("#"+target+" *").prop("disabled", bool);
+    },
+
     commaSeparateNumber:(val) => {
         // remove sign if negative
         var sign = 1;

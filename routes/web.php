@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\Cost\AdvancePaymentController;
 use App\Http\Controllers\Auth\AuthController;
 use App\Http\Controllers\Cost\BankController;
 use App\Http\Controllers\Cost\DetailsController;
@@ -10,6 +11,7 @@ use App\Http\Controllers\Cost\LcopeningChargeController;
 use App\Http\Controllers\Cost\ReportController;
 use App\Http\Controllers\user\AuditLogController;
 use App\Http\Controllers\Cost\CompanyController;
+use App\Http\Controllers\Cost\ContractController;
 use App\Http\Controllers\Cost\DollarBookController;
 use App\Http\Controllers\User\UserController;
 use App\Models\User;
@@ -81,11 +83,18 @@ Route::middleware(['auth:web','preventBackHistory','auth.user'])->name('authenti
     Route::get('opening/charge',[LcopeningChargeController::class,'index'])->name('opening.charge');
     Route::get('opening/charge/list',[LcopeningChargeController::class,'list']);
     Route::get('opening/charge/invoice/{openAmount}',[LcopeningChargeController::class,'invoice'])->name('opening.invoice');
-    Route::get('opening/charge/invoice/search/item/{openAmount}',[LcopeningChargeController::class,'invoiceList']);
+    Route::get('opening/charge/invoice/search/item',[LcopeningChargeController::class,'invoiceList']);
     Route::post('opening/charge/invoice/store/{openAmount}',[LcopeningChargeController::class,'invoiceSave']);
     Route::post('opening/store',[LcopeningChargeController::class,'store'])->name('opening.store');
     Route::get('opening/remove/{lcopeningCharge}',[LcopeningChargeController::class,'removeInvoice']);
 
+    //contract
+    Route::get('contract',[ContractController::class,'index'])->name('contract');
+    Route::post('contract/store',[ContractController::class,'store']);
+    Route::get('contract/list',[ContractController::class,'list']);
+    Route::get('contract/search',[ContractController::class,'search']);
+    Route::post('contract/invoice/store/{contract}',[ContractController::class,'invoiceSave']);
+    
     //gather data from sap datatabse
     Route::get('po',[GatherDataController::class,'index'])->name('po.search');
     Route::get('po/search',[GatherDataController::class,'search']);
@@ -131,10 +140,12 @@ Route::middleware(['auth:web','preventBackHistory','auth.user'])->name('authenti
     Route::get('dollarbook/fund/print-view/telegPDF/{telegraphicHistory}/{file}',[DollarBookController::class,'telegFDF']);
     Route::get('dollarbook/fund/print-view/telegraphic/{telegraphicHistory}',[DollarBookController::class,'telegPrint']);
     Route::get('dollarbook/fund/export/{bankHistory}',[DollarBookController::class,'exportTemplate']);
+    
     //bankhistory & telegraphic
     Route::get('dollarbook/bankhistory/list',[DollarBookController::class,'bankHistoryList']);
     Route::get('dollarbook/telegraphichistory/edit/{telegraphicHistory}',[DollarBookController::class,'telegraphicInfo']);
     Route::get('dollarbook/telegraphichistory/list',[DollarBookController::class,'telegraphicHistoryList']);
+
     //dollarbook report summary
     Route::post('dollarbook/report',[DollarBookController::class,'report']);
     Route::get('dollarbook/report/template',[DollarBookController::class,'reportTemplate']);

@@ -14,7 +14,7 @@ class DataService{
 
         $result = $this->cleanArrayType(Detail::get(['pono'])->pluck('pono')->unique()->toArray());
 
-        $data = $this->sqlSap($request,$result);
+        $data = $this->sqlSap($request,'detail',null);
 
         return ($this->filterItemCode($data ?? []));
 
@@ -28,34 +28,36 @@ class DataService{
 
     }
 
-    public function sqlSap($request,$notInclude){
+    public function sqlSap($request,$option1,$option2){
 
         $search = $request->input('search');
 
-        $tblview = $request->input('whse')=='manila'?'[dbo].[vw_PO_Details]':'[dbo].[vw_PO_Details_Province]';
+        return DB::select("exec dbo.sp_po_details ?,?,?",array($search,$option1,$option2));
+        
+        // $tblview = $request->input('whse')=='manila'?'[dbo].[vw_PO_Details]':'[dbo].[vw_PO_Details_Province]';
 
-        return DB::select("
-                select  
-                    [PONumber], [CardCode], [CardName], [ItemCode],[InvoiceNo], [Dscription],[QtyInKls],[QtyInMT],
-                    [ContainerNo], [UOM],[Weight], [BLNo], [Broker], [quantity],[CreateDate],[DocDate],[vessel],[suppliername]
-                from 
-                    {$tblview}
-                    where 
-                    (
-                            [PONumber] like '%{$search}%'
-                        or
-                            [BLNo] like '%{$search}%'
-                        or
-                            [InvoiceNo] like '%{$search}%'
-                        or  
-                            [Dscription] like '%{$search}%'
-                        or
-                            [vessel] like '%{$search}%'
-                        or
-                            [suppliername] like '%{$search}%'
-                    )
-                    and [PONumber] NOT IN ($notInclude)
-            ");
+        // return DB::select("
+            //         select  
+            //             [PONumber], [CardCode], [CardName], [ItemCode],[InvoiceNo], [Dscription],[QtyInKls],[QtyInMT],
+            //             [ContainerNo], [UOM],[Weight], [BLNo], [Broker], [quantity],[CreateDate],[DocDate],[vessel],[suppliername]
+            //         from 
+            //             {$tblview}
+            //             where 
+            //             (
+            //                     [PONumber] like '%{$search}%'
+            //                 or
+            //                     [BLNo] like '%{$search}%'
+            //                 or
+            //                     [InvoiceNo] like '%{$search}%'
+            //                 or  
+            //                     [Dscription] like '%{$search}%'
+            //                 or
+            //                     [vessel] like '%{$search}%'
+            //                 or
+            //                     [suppliername] like '%{$search}%'
+            //             )
+            //             and [PONumber] NOT IN ($notInclude)
+        //     ");
     }
 
     

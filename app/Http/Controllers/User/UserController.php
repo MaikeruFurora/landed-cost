@@ -4,6 +4,7 @@ namespace App\Http\Controllers\User;
 
 use App\Http\Controllers\Controller;
 use App\Http\Requests\UserRequest;
+use App\Models\AccessControlList;
 use App\Models\Particular;
 use App\Models\User;
 use App\Services\AuthService;
@@ -32,11 +33,15 @@ class UserController extends Controller
 
     public function create(){
 
+        // return AccessControlList::get(['grp','name'])->groupBy('grp','name');
+
         return view('users.admin.user-create',[
 
-            'title'=>'Create User',
+            'title'      => 'Create User',
 
-            'particular' => $this->dataPart->sortBy('p_sort', SORT_REGULAR, false)
+            'particular' => $this->dataPart->sortBy('p_sort', SORT_REGULAR, false),
+
+            'acls'       => AccessControlList::get(['grp','name','code'])->groupby('grp','name','code')
 
         ]);
     }

@@ -77,7 +77,16 @@
                         </button>
                 </div>
             </div>
-
+            {{--  --}}
+            <div class="card">
+                <div class="card-header">
+                    Access Control List
+                </div>
+                <div class="card-body">
+                   @foreach ($acls as $value)
+                   @endforeach
+                </div>
+            </div>
         </div>
         <div class="col-lg-4 col-md-4 col-sm-12">
             <div class="card">

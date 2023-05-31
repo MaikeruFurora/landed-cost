@@ -119,8 +119,8 @@
                                 <li class="has-submenu">
                                     <a href="#"><i class="fab fa-gripfire" style="color: #2a58a7;"></i> LC & Advance Payment<i class="mdi mdi-chevron-down mdi-drop"></i></a>
                                     <ul class="submenu">
-                                        <li><a href="{{ route('authenticate.opening.charge') }}"><i class="fas fa-wallet mr-2"></i>LC Open Amount</a></li>
-                                        <li><a href="{{ route('authenticate.opening.charge') }}"><i class="far fa-credit-card mr-2"></i>Advance Payment</a></li>
+                                        <li><a href="{{ route('authenticate.opening.charge') }}"><i class="fas fa-wallet mr-2" style="font-size:10px"></i>LC Open Amount</a></li>
+                                        <li><a href="{{ route('authenticate.contract') }}"><i class="far fa-credit-card mr-2" style="font-size:10px"></i>Advance Payment</a></li>
                                     </ul>
                                 </li>
                                 

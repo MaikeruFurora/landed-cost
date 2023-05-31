@@ -75,6 +75,12 @@ class Detail extends Model implements Auditable
     
     }
 
+    public function advance_payment(){
+
+        return $this->hasOne(Lcopeningcharge::class);
+    
+    }
+
     public function company(){
 
         return $this->belongsTo(Company::class);

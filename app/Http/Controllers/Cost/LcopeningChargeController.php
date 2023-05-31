@@ -67,20 +67,21 @@ class LcopeningChargeController extends Controller
 
     }
 
-    public function invoiceList(Request $request,OpenAmount $openAmount){
+    public function invoiceList(Request $request){
 
-
-        $lcopen =   LcopeningCharge::select('detail_id')->with('detail:id,pono')->get();
+        // $lcopen =   LcopeningCharge::select('detail_id')->with('detail:id,pono')->get();
         
-        // $opnAmnt  = $openAmount->with('lcopening_charge','lcopening_charge.detail:id,pono')->first();
+            // $opnAmnt  = $openAmount->with('lcopening_charge','lcopening_charge.detail:id,pono')->first();
 
-        // return $opnAmnt->pluck('lcopening_charge.detail.pono')->unique()->toArray();
+            // return $opnAmnt->pluck('lcopening_charge.detail.pono')->unique()->toArray();
 
-        // return $lcopen->pluck('detail.pono')->unique()->toArray();
+            // return $lcopen->pluck('detail.pono')->unique()->toArray();
 
-        $array  =   $this->dataService->cleanArrayType($lcopen->pluck('detail.pono')->unique()->toArray());
+            // $array  =   $this->dataService->cleanArrayType($lcopen->pluck('detail.pono')->unique()->toArray());
 
-        $data   =   $this->dataService->sqlSap($request, $array);
+        // $data   =   $this->dataService->sqlSap($request, $array);
+
+        $data   =   $this->dataService->sqlSap($request, 'detail',null);
 
         return ($this->dataService->filterItemCode($data ?? [],FALSE));
 
@@ -108,7 +109,7 @@ class LcopeningChargeController extends Controller
 
         if($landedCost){
 
-            return $this->openChargeService->store($reqVal->merge(['id'=>$landedCost->id]));
+            return $this->openChargeService->store($reqVal->merge(['id'=>$landedCost->id]),$landedCost);
 
         }else{
 

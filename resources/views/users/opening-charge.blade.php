@@ -83,34 +83,34 @@
         <div class="modal-dialog modal-lg modal-dialog-centered">
             <div class="modal-content">
             <div class="modal-header">
-                <h6 class="modal-title" id="searchInvoiceModalLabel">Title here</h6>
+                <p class="modal-title" id="searchInvoiceModalLabel">Title here</p>
                 <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                 <span aria-hidden="true">&times;</span>
                 </button>
             </div>
             <div class="modal-body">
                <form id="formSearchInvoice">
-                    <div class="input-group mb-2">
-                        <input type="text" class="form-control" placeholder="Recipient's username" name="search">
+                    <div class="input-group input-group-sm mb-2">
+                        <input type="text" class="form-control" autocomplete="off" name="search">
                         <div class="input-group-append">
                             <input type="hidden" name="id_lcopc">
-                            <select name="whse" class="custom-select">
+                            {{-- <select name="whse" class="custom-select">
                                 <option value="manila">Manila</option>
                                 <option value="province">Province</option>
-                            </select>
+                            </select> --}}
                             <button class="btn btn-secondary" type="submit" id="button-addon2">Search</button>
                         </div>
                     </div>
                </form>
-                <table class="table table-bordered table-hover">
-                    <thead>
+                <table class="table table-bordered table-hover" style="font-size:10px">
+                    <thead class="bg-secondary text-white">
                         <tr>
-                            <td>Po Number</td>
-                            <td>Description</td>
-                            <td>Inv No.</td>
-                            <td>Qty(MT)</td>
-                            <td>FCL</td>
-                            <td>Action</td>
+                            <th>Po Number</th>
+                            <th>Description</th>
+                            <th>Inv No.</th>
+                            <th>Qty(MT)</th>
+                            <th>FCL</th>
+                            <th>Action</th>
                         </tr>
                     </thead>
                     <tbody class="showData">
