@@ -9,6 +9,7 @@ let amountPHP           = formContract.find("input[name=amountPHP]")
 let paidAmountUSD       = formContract.find("input[name=paidAmountUSD]")
 let contract_id         = $("input[name=contract_id]")
 let input               = [];
+let flag                = true
 /* The above code is using jQuery to loop through all the form controls inside an element with the ID
 "formContract". It is then pushing the name attribute of each form control into an array called
 "input". */ 
@@ -19,6 +20,7 @@ formContract.find(".btn-warning").hide().on('click',function(){
     formContract[0].reset()
     formContract.find('input[name=id]').val('')
     $(this).hide()
+    $(".btnAddInvoice").prop('disabled',false)
 })
 $('input').on('click',function(){
     $(this).select()
@@ -165,7 +167,7 @@ let tblContract = $('#datatable').DataTable({
                 data:null,
                 render:function(data){
                     return `
-                        ${(data.advance_payment.length==0)?` <button value="${data.id}" class="m-0 py-1 btnEdit btn btn-primary btn-sm" style="font-size:10px"><i class="far fa-edit"></i> Edit</button>`:''}
+                        ${(data.lcdpnego.length==0)?` <button value="${data.id}" class="m-0 py-1 btnEdit btn btn-primary btn-sm" style="font-size:10px"><i class="far fa-edit"></i> Edit</button>`:''}
                         <button value="${data.id}" id="${data.contract_no}" class="m-0 py-1 btn btn-primary btn-sm btnAddInvoice" style="font-size:10px"><i class="fas fa-plus-circle"></i> Invoice</button>
                     `
                 }
@@ -199,7 +201,7 @@ let tblContract = $('#datatable').DataTable({
             },
             {   
                 orderable: false,
-                data:"amountPHP"
+                data:"paidAmountUSD"
             },
             {   
                 orderable: false,
@@ -208,7 +210,7 @@ let tblContract = $('#datatable').DataTable({
                     return data.percentage + "%"
                 }
             },
-           
+
             {   
                 orderable: false,
                 data:"exchangeRate"
@@ -217,40 +219,54 @@ let tblContract = $('#datatable').DataTable({
                 orderable: false,
                 data:"exchangeRateDate"
             },
+            {   
+                orderable: false,
+                data:"amountPHP"
+            },
+            
+           
             {
                 orderable: false,
                 data:null,
                 render:function(data){
-                    if (data.advance_payment.length>0) {
+                    // let tot = data.lcdpnego.reduce((total,num)=> total+=num.detail.qtymt,0)
+
+                    if (data.lcdpnego.length>0) {
                         let hold=`<table class="table table-bordered" style="font-size:10px">
-                                    <tr>
+                                    <tr class="text-center">
+                                        <th>#</th>
                                         <th>Invoice</th>
-                                        <th>MT</th>
+                                        <th>MT</th>                                        
+                                        <th>Price<br>MT</th>
+                                        <th>Invoice<br>Amount<br>(USD)</th>
                                         <th>Percent</th>
-                                        <th>Allocated Amount</th>
-                                        <th>Amount(USD)</th>
+                                        <th>Allocated<br>Payment<br>(USD)</th>
+                                        <th>Remove</th>
                                     </tr>`;
-                            data.advance_payment.forEach(val=>{
-                                hold+=` <tr>
-                                            <td>${val.detail.invoiceno}</td>
-                                            <td>${val.detail.qtymt}</td>
+                            data.lcdpnego.forEach((val,i)=>{
+                                hold+=` <tr class="text-center">
+                                            <th>${++i}</th>
+                                            <td>${val.landedcost_particular.detail.invoiceno}</td>
+                                            <td>${val.landedcost_particular.detail.qtymt}</td>                                            
+                                            <td>${data.priceMetricTon}</td>
+                                            <td>${$.number(val.amount,4)}</td>
                                             <td>${val.percentage}%</td>
                                             <td>${$.number(val.allocatedAmount,4)}</td>
-                                            <td>${$.number(val.amount,4)}</td>
+                                            <td>
+                                                <i class="fas fa-backspace text-danger" style="cursor:pointer" data-lcdpnego="${val.id}"  style="font-size:16px"></i>
+                                            </td>
                                         </tr>`
                             })
 
                             return hold;
                     } else {
-                        return ''
+                        return '<em>No Invoice Available</em>'
                     }
               
                 }
             },
         ]
 });
-
-
 
 $("#formSearchInvoice").on('submit',function(e){
     e.preventDefault()
@@ -281,22 +297,15 @@ $("#formSearchInvoice").on('submit',function(e){
         }).fail(function (jqxHR, textStatus, errorThrown) {
             $("#formSearchInvoice *").prop("disabled", false);
             console.log(errorThrown);
-            // $.each(errorThrown.responseJSON.errors, function (i, error) {
-            //     alert(error[0])
-            // });
-            // alert('Something went wrong!')
             $("#formSearchInvoice *").val('')
              $(".showData").html(` <tr class="header text-center">  <td colspan="6">No data available</td> </tr>`)
         })
-   }else{
-
-        alert('Please do not leave blank')
-
-   }
+   }else{  alert('Please do not leave blank') }
 })
 
 $(document).on('click','.btnEdit',function(e){
     e.preventDefault()
+    $(".btnAddInvoice").prop('disabled',true)
     var data = tblContract.row( $(this).closest('tr') ).data();
     formContract.find(".btn-warning").show()
     input.filter(e => Object.keys(data).indexOf(e) !== -1).forEach(element => {
@@ -306,6 +315,7 @@ $(document).on('click','.btnEdit',function(e){
 
 $(document).on('click','.btnAddInvoice',function(){
     formSearchInvoice[0].reset()
+    $('input[name="search"]').focus()
     $("#searchInvoiceModalLabel").text('Ref: ' + $(this).attr("id"))
     $("input[name=contract_id]").val($(this).val())
     $(".showData").html(`<tr class="header text-center">  <td colspan="6">No data available</td> </tr>`)
@@ -313,6 +323,7 @@ $(document).on('click','.btnAddInvoice',function(){
 })
 
 $(document).on('click','button[name=btnSave]',function(){
+        
         let iterate     =$(this).val()
         let pono        = $("input[name=pono-"+iterate+"]").val()
         let itemcode    = $("input[name=itemcode-"+iterate+"]").val()
@@ -329,7 +340,6 @@ $(document).on('click','button[name=btnSave]',function(){
         let qtykls      = $("input[name=qtykls-"+iterate+"]").val()
         let qtymt       = $("input[name=qtymt-"+iterate+"]").val()
         let fcl         = $("input[name=fcl-"+iterate+"]").val()
-        // $(this).closest("tr.header").remove();
         $.ajax({
             url:`contract/invoice/store/${contract_id.val()}`,
             type: "POST",
@@ -338,13 +348,20 @@ $(document).on('click','button[name=btnSave]',function(){
                 invoiceno,broker,createdate,docdate,weight,quantity,qtykls,qtymt,fcl,
             },
         }).done(function(data){
-            tblContract.ajax.reload()
-            toasMessage('Information','Successfully save the transaction','info')
+            if (data.msg) {
+                alert(data.msg)
+                flag=false
+            }else{
+                $('input[name="search"]').val('')
+                tblContract.ajax.reload()
+                toasMessage('Information','Successfully save the transaction','info')
+            }
         }).fail(function (jqxHR, textStatus, errorThrown) {
             console.log(errorThrown);
         })
-        
-        $(this).closest("tr.header").remove();
+        if (flag) {
+            $(this).closest("tr.header").remove();
+        }
 });
 
 const dataTable = (data)=>{
@@ -389,3 +406,19 @@ const dataTable = (data)=>{
     $(".showData").html(hold)
     
 }
+
+$(document).on('click','.fa-backspace',function(){
+    let negId = $(this).attr('data-lcdpnego')
+    if (confirm('Do you want to remove this invoice')) {
+        $.ajax({
+            url:`contract/invoice/remove/${negId}`,
+            type:'get',
+        }).done(function(data){
+            console.log(data);
+            tblContract.ajax.reload()
+        }).fail(function(a,b,c){
+            toasMessage('Something went wrong','b','danger')
+        })
+    }
+    return false
+})

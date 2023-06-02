@@ -14,7 +14,7 @@ class DataService{
 
         $result = $this->cleanArrayType(Detail::get(['pono'])->pluck('pono')->unique()->toArray());
 
-        $data = $this->sqlSap($request,'detail',null);
+        $data = $this->sqlSap($request,'detail');
 
         return ($this->filterItemCode($data ?? []));
 
@@ -28,11 +28,11 @@ class DataService{
 
     }
 
-    public function sqlSap($request,$option1,$option2){
+    public function sqlSap($request,$option){
 
         $search = $request->input('search');
 
-        return DB::select("exec dbo.sp_po_details ?,?,?",array($search,$option1,$option2));
+        return DB::select("exec dbo.sp_po_details ?,?",array($search,$option));
         
         // $tblview = $request->input('whse')=='manila'?'[dbo].[vw_PO_Details]':'[dbo].[vw_PO_Details_Province]';
 

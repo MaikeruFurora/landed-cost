@@ -21,7 +21,7 @@ class ContractService{
     
         $sortColumns = array('contract_no','metricTon','priceMetricTon');
     
-        $query = Contract::with(['advance_payment:id,contract_id,detail_id,allocatedAmount,percentage,amount','advance_payment.detail:id,invoiceno,qtymt']);
+         $query = Contract::with(['lcdpnego:id,contract_id,percentage,amount,landedcost_particular_id,allocatedAmount','lcdpnego.landedcost_particular.detail:id,invoiceno,qtymt']);
     
         if (!empty($filter)) {
             $query
@@ -49,15 +49,15 @@ class ContractService{
            
                 $json['data'][] = [
                     "contract_no"       => $value->contract_no,
-                    "metricTon"         => $value->metricTon,
+                    "metricTon"         => number_format($value->metricTon,2),
                     "priceMetricTon"    => $value->priceMetricTon,
                     "percentage"        => $value->percentage,
                     "exchangeRate"      => $value->exchangeRate,
                     "exchangeRateDate"  => $value->exchangeRateDate,
-                    "amountUSD"         => $value->amountUSD,
-                    "paidAmountUSD"     => $value->paidAmountUSD,
-                    "amountPHP"         => $value->amountPHP,
-                    "advance_payment"   => $value->advance_payment,
+                    "amountUSD"         => number_format($value->amountUSD,2),
+                    "paidAmountUSD"     => number_format($value->paidAmountUSD,2),
+                    "amountPHP"         => number_format($value->amountPHP,2),
+                    "lcdpnego"          => $value->lcdpnego,
                     "id"                => $value->id,
                 ];
         }

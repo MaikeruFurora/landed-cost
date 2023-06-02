@@ -2,8 +2,10 @@
 
 namespace App\Services;
 
+use App\Helper\Helper;
 use App\Models\LandedcostParticular;
 use App\Models\Lcdpnego;
+use App\Models\Particular;
 use Symfony\Component\Mailer\Transport\Dsn;
 
 class NegoService{
@@ -92,6 +94,21 @@ class NegoService{
             'amount'=>$request->input('amount'),
 
         ];
+    }
+
+    public function checkFirstParticular(){
+
+
+        $data = Particular::checkIfExists(Helper::$intact_particular[1]['p_code']);
+
+        if($data){
+        
+            return $data;
+                
+        }
+        
+        return Particular::selfCreateParticular(Helper::$intact_particular[1]);
+
     }
 
 }

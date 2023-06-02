@@ -50,10 +50,10 @@
                     <form id="searchForm" action="" method="GET" autocomplete="off">
                     <div class="input-group mb-3">
                         <input type="search" class="form-control form-control-sm" name="search" value="" autocomplete="off" required>
-                        <select name="whse" class="custom-select custom-select-sm">
+                        {{-- <select name="whse" class="custom-select custom-select-sm">
                             <option value="manila">Manila</option>
                             <option value="province">Province</option>
-                        </select>
+                        </select> --}}
                         <div class="input-group-append">
                             <button class="btn btn-outline-secondary btn-sm" type="submit" id="button-addon2"><i class="fas fa-search"></i> Search</button>
                         </div>

@@ -22,9 +22,9 @@ class Contract extends Model
         'amountPHP' => 'double',
     ];
 
-    public function advance_payment(){
+    public function lcdpnego(){
 
-        return $this->hasMany(AdvancePayment::class);
+        return $this->hasMany(Lcdpnego::class);
 
     }
 

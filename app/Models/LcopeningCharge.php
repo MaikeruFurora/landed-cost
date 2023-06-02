@@ -25,5 +25,7 @@ class LcopeningCharge extends Model implements Auditable
         return $this->belongsTo(OpenAmount::class);
     
     }
+
+   
     
 }

@@ -173,6 +173,7 @@ $(document).on('click','.times-nego',function(){
             type:'DELETE',
             data:{_token:BaseModel._token},
         }).done(function(data){
+            console.log(data);
             tableNego(id,qtymt)
             toasMessage("Information","Successfully saved the transaction","info")
         }).fail(function (jqxHR, textStatus, errorThrown) {

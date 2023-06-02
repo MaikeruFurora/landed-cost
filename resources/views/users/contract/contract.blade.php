@@ -45,18 +45,21 @@
                             <th class="text-center" rowspan="2">Option</th>
                             <th class="text-center" rowspan="2">&nbsp;</th>
                             <th class="text-center" rowspan="2">&nbsp;</th>
-                            <th class="text-center" rowspan="2">Contract<br>Number</th>
-                            <th class="text-center" rowspan="2">Total<br>MT</th>
-                            <th class="text-center" rowspan="2">Price<br>MT</th>
-                            <th colspan="3" style="font-size:9px" class="text-center">PAYMENT</th>
+                            <th colspan="4" style="font-size:9px" class="text-center">CONTRACT DETAILS</th>
+                            <th colspan="2" style="font-size:9px" class="text-center">PAYMENT</th>
                             <th class="text-center border" rowspan="2" >Dollar<br>Rate</th>
                             <th class="text-center" rowspan="2">Date</th>
+                            <th rowspan="2">Amount<br>(PHP)</th>
                             <th class="text-center" rowspan="2">Invoice</th>
                         </tr>
-                        <tr>
-                            <th>Amount (USD)</th>
-                            <th>Amount (PHP)</th>
+                        <tr class="text-center">
+                            <th>Contract<br>Number</th>
+                            <th>Total<br>MT</th>
+                            <th>Price<br>MT</th>
+                            <th>Amount<br>(USD)</th>
+                            <th>Paid<br>(USD)</th>
                             <th>Percent</th>
+                           
                         </tr>
                     </thead>
                 </table>

@@ -17,6 +17,8 @@ return new class extends Migration
             $table->id();
             $table->unsignedBigInteger('landedcost_particular_id');
             $table->foreign('landedcost_particular_id')->references('id')->on('landedcost_particulars')->onDelete('cascade')->onUpdate('cascade');
+            $table->unsignedBigInteger('contract_id');
+            $table->foreign('contract_id')->references('id')->on('contracts')->onDelete('cascade')->onUpdate('cascade');
             $table->double('priceMetricTon',18,4);
             $table->double('percentage',18,4);
             $table->double('amount',18,4);

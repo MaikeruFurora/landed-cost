@@ -22,6 +22,14 @@ class Lcdpnego extends Model implements Auditable
     ];
 
     public function landedcost_particular(){
+        
         return $this->belongsTo(LandedcostParticular::class);
+        
+    }
+
+    public function contract(){
+
+        return $this->belongsTo(Contract::class);
+
     }
 }

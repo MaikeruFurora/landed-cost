@@ -46,11 +46,19 @@ let openAmountId  = $("input[name=id_lcopc]")
                 data:null,
                 render:function(data){
                     let hold=``;
+                    let sum=0;
+                    let tot = data.lcopening_charge.reduce((total,num)=> total+=num.detail.qtymt,0)
                     hold+='<ul class="list-group">'
                     data.lcopening_charge.forEach(val=>{
+                        sum+=parseFloat(val.detail.qtymt)
                         hold+=`
                         <li class="list-group-item d-flex justify-content-between align-items-center p-1"><a href='/landed-cost/public/auth/details/cost/${val.detail.id}'>${val.detail.invoiceno}</a>
-                            <button class="btn btn-sm" value="${val.id}" name="removeInvoice"><i class="text-danger fas fa-times-circle"></i></button>
+                            ${
+                                (data.lc_mt!=tot) ?
+                                '<button class="btn btn-sm" value="${val.id}" name="removeInvoice"><i class="text-danger fas fa-times-circle"></i></button>':
+                                '<i class="text-success fas fa-check-circle"></i>'
+                            }
+                            
                         </li>`
                     })
                     hold+='</ul>'
@@ -78,9 +86,9 @@ let openAmountId  = $("input[name=id_lcopc]")
                                 Total<i class="fas fa-equals" style="font-size:9px"></i> ${sum}
                                 </li>`
                         if (data.lc_mt!=sum) {
-                        hold+=`<li class="list-group-item d-flex align-items-center p-1 text-danger">
-                                <i class="fas fa-exclamation-triangle"></i>&nbsp;&nbsp;Mismatch MT
-                                </li>`
+                        hold+=`<li class="list-group-item align-items-center p-1 text-white text-center bg-secondary">
+                                <i class="fas fa-exclamation-triangle"></i>&nbsp;&nbsp;Incomplete
+                               </li>`
                         }
                                 hold+='</ul>'
 
@@ -98,7 +106,6 @@ let openAmountId  = $("input[name=id_lcopc]")
                 render:function(data){
                     return `
                         <button value="${data.id}" class="m-1 btnEdit btn btn-primary btn-sm"><i class="far fa-edit"></i> Edit</button>
-                        
                         <button value="${data.lc_reference}" id="${data.id}" class="m-1 btn btn-primary btn-sm btnAddInvoice"><i class="fas fa-plus-circle"></i> Invoice</button>
                     `
                     //<a href="charge/invoice/${data.id}" class="m-1 btn btn-primary btn-sm"><i class="fas fa-plus-circle"></i> Invoice</a>

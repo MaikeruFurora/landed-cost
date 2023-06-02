@@ -81,13 +81,15 @@ class LcopeningChargeController extends Controller
 
         // $data   =   $this->dataService->sqlSap($request, $array);
 
-        $data   =   $this->dataService->sqlSap($request, 'detail',null);
+        $data   =   $this->dataService->sqlSap($request,'lcopening_charges');
 
         return ($this->dataService->filterItemCode($data ?? [],FALSE));
 
     }
 
     public function invoiceSave(Request $request,OpenAmount $openAmount){
+
+        // return $request;
 
         $particular =   $this->openChargeService->checkFirstParticular();
 
