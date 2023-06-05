@@ -124,9 +124,19 @@ class ContractController extends Controller
 
     }
 
-    public function removeInvoice(Lcdpnego $lcdpnego){
+    public function removeInvoice(Request $request){
 
-        return $lcdpnego->delete();
+        if (is_array($request->invoice)) {
+
+            foreach ($request->invoice as $key => $value) {
+                Lcdpnego::find($value)->delete();
+            }
+
+        } else {
+
+            return Lcdpnego::find($request->invoice)->delete();
+
+        }
 
     }
 

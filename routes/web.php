@@ -94,7 +94,7 @@ Route::middleware(['auth:web','preventBackHistory','auth.user'])->name('authenti
     Route::get('contract/list',[ContractController::class,'list']);
     Route::get('contract/search',[ContractController::class,'search']);
     Route::post('contract/invoice/store/{contract}',[ContractController::class,'saveInvoice']);
-    Route::get('contract/invoice/remove/{lcdpnego}',[ContractController::class,'removeInvoice']);
+    Route::post('contract/invoice/remove',[ContractController::class,'removeInvoice']);
     
     //gather data from sap datatabse
     Route::get('po',[GatherDataController::class,'index'])->name('po.search');

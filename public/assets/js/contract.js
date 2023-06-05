@@ -1,5 +1,6 @@
 const formContract      = $("#formContract")
 const formSearchInvoice = $("#formSearchInvoice")
+const invoice           = []
 let mt                  = formContract.find("input[name=metricTon]")
 let pmt                 = formContract.find("input[name=priceMetricTon]")
 let amntUSD             = formContract.find("input[name=amountUSD]")
@@ -10,6 +11,20 @@ let paidAmountUSD       = formContract.find("input[name=paidAmountUSD]")
 let contract_id         = $("input[name=contract_id]")
 let input               = [];
 let flag                = true
+
+$(document).on('change','input[type="checkbox"]',function(){
+    if($(this).is(":checked")){
+        invoice.push($(this).val());
+        invoice.find(val=>val==$(this).val())
+    }else{
+        let index = invoice.indexOf($(this).val())
+        invoice.splice(index,1);
+    }
+    console.log(invoice);
+
+    $('.head-remove').html((invoice.length>0)?`<i class="fas fa-minus-circle text-danger" style="font-size:13px;cursor:pointer"></i>`:`#`)
+
+})
 /* The above code is using jQuery to loop through all the form controls inside an element with the ID
 "formContract". It is then pushing the name attribute of each form control into an array called
 "input". */ 
@@ -235,6 +250,7 @@ let tblContract = $('#datatable').DataTable({
                         let hold=`<table class="table table-bordered" style="font-size:10px">
                                     <tr class="text-center">
                                         <th>#</th>
+                                        <th class="head-remove">#</th>
                                         <th>Invoice</th>
                                         <th>MT</th>                                        
                                         <th>Price<br>MT</th>
@@ -246,6 +262,7 @@ let tblContract = $('#datatable').DataTable({
                             data.lcdpnego.forEach((val,i)=>{
                                 hold+=` <tr class="text-center">
                                             <th>${++i}</th>
+                                            <th><input type="checkbox" class="form-check" value="${val.id}"></th>
                                             <td>${val.landedcost_particular.detail.invoiceno}</td>
                                             <td>${val.landedcost_particular.detail.qtymt}</td>                                            
                                             <td>${data.priceMetricTon}</td>
@@ -253,7 +270,7 @@ let tblContract = $('#datatable').DataTable({
                                             <td>${val.percentage}%</td>
                                             <td>${$.number(val.allocatedAmount,4)}</td>
                                             <td>
-                                                <i class="fas fa-backspace text-danger" style="cursor:pointer" data-lcdpnego="${val.id}"  style="font-size:16px"></i>
+                                                <i class="fas fa-backspace text-danger" style="cursor:pointer;font-size:13px" onClick="removeInvoice(${val.id})"></i>
                                             </td>
                                         </tr>`
                             })
@@ -407,18 +424,27 @@ const dataTable = (data)=>{
     
 }
 
-$(document).on('click','.fa-backspace',function(){
-    let negId = $(this).attr('data-lcdpnego')
+const removeInvoice = (inv) =>{
     if (confirm('Do you want to remove this invoice')) {
         $.ajax({
-            url:`contract/invoice/remove/${negId}`,
-            type:'get',
+            url:`contract/invoice/remove`,
+            type:'POST',
+            data:{
+                _token:BaseModel._token,
+                invoice:inv,
+            },
         }).done(function(data){
             console.log(data);
             tblContract.ajax.reload()
         }).fail(function(a,b,c){
-            toasMessage('Something went wrong','b','danger')
+            toasMessage('Something went wrong',b,'danger')
         })
     }
+
     return false
+}
+
+
+$(document).on('click','.fa-minus-circle',function(){
+    removeInvoice(invoice);
 })
