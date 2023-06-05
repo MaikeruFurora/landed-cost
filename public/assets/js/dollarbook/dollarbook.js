@@ -42,6 +42,8 @@ const clearForm = () =>{
     
     FundForm[0].reset()
 
+    $("#FundForm *").prop("readonly", false);
+
     $("input[name=otherTTSpecify]").prop('readonly',true)
     
     $("input[name=bank_history_id]").val('')
@@ -50,7 +52,7 @@ const clearForm = () =>{
 
     $("input[name=account]").val('')
         
-    $('textarea[name=purposes]').summernote('reset')
+    $('textarea[name=purposes]').summernote('reset','enable');  
 }
 
 const avoidNegative = (value)=>{

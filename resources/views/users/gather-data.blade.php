@@ -62,7 +62,7 @@
                 </div>
             </div>
             <div class="table-responsive">
-            <table class=" table table-bordered table-hover" style="font-size: 12px;">
+            <table class=" table table-bordered table-hover" style="font-size: 10px;">
                
                <thead class="thead-dark">
                    <tr>

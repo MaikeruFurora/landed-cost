@@ -98,31 +98,33 @@ $(document).on('click','button[name=editBtn_bankHistory]',function(){
 
         $("input[name=account]").val(data.account_id)
 
-        $("input[name=attention]").val(data.attention)
+        $("input[name=attention]").val(data.attention).prop('readonly',true)
 
-        $("input[name=exchangeRate]").val(data.exchangeRate)
+        $("input[name=exchangeRate]").val(data.exchangeRate).prop('readonly',true)
         
-        $("input[name=exchangeRateDate]").val(data.exchangeRateDate)
+        $("input[name=exchangeRateDate]").val(data.exchangeRateDate).prop('readonly',true)
 
-        $("input[name=phpAmount]").val(data.exchangeRate*data.amount)
+        $("input[name=phpAmount]").val(data.exchangeRate*data.amount).prop('readonly',true)
 
-        $("input[name=amount]").val(data.amount)
+        $("input[name=amount]").val(data.amount).prop('readonly',true)
 
-        $("input[name=subject]").val(data.subject)
+        $("input[name=subject]").val(data.subject).prop('readonly',true)
 
-        $("select[name=toCurrencyType]").val(data.toCurrencyType)
+        $("select[name=toCurrencyType]").val(data.toCurrencyType).prop('readonly',true)
 
-        $("input[name=toAccountNo]").val(data.toAccountNo)
+        $("input[name=toAccountNo]").val(data.toAccountNo).prop('readonly',true)
 
-        $("input[name=toBankName]").val(data.toBankName)
+        $("input[name=toBankName]").val(data.toBankName).prop('readonly',true)
 
-        $("input[name=toBranchName]").val(data.toBranchName)
+        $("input[name=toBranchName]").val(data.toBranchName).prop('readonly',true)
 
-        $("input[name=toName]").val(data.toName)
+        $("input[name=toName]").val(data.toName).prop('readonly',true)
 
-        $("input[name=types]").val(data.types)
+        $("input[name=types]").val(data.types).prop('readonly',true)
 
-        $('textarea[name=purposes]').summernote('code',data.purpose)
+        $('textarea[name=purposes]').summernote({
+            'code':data.purpose
+        }).summernote('disable');  
 
         bankFormModal.modal("show")
 

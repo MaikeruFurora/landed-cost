@@ -26,7 +26,7 @@
         if(data.length>0){
             data.forEach((val,i) => {
                 hold+=`
-                        <tr class="header">
+                        <tr class="header" style="font-size:9px">
                             <form id="poForm" >
                             <input type="hidden" name="suppliername-${i}" value="${ val['suppliername'] }"> 
                             <input type="hidden" name="itemcode-${i}" value="${ val['itemcode'] }"> 
@@ -56,8 +56,8 @@
                             <td>${ val['qtykls'] } </td>
                             <td>${ val['qtymt'] } </td>
                             <td>${ val['fcl'] } </td>
-                            <td style="font-size: 6;">
-                                <button class="btnSave btn btn-sm btn-primary m-0" value="${i}" type="submit" >Save <i class="fas fa-sign-in-alt"></i></button>
+                            <td>
+                                <button class="btnSave btn btn-sm btn-primary m-0 py-0" style="font-size:10px" value="${i}" type="submit" >Save <i class="fas fa-sign-in-alt"></i></button>
                             </td>
                             </form>
                         </tr>

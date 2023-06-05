@@ -83,8 +83,7 @@
                     Access Control List
                 </div>
                 <div class="card-body">
-                   @foreach ($acls as $value)
-                   @endforeach
+                 
                 </div>
             </div>
         </div>
