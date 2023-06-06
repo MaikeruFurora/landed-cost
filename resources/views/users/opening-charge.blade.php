@@ -70,8 +70,10 @@
                         <label for="">Reference</label>
                         <input type="text" class="form-control" id="" required name="reference">
                     </div>
-                    <button type="submit" class="btn btn-primary btn-block">Submit</button>
-                    <button type="button" class="btnCancel btn btn-warning btn-block">Cancel</button>
+                    @if (Helper::usrChckCntrl(['OA002']))
+                        <button type="submit" class="btn btn-primary btn-block">Submit</button>
+                        <button type="button" class="btnCancel btn btn-warning btn-block">Cancel</button>
+                    @endif
                 </form>
             </div>
         </div>

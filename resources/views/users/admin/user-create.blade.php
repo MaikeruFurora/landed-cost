@@ -83,7 +83,47 @@
                     Access Control List
                 </div>
                 <div class="card-body">
-                 
+                    <div class="row">
+                        @foreach ($user_control as $item)
+                        <div class="col-3">
+                            <div class="card border">
+                                <div class="card-header p-1"><small>{{ $item->name }}</small></div>
+                                <div class="card-body p-2">
+                                    <div class="form-check py-1">
+                                        <input class="form-check-input"
+                                                type="checkbox"
+                                                name="user_access[]"
+                                                value="{{ $item->id }}"
+                                                id="useraccess{{ $item->id }}"
+                                                @if(isset($user))
+                                                    @checked(in_array($item->id,$user->user_accesses->pluck('user_control_id')->toArray()))
+                                                @endif
+                                                >
+                                        <label class="form-check-label" for="useraccess{{ $item->id }}">
+                                            {{ $item->name }}
+                                        </label>
+                                    </div>
+                                    @foreach ($item->sub_controls as $value)
+                                    <div class="form-check py-1">
+                                        <input class="form-check-input"
+                                                type="checkbox"
+                                                name="user_access[]"
+                                                value="{{ $value->id }}"
+                                                id="useraccess{{ $value->id }}"
+                                                @if(isset($user))
+                                                    @checked(in_array($value->id,$user->user_accesses->pluck('user_control_id')->toArray()))
+                                                @endif
+                                                >
+                                        <label class="form-check-label" for="useraccess{{ $value->id }}">
+                                            {{ $value->name }}
+                                        </label>
+                                    </div>
+                                    @endforeach
+                                </div>
+                            </div>
+                        </div>
+                    @endforeach
+                    </div>
                 </div>
             </div>
         </div>

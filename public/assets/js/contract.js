@@ -262,7 +262,7 @@ let tblContract = $('#datatable').DataTable({
                             data.lcdpnego.forEach((val,i)=>{
                                 hold+=` <tr class="text-center">
                                             <th>${++i}</th>
-                                            <th><input type="checkbox" class="form-check" value="${val.id}"></th>
+                                            <th><input type="checkbox" class="form-check m-0" value="${val.id}"></th>
                                             <td>${val.landedcost_particular.detail.invoiceno}</td>
                                             <td>${val.landedcost_particular.detail.qtymt}</td>                                            
                                             <td>${data.priceMetricTon}</td>
@@ -435,6 +435,7 @@ const removeInvoice = (inv) =>{
             },
         }).done(function(data){
             console.log(data);
+            invoice.length=0
             tblContract.ajax.reload()
         }).fail(function(a,b,c){
             toasMessage('Something went wrong',b,'danger')

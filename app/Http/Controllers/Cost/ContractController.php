@@ -29,9 +29,12 @@ class ContractController extends Controller
     } 
 
     public function index(){
-
-        return view('users/contract/contract');
         
+        if (Helper::usrChckCntrl(['LC001'])) {
+            return view('users/contract/contract');
+        }
+
+        return view('users.default'); 
     }
 
     public function store(Request $request){

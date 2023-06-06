@@ -116,28 +116,27 @@
                                     <a href="{{ route('authenticate.details') }}"><i class="dripicons-to-do"></i> Landed Cost</a>
                                 </li>
 
-                                <li class="has-submenu">
-                                    <a href="#"><i class="fab fa-gripfire" style="color: #2a58a7;"></i> LC & Advance Payment<i class="mdi mdi-chevron-down mdi-drop"></i></a>
-                                    <ul class="submenu">
-                                        <li><a href="{{ route('authenticate.opening.charge') }}"><i class="fas fa-wallet mr-2" style="font-size:10px"></i>LC Open Amount</a></li>
-                                        <li><a href="{{ route('authenticate.contract') }}"><i class="far fa-credit-card mr-2" style="font-size:10px"></i>Advance Payment</a></li>
-                                    </ul>
-                                </li>
+                                @if (Helper::usrChckCntrl(['OA001','AP001']))
+                                    <li class="has-submenu">
+                                        <a href="#"><i class="fab fa-gripfire" style="color: #2a58a7;"></i> LC & Advance Payment<i class="mdi mdi-chevron-down mdi-drop"></i></a>
+                                        <ul class="submenu">
+                                            @if (Helper::usrChckCntrl(['OA001']))
+                                                <li><a href="{{ route('authenticate.opening.charge') }}"><i class="fas fa-wallet mr-2" style="font-size:10px"></i>LC Open Amount</a></li>
+                                            @endif
+                                            @if (Helper::usrChckCntrl(['AP001']))
+                                                <li><a href="{{ route('authenticate.contract') }}"><i class="far fa-credit-card mr-2" style="font-size:10px"></i>Advance Payment</a></li>
+                                            @endif
+                                        </ul>
+                                    </li>
+                                @endif
                                 
-                                @if(auth()->user()->findOtherPrev('Generate-Report'))
+                                @if (Helper::usrChckCntrl(['RP001']))
                                 <li class="has-submenu">
                                     <a href="{{ route('authenticate.report') }}"><i class="far fa-folder-open"></i>Report</a>
                                 </li>
-                                {{-- <li class="has-submenu">
-                                    <a href="#"><i class="far fa-folder-open"></i>  Reports <i class="mdi mdi-chevron-down mdi-drop"></i></a>
-                                    <ul class="submenu">
-                                        <li><a href="{{ route('authenticate.report') }}">Item Dollar Average</a></li>
-                                        <li><a href="">Duties & Dollar</a></li>
-                                    </ul>
-                                </li> --}}
                                 @endif
-
-                                @if(auth()->user()->findOtherPrev('Dollar-Book'))
+                                
+                                @if (Helper::usrChckCntrl(['DB001']))
                                 <li class="has-submenu">
                                     <a href="{{ route('authenticate.dollarbook') }}"><i class="fas fa-book"></i> DollarBook</a>
                                 </li>
@@ -195,6 +194,7 @@
         <script src="{{ asset('assets/js/waves.js') }}"></script>
         <script src="{{ asset('assets/js/jquery.slimscroll.js') }}"></script>
         <script src="{{ asset('assets/js/global.js') }}"></script>
+      
         <script src="{{ asset('plugins/jquery-toast/jquery.toast.js') }}"></script>
         
         @yield('moreJs')
@@ -220,6 +220,5 @@
                 AOS.init({disable:false});
             });
         </script>
-
     </body>
 </html>

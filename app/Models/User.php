@@ -61,6 +61,12 @@ class User extends Authenticatable implements Auditable
 
     }
 
+    public function user_accesses(){
+
+        return $this->hasMany(UserAccess::class);
+
+    }
+
     public function myRights(){
         
         /* Returning the particular_id of the privileges table. */

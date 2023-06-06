@@ -10,19 +10,17 @@
 @section('content')
     <!-- Page-Title -->
     <x-page-title title="Invoice">
-        @if(auth()->user()->findOtherPrev('Gather-SAP'))
-        <button type="button" class="btn btn-sm btn-success pl-2 pr-2 mr-2">
-            <i class="far fa-check-circle mr-1" style="font-size: 12px;"></i>Post
-        </button>
-        
-        <a class="btn btn-primary btn-sm" href="{{ route('authenticate.po.search') }}">
-            <i class="fas fa-plus"></i>&nbsp;&nbsp;Gather Data (<b>SAP</b>)
-        </a>
+
+        @if (Helper::usrChckCntrl(['LC002']))
+            <button type="button" class="btn btn-sm btn-success pl-2 pr-2 mr-2">
+                <i class="far fa-check-circle mr-1" style="font-size: 12px;"></i>Post
+            </button>
+            
+            <a class="btn btn-primary btn-sm" href="{{ route('authenticate.po.search') }}">
+                <i class="fas fa-plus"></i>&nbsp;&nbsp;Gather Data (<b>SAP</b>)
+            </a>
         @endif
         <button class="btn btn-sm btn-secondary" name="refreshTable"><i class="fas fa-sync-alt"></i> Refresh</button>
-        <!-- <a class="btn btn-primary btn-sm" href="{{ route('authenticate.details.create') }}">
-            <i class="fas fa-pencil-alt"></i>&nbsp;&nbsp;Entry Data
-        </a> -->
     </x-page-title>
     <!-- end page title end breadcrumb -->
     <!-- Alert Start -->

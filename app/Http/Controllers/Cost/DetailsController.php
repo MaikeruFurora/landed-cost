@@ -22,23 +22,26 @@ class DetailsController extends Controller
 
     public function index(){
 
-        // return $data =  DB::select("exec dbo.sp_details_datatable ?,?,?",array(null,1,10));
-        
 
-        // return Helper::numberToWord(11212.1);
+        if (Helper::usrChckCntrl(['LC001'])) {
 
-        $data =  Detail::orderBy('id','desc')->get([
+            $data =  Detail::orderBy('id','desc')->get([
+    
+                'id','pono','itemcode','cardname','cardcode','vessel','description','posted_at',
+    
+                'invoiceno','broker','weight','quantity','qtykls','qtymt','fcl','created_at'
+    
+            ]);
+            return view('users.details.details',[
+                
+                'data'=>$data
+                
+            ]);
 
-            'id','pono','itemcode','cardname','cardcode','vessel','description','posted_at',
+        }
 
-            'invoiceno','broker','weight','quantity','qtykls','qtymt','fcl','created_at'
+        return view('users.default'); 
 
-        ]);
-        return view('users.details.details',[
-            
-            'data'=>$data
-            
-        ]);
     }
 
     public function dataInvoice(Request $request){

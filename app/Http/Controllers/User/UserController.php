@@ -7,6 +7,7 @@ use App\Http\Requests\UserRequest;
 use App\Models\AccessControlList;
 use App\Models\Particular;
 use App\Models\User;
+use App\Models\UserControl;
 use App\Services\AuthService;
 use App\Services\UserService;
 use Illuminate\Http\Request;
@@ -22,7 +23,7 @@ class UserController extends Controller
     {
         $this->authService = $authService;
         $this->userService = $userService;
-        $this->dataPart = Particular::getparticular();
+        $this->dataPart    = Particular::getparticular();
     }
 
     public function index(){
@@ -33,29 +34,31 @@ class UserController extends Controller
 
     public function create(){
 
-        // return AccessControlList::get(['grp','name'])->groupBy('grp','name');
+        // return UserControl::with('sub_controls')->whereNull('sub_control')->get();
 
         return view('users.admin.user-create',[
 
-            'title'      => 'Create User',
+            'title'         => 'Create User',
 
-            'particular' => $this->dataPart->sortBy('p_sort', SORT_REGULAR, false),
+            'particular'    => $this->dataPart->sortBy('p_sort', SORT_REGULAR, false),
 
-            'acls'       => AccessControlList::get(['grp','name','code'])->groupby('grp','name','code')
+            'user_control'  => UserControl::with('sub_controls')->whereNull('sub_control')->get()
 
         ]);
     }
 
     public function store(UserRequest $request){
 
+
         return $this->userService->store($request);
 
     }
 
     public function edit(User $user){
-        $title='Edit User';
-        $particular = $this->dataPart->sortBy('p_sort', SORT_REGULAR, false);
-        return  view('users.admin.user-create',compact('user','title','particular'));
+        $title        ='Edit User';
+        $particular   = $this->dataPart->sortBy('p_sort', SORT_REGULAR, false);
+        $user_control = UserControl::with('sub_controls')->whereNull('sub_control')->get();
+        return  view('users.admin.user-create',compact('user','title','particular','user_control'));
     }
 
 

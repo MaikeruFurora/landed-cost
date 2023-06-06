@@ -67,3 +67,4 @@ const toasMessage = (heading,text,icon) =>{
         loaderBg: '#9EC600'  // To change the background
     })
 }
+

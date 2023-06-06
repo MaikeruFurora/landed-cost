@@ -55,9 +55,9 @@ class LandedCostService{
 
                 $landedparticular->update([
 
-                    'amount'=> empty($landedparticular->detail->posted_at) ? $this->getBrokerageAmount($landedparticular->detail->invoiceno) : $landedparticular->amount,
+                    'amount'=>      empty($landedparticular->detail->posted_at) ? $this->getBrokerageAmount($landedparticular->detail->invoiceno) : $landedparticular->amount,
 
-                    'referenceno'=> empty($landedparticular->referenceno) ? $this->getBrokerageReference($landedparticular->detail->invoiceno) : $landedparticular->referenceno,
+                    'referenceno'=> empty($landedparticular->detail->posted_at) ? $this->getBrokerageReference($landedparticular->detail->invoiceno) : $landedparticular->referenceno,
 
                 ]);
                 
@@ -78,11 +78,11 @@ class LandedCostService{
 
                     #'amount'            => (empty($landedparticular->amount) || $landedparticular->amount==0) ? $this->getInsuranceAmount($landedparticular->detail->invoiceno) ?? null: $landedparticular->amount,
                     
-                    'amount'            => empty($landedparticular->detail->posted_at) ? $this->getInsuranceAmount($landedparticular->detail->invoiceno) : $landedparticular->amount,
+                    'amount'            => empty($landedparticular->detail->posted_at)  ? $this->getInsuranceAmount($landedparticular->detail->invoiceno) : $landedparticular->amount,
 
-                    'referenceno'       => empty($landedparticular->referenceno)      ? ($docRef ) : $landedparticular->referenceno,
+                    'referenceno'       => empty($landedparticular->detail->posted_at)  ? ($docRef ) : $landedparticular->referenceno,
                     
-                    'transaction_date'  => empty($landedparticular->transaction_date) ? ($docDate) : $landedparticular->transaction_date
+                    'transaction_date'  => empty($landedparticular->detail->posted_at)  ? ($docDate) : $landedparticular->transaction_date
 
                 ]);
             }

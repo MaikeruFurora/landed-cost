@@ -7,8 +7,13 @@
     <title>Document</title>
      <!-- App css -->
      <link href="{{ asset('assets/css/bootstrap.min.css') }}" rel="stylesheet" type="text/css" />
+     <style>
+        html {
+           user-select: none;
+        }
+     </style>
 </head>
-<body onload="window.print()">
+<body onload="window.print()" class="unselectable">
     <div class="container mt-5" style="font-size:27px;font-family: 'Times New Roman'">
         @include('users.dollarbook.partials.header')
         @yield('content')

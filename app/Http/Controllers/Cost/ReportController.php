@@ -28,9 +28,15 @@ class ReportController extends Controller
 
         // $data = Detail::whereBetween('created_at',[$request->start,$request->end])->get();
 
-        $companies = Company::get(['id','companyname']);
+        if (Helper::usrChckCntrl(['RP001'])) {
 
-        return view('users.reports.report',compact('companies'));
+            $companies = Company::get(['id','companyname']);
+
+            return view('users.reports.report',compact('companies'));
+        }
+
+        return view('users.default'); 
+      
 
     }
 

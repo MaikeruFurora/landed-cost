@@ -13,11 +13,12 @@ return new class extends Migration
      */
     public function up()
     {
-        Schema::create('access_control_lists', function (Blueprint $table) {
+        Schema::create('user_controls', function (Blueprint $table) {
             $table->id();
-            $table->string('name',50);
-            $table->integer('grp');
+            $table->unsignedBigInteger('sub_control')->nullable();
+            $table->foreign('sub_control')->references('id')->on('user_controls');
             $table->string('code',5);
+            $table->string('name',30);
             $table->timestamps();
         });
     }
@@ -29,6 +30,6 @@ return new class extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('access_control_lists');
+        Schema::dropIfExists('user_controls');
     }
 };

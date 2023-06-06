@@ -41,7 +41,7 @@ class LandedCostController extends Controller
     }
 
     public function index(Detail $detail){
-        
+
         
         $this->landedCostService->checkParticular($detail);
         

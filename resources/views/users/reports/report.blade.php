@@ -8,9 +8,11 @@
 @section('content')
 <!-- Page-Title -->
     <x-page-title title="REPORT">
+        @if (Helper::usrChckCntrl(['RP003']))
         <button type="button" class="btn btn-sm btn-primary" data-toggle="modal" data-target="#dutiesModal">
             <i class="fas fa-download mr-1"></i> Dollar & Duties
         </button>
+        @endif
     </x-page-title>
 <!-- end page title end breadcrumb -->
 <div class="card">
@@ -20,8 +22,9 @@
                 <h6>ITEM(s)</h6>
                 <button class="btn btn-outline-success btn-sm" id="print">Print&nbsp;<i class="fas fa-print"></i></button>
             </div>
-            <div class="col-lg-4 col-md-4 col-sm-12">
-                 <!-- action="{{ route('authenticate.report') }}" -->
+            @if (Helper::usrChckCntrl(['RP002']))
+                <div class="col-lg-4 col-md-4 col-sm-12">
+                    <!-- action="{{ route('authenticate.report') }}" -->
                 <form id="searchForm" method="GET" autocomplete="off">@csrf
                     <select name="item" class="form-control"></select>
                     <!-- <input type="text" class="form-control" name="item" placeholder="ITEM" /> -->
@@ -34,6 +37,7 @@
                     </div>
                 </form>
             </div>
+            @endif
         </div>
         <div class="table-responsive">
             <table class="table table-bordered table-sm" style="font-size: 11px;">

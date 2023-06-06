@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\cost;
 
+use App\Helper\Helper;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\PurchaseOrderRequest;
 use App\Models\Particular;
@@ -21,11 +22,11 @@ class GatherDataController extends Controller
 
     public function index(Request $request){
 
-        if (auth()->user()->findOtherPrev('Gather-SAP')) {
+        if (Helper::usrChckCntrl(['LC002'])) {
             return view('users.gather-data');
         }
 
-        return abort(404);
+        return view('users.default'); 
        
     }
 

@@ -20,7 +20,9 @@ class Helper{
         array('p_name'=>'Freight','p_code'=>'FR','action'=>true),
     ];
 
-    public static $otherPrev=['Print','Gather-SAP','Posting','Unposting','Generate-Report','Dollar-Book'];
+    public static $otherPrev  = ['Print','Gather-SAP','Posting','Unposting','Generate-Report','Dollar-Book','Particular-Invoice'];
+
+    public static $pageAccess = ['LandedCost','LCOpening','AdvancePayment','Report','DollarBook','Paticular','Users'];
 
     public static $getRefAmntCode =['BF','IN'];
 
@@ -41,6 +43,22 @@ class Helper{
     public static function helperRight(){
 
         return (auth()->user()->accountingHead() || auth()->user()->type);
+
+    }
+
+    public static function usrChckCntrl($code) 
+    {
+
+         if(!empty($code)) {        
+
+            return (auth()->user()->user_accesses
+                    ->load('user_control:id,code')
+                    ->whereIn('user_control.code', $code)
+                    ->count()>0);
+
+        }
+        
+        return false;
 
     }
 
