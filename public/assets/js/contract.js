@@ -182,8 +182,13 @@ let tblContract = $('#datatable').DataTable({
                 data:null,
                 render:function(data){
                     return `
-                        ${(data.lcdpnego.length==0)?` <button value="${data.id}" class="m-0 py-1 btnEdit btn btn-primary btn-sm" style="font-size:10px"><i class="far fa-edit"></i> Edit</button>`:''}
-                        <button value="${data.id}" id="${data.contract_no}" class="m-0 py-1 btn btn-primary btn-sm btnAddInvoice" style="font-size:10px"><i class="fas fa-plus-circle"></i> Invoice</button>
+                        ${(data.lcdpnego.length==0)?
+                            (BaseModel.findPrev('AP003')?`<button value="${data.id}" class="m-0 py-1 btnEdit btn btn-primary btn-sm" style="font-size:10px"><i class="far fa-edit"></i> Edit</button>`:'')
+                            :''
+                        }
+                        ${
+                            BaseModel.findPrev('AP004')?`<button value="${data.id}" id="${data.contract_no}" class="m-0 py-1 btn btn-primary btn-sm btnAddInvoice" style="font-size:10px"><i class="fas fa-plus-circle"></i> Invoice</button>`:''
+                        }
                     `
                 }
             },

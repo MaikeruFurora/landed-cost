@@ -125,10 +125,11 @@ let telegraphicHistoryTable = $("#telegraphicHistoryTable").DataTable({
             return `<div class="btn-group btn-group-sm" role="group">
                         <button type="button" class="btn btn-primary dropdown-toggle" data-toggle="dropdown" aria-expanded="false" style="font-size:11px">Action</button>
                         <div class="dropdown-menu" style="font-size:11px">
-                            <button type="button" class="dropdown-item border" name="copy_template" value="${data.id}" data-press="copy" id="TTA"><i class="fas fa-copy"></i> Copy as Template</button>
-                            <button type="button" class="dropdown-item border" name="print_template" value="${data.id}" id="TTA"><i class="far fa-file-powerpoint"></i> Print Template</button>
-                            <button type="button" class="dropdown-item border" name="print" value="${data.id}" data-press="copy" id="TTA"><i class="fas fa-print"></i> Print Preview</button>
-                            <button type="button" class="dropdown-item border" name="editBtn_TelegraphicHistory" value="${data.id}" data-press="edit" id="TTA"><i class="fas fa-edit"></i> Edit</button>
+                            ${BaseModel.findPrev('DB008')?`<button type="button" class="dropdown-item border" name="copy_template" value="${data.id}" data-press="copy" id="TTA"><i class="fas fa-copy"></i> Copy as Template</button>`:''}
+                            ${BaseModel.findPrev('DB011')?`<button type="button" class="dropdown-item border" name="print_template" value="${data.id}" id="TTA"><i class="far fa-file-powerpoint"></i> Print Template</button>`:''}
+                            ${BaseModel.findPrev('DB007')?`<button type="button" class="dropdown-item border" name="print" value="${data.id}" data-press="copy" id="TTA"><i class="fas fa-print"></i> Print Preview</button>`:''}
+                            ${BaseModel.findPrev('DB008')?`<button type="button" class="dropdown-item border" name="editBtn_TelegraphicHistory" value="${data.id}" data-press="edit" id="TTA"><i class="fas fa-edit"></i> Edit</button>`:''}
+                            
                         </div>
                     </div>`
         }

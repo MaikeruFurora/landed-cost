@@ -8,7 +8,7 @@
 @section('content')
 <!-- Page-Title -->
     <x-page-title title="REPORT">
-        @if (Helper::usrChckCntrl(['RP003']))
+        @if (Helper::usrChckCntrl(['RP003']) || auth()->user()->type)
         <button type="button" class="btn btn-sm btn-primary" data-toggle="modal" data-target="#dutiesModal">
             <i class="fas fa-download mr-1"></i> Dollar & Duties
         </button>

@@ -396,8 +396,12 @@
                     <div class="btn-group btn-group-sm" role="group">
                         <button type="button" class="btn btn-primary dropdown-toggle px-3" data-toggle="dropdown" aria-expanded="false" style="font-size:11px">Save as</button>
                         <div class="dropdown-menu" style="font-size:11px">
+                            @if (Helper::usrChckCntrl(['DB006']))
                             <button type="submit" class="dropdown-item border" name="saveAndPrint"> Save and Print</button>
+                            @endif
+                            @if (Helper::usrChckCntrl(['DB005']))
                             <button type="submit" class="dropdown-item border" name="save"> Save</button>
+                            @endif
                         </div>
                     </div>
                     {{-- <button type="submit" class="btn btn-primary btn-sm">Submit</button> --}}

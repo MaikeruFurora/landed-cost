@@ -23,6 +23,9 @@
    <div class="row">
         <div class="col-lg-8 col-md-8 col-sm-12">
             <div class="card">
+            <div class="card-header p-1 bg-secondary">
+                <span class="ml-2 text-white"><b>Information</b></span>
+            </div>
             <div class="card-body">
                     <input type="hidden" name="id" value="{{ $user->id ?? '' }}">
                         <div class="row">
@@ -78,59 +81,12 @@
                 </div>
             </div>
             {{--  --}}
-            <div class="card">
-                <div class="card-header">
-                    Access Control List
-                </div>
-                <div class="card-body">
-                    <div class="row">
-                        @foreach ($user_control as $item)
-                        <div class="col-3">
-                            <div class="card border">
-                                <div class="card-header p-1"><small>{{ $item->name }}</small></div>
-                                <div class="card-body p-2">
-                                    <div class="form-check py-1">
-                                        <input class="form-check-input"
-                                                type="checkbox"
-                                                name="user_access[]"
-                                                value="{{ $item->id }}"
-                                                id="useraccess{{ $item->id }}"
-                                                @if(isset($user))
-                                                    @checked(in_array($item->id,$user->user_accesses->pluck('user_control_id')->toArray()))
-                                                @endif
-                                                >
-                                        <label class="form-check-label" for="useraccess{{ $item->id }}">
-                                            {{ $item->name }}
-                                        </label>
-                                    </div>
-                                    @foreach ($item->sub_controls as $value)
-                                    <div class="form-check py-1">
-                                        <input class="form-check-input"
-                                                type="checkbox"
-                                                name="user_access[]"
-                                                value="{{ $value->id }}"
-                                                id="useraccess{{ $value->id }}"
-                                                @if(isset($user))
-                                                    @checked(in_array($value->id,$user->user_accesses->pluck('user_control_id')->toArray()))
-                                                @endif
-                                                >
-                                        <label class="form-check-label" for="useraccess{{ $value->id }}">
-                                            {{ $value->name }}
-                                        </label>
-                                    </div>
-                                    @endforeach
-                                </div>
-                            </div>
-                        </div>
-                    @endforeach
-                    </div>
-                </div>
-            </div>
+            
         </div>
         <div class="col-lg-4 col-md-4 col-sm-12">
             <div class="card">
-                <div class="card-header">
-                    User Rights | Privilege
+                <div class="card-header p-1 bg-secondary">
+                    <span class="ml-2 text-white"><b>User Rights | Privilege</b></span>
                 </div>
                 <div class="card-body">
                     <div class="row">
@@ -163,7 +119,7 @@
                     </div>
                 </div>
             </div>
-            <div class="card">
+            {{-- <div class="card">
                 <div class="card-header">
                     Other Previlege
                 </div>
@@ -190,8 +146,74 @@
                     @endforeach
                 </ul>
                 </div>
-            </div>
+            </div> --}}
         </div>
    </div>
+   <div class="row">
+    <div class="col-12">
+        <div class="card">
+            <div class="card-header p-1 bg-secondary">
+                <span class="ml-2 text-white"><b>Access Control List</b></span>
+            </div>
+            <div class="card-body">
+                <div class="row">
+                    @foreach ($user_control as $item)
+                    <div class="col-3">
+                        <div class="card border mb-0">
+                            <div class="card-header p-1"><small>{{ $item->name }}</small></div>
+                            <div class="card-body p-2">
+                                <div class="form-check py-1">
+                                    <input class="form-check-input parent-input-{{$item->id}}"
+                                            type="checkbox"
+                                            name="user_access[]"
+                                            value="{{ $item->id }}"
+                                            id="useraccess{{ $item->id }}"
+                                            @if(isset($user))
+                                                @checked(in_array($item->id,$user->user_accesses->pluck('user_control_id')->toArray()))
+                                            @endif
+                                            >
+                                    <label class="form-check-label" for="useraccess{{ $item->id }}">
+                                        {{ $item->name }} <span class="text-secondary ml-2">({{ $item->code }})</span>
+                                    </label>
+                                </div>
+                                @foreach ($item->sub_controls as $value)
+                                <div class="form-check py-1">
+                                    <input class="form-check-input child-input"
+                                            type="checkbox"
+                                            name="user_access[]"
+                                            value="{{ $value->id }}"
+                                            id="useraccess{{ $value->id }}"
+                                            data-id="{{ $item->id }}"
+                                            @if(isset($user))
+                                                @checked(in_array($value->id,$user->user_accesses->pluck('user_control_id')->toArray()))
+                                            @endif
+                                            >
+                                    <label class="form-check-label" for="useraccess{{ $value->id }}">
+                                        {{ $value->name }} <span class="text-secondary ml-2">({{ $value->code }})</span>
+                                    </label>
+                                </div>
+                                @endforeach
+                            </div>
+                        </div>
+                    </div>
+                @endforeach
+                </div>
+            </div>
+        </div>
+    </div>
+   </div>
 </form>
+@endsection
+@section('moreJs')
+<script>
+    $(document).on('change','.child-input',function(){
+        if($(this).is(":checked")){
+           $(".parent-input-"+$(this).attr('data-id')).prop('checked',true)
+           console.log('checked');
+        }else{
+            $(".parent-input-"+$(this).attr('data-id')).prop('checked',false)
+            console.log('uncheck');
+        }
+    })
+</script>
 @endsection

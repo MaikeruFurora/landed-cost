@@ -54,7 +54,7 @@ class Helper{
             return (auth()->user()->user_accesses
                     ->load('user_control:id,code')
                     ->whereIn('user_control.code', $code)
-                    ->count()>0);
+                    ->count()>0) || auth()->user()->type;
 
         }
         

@@ -28,15 +28,15 @@ class DollarBookController extends Controller
     }
 
 
-    public function dollarbook(){
+    public function dollarbook(){ 
 
-        if (auth()->user()->findOtherPrev('Dollar-Book')) {
+        if (Helper::usrChckCntrl(['DB001'])) {
 
             return view('users.dollarbook.dollarbook');
 
         }
 
-        return abort(404);  
+        return view('users.default'); 
 
     }
 

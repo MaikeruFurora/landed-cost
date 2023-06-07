@@ -56,7 +56,8 @@
           </ul>
          
           <div class="tab-content" id="myTabContent">
-            <div class="tab-pane fade show active" id="account" role="tabpanel" aria-labelledby="account-tab">
+              <div class="tab-pane fade show active" id="account" role="tabpanel" aria-labelledby="account-tab">
+                @if (Helper::usrChckCntrl(['DB002']))
                 <div class="table-responsive mt-4">
                 {{-- <button class="btn btn-sm btn-primary float-left my-2" style="font-size: 10px">Refresh</button> --}}
                 <table id="companybankTable" class="table table-sm table-bordered text-center" style="font-size: 10px" width="100%">
@@ -75,8 +76,12 @@
                     </thead>
                 </table>
                </div>
+               @else
+                   <h6 class="p-3"><em>Access Denied</em></h6>
+               @endif
             </div>
             <div class="tab-pane fade" id="records" role="tabpanel" aria-labelledby="records-tab">
+                @if (Helper::usrChckCntrl(['DB003']))
                 <div class="table-responsive mt-4">
                     <table id="bankHistoryTable" class="table table-sm table-bordered text-center" style="font-size: 11px" width="100%">
                         <thead class="bg-secondary text-white">
@@ -94,8 +99,12 @@
                         </thead>
                     </table>
                 </div>
+                @else
+                    <h6 class="p-3"><em>Access Denied</em></h6>
+                @endif
             </div>
             <div class="tab-pane fade" id="config" role="tabpanel" aria-labelledby="config-tab">
+                @if (Helper::usrChckCntrl(['DB004']))
                 <div class="table-responsive mt-4">
                     <table id="telegraphicHistoryTable" class="table table-sm table-bordered dt-responsive display nowrap" cellspacing="0" style="font-size: 10px"  width="100%">
                         <thead class="bg-secondary text-white">
@@ -112,6 +121,9 @@
                         </thead>
                     </table>
                 </div>
+                @else
+                    <h6 class="p-3"><em>Access Denied</em></h6>
+                @endif
             </div>
           </div>
         

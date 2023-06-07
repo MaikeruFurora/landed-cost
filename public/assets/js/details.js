@@ -108,13 +108,13 @@ columns:[
                         <div class="dropdown-menu" style="font-size:11px">
                             <a href="details/cost/${data["id"]}" class="dropdown-item"><i class="fas fa-project-diagram"></i> Particular</a>
                             ${
-                                BaseModel.findPrev('print')?`
+                                BaseModel.findPrev('LC004')?`
                                 <a class="dropdown-item border" id="print"  style="cursor:pointer" value="${data["id"]}"><i class="fas fa-print"></i> Print</a>
                                 `:``
                             }
                             ${
-                                BaseModel.findPrev('posting')?`
-                                <a class="dropdown-item border" id="posting" style="cursor:pointer; display:${ (data.res.posted_at!=null && !BaseModel.findPrev('unposting'))? 'none' :'' }"
+                                BaseModel.findPrev('LC005')?`
+                                <a class="dropdown-item border" id="posting" style="cursor:pointer; display:${ (data.res.posted_at!=null && !BaseModel.findPrev('LCOO6'))? 'none' :'' }"
                                  value="${data.res.id}"
                                  data-title="${data.res.invoiceno}"
                                  data-post="${data.res.posted_at}">

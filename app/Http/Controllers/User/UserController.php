@@ -68,4 +68,15 @@ class UserController extends Controller
 
     }
 
+    public function checkUserControl(){
+        
+        if (auth()->user()->type) {
+            return UserControl::get('code')->pluck(['code'])->toArray();
+        }else{
+            return auth()->user()->user_accesses
+            ->load('user_control:id,code')->pluck('user_control.code')->toArray();
+        }
+
+    }
+
 }

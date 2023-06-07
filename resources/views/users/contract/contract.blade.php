@@ -131,7 +131,7 @@
                         </div>
                         <input type="text" class="form-control form-control-sm" name="amountPHP" readonly>
                     </div>
-                    @if (Helper::usrChckCntrl(['OA002']))
+                    @if (Helper::usrChckCntrl(['AP002']))
                         <button type="submit" class="btn btn-primary btn-block">Submit</button>
                         <button type="button" class="btn btn-warning btn-block">Cancel</button>
                     @endif

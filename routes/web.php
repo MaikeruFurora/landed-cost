@@ -153,5 +153,8 @@ Route::middleware(['auth:web','preventBackHistory','auth.user'])->name('authenti
 
     //signout
     Route::post('signout', [UserController::class, 'signout'])->name('signout');
+    
+    //check
+    Route::get('check-user-control', [UserController::class, 'checkUserControl'])->name('check.user.control');
 });
 

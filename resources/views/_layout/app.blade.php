@@ -8,7 +8,9 @@
         <meta content="Admin Dashboard" name="description" />
         <meta content="{{ csrf_token() }}" name="_token" />
         <meta content="{{ Helper::helperRight() }}" name="myRights" />
+        <meta content="{{ auth()->user()->type }}" name="userType" />
         <meta content="{{ json_encode(auth()->user()->other_prev) }}" name="otherPrev" />
+        <meta content="{{ route('authenticate.check.user.control') }}" name="checkUserControl" />
         <meta content="ThemeDesign" name="author" />
         <meta http-equiv="X-UA-Compatible" content="IE=edge" />
 
@@ -17,6 +19,7 @@
 
         @yield('moreCss')
         <link rel="stylesheet" href="{{ asset('plugins/jquery-toast/jquery.toast.css') }}">
+        <link rel="stylesheet" href="{{ asset('plugins/sweet-alert2/sweetalert2.min.css') }}">
         <link href="{{ asset('plugins/aos/aos.css') }}" rel="stylesheet">
 
         <!-- App css -->
@@ -29,7 +32,7 @@
 
 
     <body>
-
+        {{-- @if (!(auth()->user()->type)) onmousemove="BaseModel.checkControl()" @endif --}}
         <!-- Loader -->
         @include('_layout.preloader')
 
@@ -50,23 +53,6 @@
                         <!-- End Logo-->
 
                         <div class="menu-extras topbar-custom navbar p-0">
-
-                            <!-- <ul class="list-inline d-none d-lg-block mb-0">
-                                <li class="list-inline-item dropdown notification-list">
-                                    <a class="nav-link dropdown-toggle arrow-none waves-effect" data-toggle="dropdown" href="#" role="button"
-                                    aria-haspopup="false" aria-expanded="false">
-                                        LANDED COST 
-                                    </a>
-                                </li>
-                                <li class="list-inline-item notification-list">
-                                    <a href="#" class="nav-link waves-effect">
-                                        Activity
-                                    </a>
-                                </li>
-    
-                            </ul> -->
-
-                          
 
                             <ul class="list-inline ml-auto mb-0">
                                 
@@ -151,8 +137,8 @@
                                 <li class="has-submenu"><a href="{{ route('authenticate.user') }}"><i class="dripicons-user"></i>Users</a></li>
 
                                 <li class="has-submenu"><a href="{{ route('authenticate.audit.log') }}"><i class="fas fa-cogs"></i>Audit Records</a></li>
-                                @endaccess
 
+                                @endaccess
 
                                 <li class="has-submenu">
                                     <a class="text-danger" style="cursor:pointer"
@@ -172,10 +158,10 @@
         <!-- header-bg -->
 
         <div class="wrapper">
+            <div class="alert alert-warning p-1" style="font-size: 11px;" role="alert">
+                <div class="container-fluid"><span class="ml-2"><b>Public beta testing</b> - <span class="text-dark">The product is publicly released to the general public via channels</span></span></div>
+            </div>
             <div class="container-fluid">
-                <div class="alert alert-warning p-2" style="font-size: 12px;" role="alert">
-                    <span class="ml-2"><b>Public beta testing</b> - <span class="text-dark">The product is publicly released to the general public via channels</span></span>
-                </div>
                 @yield('content')
             </div> <!-- end container-fluid -->
         </div>
@@ -196,6 +182,7 @@
         <script src="{{ asset('assets/js/global.js') }}"></script>
       
         <script src="{{ asset('plugins/jquery-toast/jquery.toast.js') }}"></script>
+        <script src="{{ asset('plugins/sweet-alert2/sweetalert2.min.js') }}"></script>
         
         @yield('moreJs')
         

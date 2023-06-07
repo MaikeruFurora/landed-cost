@@ -19,7 +19,7 @@
                 <i class="fas fa-arrow-left"></i> Back (Invoice List)
             </a>
             <!-- accounting -->
-            @if(auth()->user()->findOtherPrev('Print'))
+            @if(Helper::usrChckCntrl(['LC004']))
             <button class="btn btn-warning btn-sm pl-3 pr-3" name="print" value="{{ route('authenticate.print',$detail->id) }}">
                 <i class="fas fa-print"></i> Print
             </button>
@@ -135,15 +135,16 @@
                 </div>
                 <div class="col-4">
                     <!-- accounting -->
-                    @if(auth()->user()->findOtherPrev('Posting'))
+                    
+                    @if(Helper::usrChckCntrl(['LC005']))
                         <button class="float-right btn btn-sm btn-primary ml-2 pl-3 pr-3" name="postBtn"
-                            @if(!empty($detail->posted_at) && !auth()->user()->findOtherPrev('Unposting')) disabled @endif
+                            @if(!empty($detail->posted_at) && !Helper::usrChckCntrl(['LCOO6'])) disabled @endif
                         >
                             <i class="fas fa-check"></i> {{ empty($detail->posted_at)?'Post':'Unpost' }}
                         </button>
                     @endif
                     <!-- endaccounting -->
-                    @if(empty($detail->posted_at))
+                    @if(empty($detail->posted_at) && Helper::usrChckCntrl(['LC007']))
                     <button type="submit" class="float-right btn btn-success btn-sm"><i class="fas fa-user-shield"></i> Save</button>
                     @endif
                 </div>

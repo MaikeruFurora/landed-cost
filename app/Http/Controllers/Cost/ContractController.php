@@ -30,7 +30,7 @@ class ContractController extends Controller
 
     public function index(){
         
-        if (Helper::usrChckCntrl(['LC001'])) {
+        if (Helper::usrChckCntrl(['AP001'])) {
             return view('users/contract/contract');
         }
 

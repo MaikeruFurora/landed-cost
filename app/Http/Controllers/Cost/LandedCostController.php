@@ -42,31 +42,22 @@ class LandedCostController extends Controller
 
     public function index(Detail $detail){
 
+        if (Helper::usrChckCntrl(['LC003'])) {
+
+            $this->landedCostService->checkParticular($detail);
         
-        $this->landedCostService->checkParticular($detail);
-        
-        $this->landedCostService->updateAmntAndRef($detail);
-
-        $detail->load(['landedcost_particulars','lcopeningcharges','landedcost_particulars.particular','lcopeningcharges.open_amount']);
-
-        $companies = Company::get(['id','companyname']);
-
-        // whereHas('landedcost_particulars',function($q){
-        //      $q->whereHas('particular',function($query){
-        //          $query->whereIn('p_code',['BF','IN']);
-        //     });
-        // })->get();
-        // $data =  $detail->load(['landedcost_particulars','landedcost_particulars.particular'],function($q){
-        //     return $q->landedcost_particulars->particular->sortBy('p_sort', SORT_REGULAR, false);
-        // });
-
-
-        // return $detail->landedcost_particulars->sortBy('particular.p_sort', SORT_REGULAR, false);
-
-        // return $particulars = LandedcostParticular::with('particular')->where('landedcost_particulars.detail_id',$detail->id)->get();
-
-        return view('users.landed-cost',compact('detail','companies'));
+            $this->landedCostService->updateAmntAndRef($detail);
     
+            $detail->load(['landedcost_particulars','lcopeningcharges','landedcost_particulars.particular','lcopeningcharges.open_amount']);
+    
+            $companies = Company::get(['id','companyname']);
+    
+            return view('users.landed-cost',compact('detail','companies'));
+
+        }
+
+        return view('users.default'); 
+
     }
 
     public function formStore(Request $request){
