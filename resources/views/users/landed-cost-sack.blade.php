@@ -162,7 +162,7 @@
     <h6 class="page-title m-0 mb-2" data-aos="fade-up">PARTICULAR (S)</h6>
 
     <div class="row">
-        @if(count(auth()->user()->myRights())>0 || auth()->user()->type)
+    {{-- @if(count(auth()->user()->myRights())>0 || auth()->user()->type)
 
         @foreach($detail->landedcost_particulars->sortBy('particular.p_sort', SORT_REGULAR, false) as $landedCostParticular)
     
@@ -174,7 +174,7 @@
                 />
             @endif
 
-        @endforeach
+        @endforeach --}}
                 
     </div><!--row-->
    @if(auth()->user()->accountingHead() || auth()->user()->type)
@@ -220,7 +220,7 @@
     </div>
    @endif
     
-    @else
+    {{-- @else
     <div class="col-lg-12">
         <div class="card mt-3 shadow-sm">
             <div class="card-body pb-0">
@@ -228,7 +228,7 @@
             </div>
         </div>
     </div>
-    @endif
+    @endif --}}
 
 @endsection
 @section('moreJs')
@@ -236,6 +236,4 @@
 <script src="{{ asset('plugins/jquery-number/jquery.number.js') }}"></script>
 <script src="{{ asset('assets/js/landed-cost.js')}}"></script>
 <script src="{{ asset('assets/js/company.js')}}"></script>
-<script src="{{ asset('assets/js/nego.js')}}"></script>
-<script src="{{ asset('assets/js/freight.js')}}"></script>
 @endsection

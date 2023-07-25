@@ -46,6 +46,7 @@
                             <input type="hidden" name="fcl-${i}" value="${ val['fcl'] }"> 
                             <input type="hidden" name="blno-${i}" value="${ val['blno'] }"> 
                             <input type="hidden" name="doc_date-${i}" value="${ val['doc_date'] }"> 
+                            
                             <td>${ val['pono'] }</td>
                             <td>${ val['itemcode'] }</td>
                             <td>${ val['suppliername'] }</td>
@@ -56,9 +57,9 @@
                             <td>${ val['quantity'] } </td>
                             <td>${ val['qtykls'] } </td>
                             <td>${ val['qtymt'] } </td>
-                            <td>${ val['fcl'] } </td>
+                            <td><textarea class="d-none" type="hidden" name="data-${i}">${ JSON.stringify(val['data']) }</textarea> ${ val['fcl'] } </td>
                             <td>
-                                <button class="btnSave btn btn-sm btn-primary m-0 py-0" style="font-size:10px" value="${i}" type="submit" >Save <i class="fas fa-sign-in-alt"></i></button>
+                                <button class="btnSave btn btn-sm btn-primary m-0 py-1" style="font-size:10px" value="${i}" type="submit" >Save <i class="fas fa-sign-in-alt"></i></button>
                             </td>
                             </form>
                         </tr>
@@ -68,8 +69,8 @@
                             <tr class="table-warning">
                                 <td class="text-center">${ dataSub.ContainerNo ?? 'N/A'}</td>
                                 <td>${ dataSub.ItemCode }</td>
-                                <td>${ dataSub.suppliername }</td>
-                                <td>${ dataSub.vessel }</td>
+                                <td>${ dataSub.suppliername==null?'':dataSub.suppliername }</td>
+                                <td>${ dataSub.vessel==null?'':dataSub.vessel }</td>
                                 <td>${ dataSub.Dscription }</td>
                                 <td>${ dataSub.InvoiceNo }</td>
                                 <td>${ dataSub.Broker ?? 'N/A' }</td>
@@ -122,13 +123,14 @@
                 let fcl         = $("input[name=fcl-"+iterate+"]").val()
                 let blno        = $("input[name=blno-"+iterate+"]").val()
                 let doc_date    = $("input[name=doc_date-"+iterate+"]").val()
+                let data       = $("textarea[name=data-"+iterate+"]").val()
                 $.ajax({
                     url:`po/store`,
                     type: "POST",
                     data:{
                         _token:BaseModel._token,suppliername,
                         pono,itemcode,cardname,cardcode,vessel,description,invoiceno,
-                        broker,createdate,docdate,weight,quantity,qtykls,qtymt,fcl,doc_date,blno
+                        broker,createdate,docdate,weight,quantity,qtykls,qtymt,fcl,doc_date,blno,data
                     },
                     beforeSend:function(){
                         $("body").html(`
@@ -143,6 +145,7 @@
                         </div>`)
                     }
                 }).done(function(data){
+                    console.log(data);
                     window.location.href =`details/cost/${data.id}`
                 }).fail(function (jqxHR, textStatus, errorThrown) {
                     console.log(errorThrown);

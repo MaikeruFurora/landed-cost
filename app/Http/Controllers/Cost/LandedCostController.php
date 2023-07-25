@@ -51,8 +51,12 @@ class LandedCostController extends Controller
             $detail->load(['landedcost_particulars','lcopeningcharges','landedcost_particulars.particular','lcopeningcharges.open_amount']);
     
             $companies = Company::get(['id','companyname']);
-    
-            return view('users.landed-cost',compact('detail','companies'));
+
+            if ($detail->itemcode=='PM') {
+                return view('users.landed-cost-sack',compact('detail','companies'));
+            }else{
+                return view('users.landed-cost',compact('detail','companies'));
+            }
 
         }
 

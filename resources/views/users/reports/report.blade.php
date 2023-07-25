@@ -156,11 +156,51 @@
 
     }
 
-    $('select[name="item"]').select2(select2Source());
-    $('select[name="itemName"]').select2(select2Source());
+    $('select[name="item"]').select2({
+        placeholder: 'Select an item',
+        ajax: {
+            url: 'report/filter/invoice',
+            dataType: 'json',
+            delay: 250,
+            processResults: function (data) {
+                return {
+                    results:  $.map(data, function (item) {
+                        return {
+                            text: item.description,
+                            id: item.description,
+                        }
+                    })
+                };
+            },
+            cache: true
+        }
+    });
+  
 
-
-
+    $('select[name="itemName"]').select2({
+        placeholder: 'Select an item',
+        dropdownParent: $('#dutiesModal'),
+        closeOnSelect: true,
+        ajax: {
+            url: 'report/filter/invoice',
+            dataType: 'json',
+            delay: 250,
+            processResults: function (data) {
+                return {
+                    results:  $.map(data, function (item) {
+                        return {
+                            text: item.description,
+                            id: item.description,
+                        }
+                    })
+                };
+            },
+            cache: true
+        }
+    }).on('change',function(){
+        let newOption = new Option('All', 'all',true,true);
+        $('select[name="itemName"]').append(newOption).trigger("change");
+    })
 
     $('#print').on('click',function(){
         
@@ -186,6 +226,7 @@
     //         $("input[type=search]").val('')
     //     }, 3000);
     // })
+
     $(".itemName_details").hide()
     $("select[name=type]").on('change',function(){
         if ($(this).val()=="projectedCostReport") {

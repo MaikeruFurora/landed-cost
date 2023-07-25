@@ -36,9 +36,12 @@ class GatherDataController extends Controller
 
     }
 
+    // PurchaseOrderRequest
+
     public function storePO(PurchaseOrderRequest $request){
 
-         $data =  $this->dataService->storePO($request);
+
+        $data =  $this->dataService->storePO($request);
 
         return $data;
         

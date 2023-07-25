@@ -4,15 +4,16 @@
         tbody tr {
             display: none;
         }
-
         tbody tr.header {
             display: table-row;
         }
         .tbody.no-data {
             display: table-row;
-
         }
-
+        .adjust tr td, .adjust tr th{
+        padding: 4px 10px !important;
+        margin: 0 !important;
+        }
     </style>
 @endsection
 @section('content')
@@ -62,9 +63,9 @@
                 </div>
             </div>
             <div class="table-responsive">
-            <table class=" table table-bordered table-hover" style="font-size: 10px;">
+            <table class="adjust table table-bordered table-hover" style="font-size: 10px;">
                
-               <thead class="thead-dark">
+               <thead class="thead-dark adjust">
                    <tr>
                        <th>PO No.</th>
                        <th>Item Code.</th>

@@ -88,4 +88,10 @@ class Detail extends Model implements Auditable
 
     }
 
+    public function item(){
+
+        return $this->hasMany(Item::class);
+
+    }
+
 }

@@ -6,6 +6,7 @@ use App\Models\Detail;
 use App\Models\Particular;
 use Illuminate\Support\Facades\DB;
 use App\Http\Requests\PurchaseOrderRequest;
+use App\Models\Item;
 
 class DataService{
     
@@ -78,13 +79,13 @@ class DataService{
                         $output[] =  [
                             'invoiceno'     => $key,
                             'suppliername'  => $data[0]->suppliername ?? '',
-                            'itemcode'      => $data[0]->ItemCode ?? '',
+                            'itemcode'      => (strpos($data[0]->ItemCode, 'PM-') !== false)?'PM':$data[0]->ItemCode ?? '',
                             'containerno'   => $data[0]->ContainerNo ?? '',
                             'pono'          => $data[0]->PONumber ?? '',
                             'cardname'      => $data[0]->CardName ?? '',
                             'cardcode'      => $data[0]->CardCode ?? '',
                             'vessel'        => $data[0]->vessel ?? '',
-                            'description'   => $data[0]->Dscription ?? '',
+                            'description'   => (strpos($data[0]->Dscription, 'EMPTY SACK') !== false)?'EMPTY SACK':$data[0]->Dscription ?? '',
                             'broker'        => $data[0]->Broker ?? '',
                             'createdate'    => $data[0]->CreateDate ?? '',
                             'docdate'       => $data[0]->DocDate ?? '',
@@ -107,8 +108,22 @@ class DataService{
 
 
     public function storePO(PurchaseOrderRequest $request){
-        
+
         $data = Detail::storeInvoice($request);
+
+        if ($data->itemcode=='PM') {
+
+            $arr = json_decode($request->data);
+
+            foreach ($arr as $key => $value) {
+                $data->item()->create([
+                    'itemcode'    => $value->ItemCode,
+                    'description' => $value->Dscription,
+                    'qtypcs'      => $value->quantity,
+                ]);
+            }
+        }
+        
 
         $particular = Particular::getParticularId();
 

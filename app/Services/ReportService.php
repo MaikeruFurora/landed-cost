@@ -34,11 +34,17 @@ class ReportService{
 
     public function searchTerm($request){
 
-        return Detail::groupby(['description'])->orderby('description','asc')
 
-                        ->where('description', 'like', '%'.$request->get('term').'%')
-                        
-                        ->limit(5)->get(['description']);
+        
+        $data =  Detail::groupby(['description'])->orderby('description','asc')
+        
+        ->where('description', 'like', '%'.$request->get('term').'%')
+        
+        ->limit(5)->get(['description']);
+
+        // $data[] = (object) ['description' => 'All']; 
+
+        return $data;
 
     }
 

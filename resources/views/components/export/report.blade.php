@@ -30,7 +30,6 @@
         <div class="form-group itemName_details">
           <label for="">Item</label>
           <select name="itemName" class="form-control" style="width:100%;height:50%">
-            <option value="all">All</option>
           </select>
         </div>
         <div class="input-daterange" id="report-range-modal">
