@@ -1,0 +1,65 @@
+[33mcommit 400d68c17ab57eaef240e2c6f1d01d4655d4aacd[m[33m ([m[1;36mHEAD -> [m[1;32mmerge[m[33m, [m[1;31morigin/DollarboookV2[m[33m)[m
+Author: Michael <michael.eligoyo.flora@gmail.com>
+Date:   Wed Jun 7 17:36:43 2023 +0800
+
+    User Control
+
+[33mcommit 52d1207886f34964893698b324480b120604567f[m
+Author: Michael <michael.eligoyo.flora@gmail.com>
+Date:   Tue Jun 6 17:14:23 2023 +0800
+
+    add 2 table enhance table
+
+[33mcommit e4380b7c013e512c6d36632b2f4d563c53556911[m
+Author: Michael <michael.eligoyo.flora@gmail.com>
+Date:   Mon Jun 5 11:03:17 2023 +0800
+
+    Delete Multiple - Advance payment (invoice)
+
+[33mcommit fb0e9bb3c4eb31725aaa13d5aa210eefb32f71a2[m
+Author: Michael <michael.eligoyo.flora@gmail.com>
+Date:   Mon Jun 5 09:50:49 2023 +0800
+
+    Insurance & Brokerage amount update
+
+[33mcommit ff63adeeb76b67e5956d8735c2485b18a3c721e9[m
+Author: Michael <michael.eligoyo.flora@gmail.com>
+Date:   Fri Jun 2 17:17:45 2023 +0800
+
+    New update for LCDPNEGO
+
+[33mcommit 148f72e12eea1553ff2097963e0c6d16bb7cbf1a[m[33m ([m[1;31morigin/advance-payment[m[33m, [m[1;32madvance-payment[m[33m)[m
+Author: Michael <michael.eligoyo.flora@gmail.com>
+Date:   Wed May 31 17:09:33 2023 +0800
+
+    Add Contract Invoice
+
+[33mcommit 8ba65e0f011202963386eeb26d1c9b39e54f086f[m[33m ([m[1;31morigin/dollarbook[m[33m, [m[1;32mdollarbook[m[33m)[m
+Author: Michael <michael.eligoyo.flora@gmail.com>
+Date:   Fri May 26 11:13:50 2023 +0800
+
+    Add file .js
+
+[33mcommit b3671d24539b872e5188724a83bf0c99b3ee8d6c[m
+Author: Michael <michael.eligoyo.flora@gmail.com>
+Date:   Tue May 23 16:53:56 2023 +0800
+
+    Dollar book update
+
+[33mcommit 11218f6cd20da5a0129385b77e9849f80276505d[m[33m ([m[1;31morigin/main[m[33m, [m[1;32mmain[m[33m)[m
+Author: Michael <michael.eligoyo.flora@gmail.com>
+Date:   Tue May 23 12:05:13 2023 +0800
+
+    add column
+
+[33mcommit 5c95b55c81b637ca6dc220bcaf146f4d18e93b45[m[33m ([m[1;32mcharts[m[33m)[m
+Author: Michael <michael.eligoyo.flora@gmail.com>
+Date:   Tue May 23 11:39:58 2023 +0800
+
+    stable
+
+[33mcommit bf890c25916e99534db1916ee76d8d478325724c[m
+Author: Michael <michael.eligoyo.flora@gmail.com>
+Date:   Tue May 23 11:38:00 2023 +0800
+
+    first initial

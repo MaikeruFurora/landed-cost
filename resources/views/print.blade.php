@@ -43,8 +43,19 @@
     page-break-after: always;
     } */
 
+    table.table-bordered{
+        border:1.1px solid black;
+        margin-top:20px;
+    }
+    table.table-bordered > thead > tr > th{
+        border:1.1px solid black;
+    }
+    table.table-bordered > tbody > tr > td{
+        border:1.1px solid black;
+    }
+
     @page {
-    margin: 10mm -1mm
+    margin: 8mm 3mm
     }
 
     @media print {
@@ -55,18 +66,11 @@
     
     body {margin: 0;}
 
-    .adjust.table thead tr th,.adjust.table tbody tr td ,.adjust.table tbody tr th,.adjust.table tfoot tr th{
-        border-width: .01px !important;
-        border-style: solid !important;
-        border-color: #000 !important;
+    .adjust tr td, .adjust tr th{
+    padding: 4px 10px !important;
+    margin: 0 !important;
     }
 
-    .border_bottom .table tr td,.border_bottom .table tr th{
-        border-bottom: 1px !important;
-        border-style: solid !important;
-        border-color: #000 !important;
-    }
-   
     }
 
     .ellipses th,
@@ -75,8 +79,6 @@
         text-overflow: ellipsis;
         white-space: nowrap;
     }
-
-    
   </style>
 </head>
 
@@ -120,7 +122,7 @@
             
             <div class="row justify-content-between mb-0">
                 <div class="col-6">
-                    <table class="table ellipses border_bottom mb-0" style="font-size: 22px">
+                    <table class="table ellipses border-bottom mb-0 adjust" style="font-size: 20px">
                         <tr>
                             <td witdh="10%"><b>Supplier</b></td>
                             <td>{{ $detail->suppliername }}</td>
@@ -141,7 +143,7 @@
                     </table>
                 </div>
                 <div class="col-6">
-                    <table class="table ellipses border-bottom mb-0" style="font-size: 22px">
+                    <table class="table ellipses border-bottom mb-0 adjust" style="font-size: 20px">
                         <tr>
                             <td><b>ITEM Description</b></td>
                             <td>{{ $detail->description }}</td>
@@ -162,8 +164,8 @@
                 </div>
             </div>
 
-            <div class="mt-2">
-                <table class="adjust table table-bordered" style="font-size: 22px;">
+            <div class="mt-0">
+                <table class="table table-bordered adjust" style="font-size: 22px;">
                     <thead>
                         <tr>
                             <th width="5%">L/N</th>
@@ -180,24 +182,22 @@
                     $totalLandedCost=0;
                     $negArr = [];
                     @endphp
-                    <tbody>
-                        @foreach($detail->landedcost_particulars->sortBy('particular.p_sort', SORT_REGULAR, false) as $landedCostParticular)
-                            <tr>
-                                <td>{{ ++$i }}</td>
-                                <th>{{ $landedCostParticular->particular->p_name }}</th>
-                                <td>{{ $landedCostParticular->transaction_date.' '.$landedCostParticular->referenceno }}</td>
-                                <th> @if (!empty($landedCostParticular->amount)) &#8369;&nbsp;{{ number_format($landedCostParticular->amount,2) }}  @endif </th>
-                                @php $totalLandedCost+=$landedCostParticular->amount @endphp
-                                @if($landedCostParticular->particular->action && $landedCostParticular->particular->p_code=='NEG')
-                                    @php
-                                    
-                                        $negArr[] = $landedCostParticular;
-                                    
-                                    @endphp
-                                @endif
-                            </tr>
-                        @endforeach
-                    </tbody>
+                    @foreach($detail->landedcost_particulars->sortBy('particular.p_sort', SORT_REGULAR, false) as $landedCostParticular)
+                        <tr>
+                            <td>{{ ++$i }}</td>
+                            <th>{{ $landedCostParticular->particular->p_name }}</th>
+                            <td>{{ $landedCostParticular->transaction_date.' '.$landedCostParticular->referenceno }}</td>
+                            <th> @if (!empty($landedCostParticular->amount)) &#8369;&nbsp;{{ number_format($landedCostParticular->amount,2) }}  @endif </th>
+                            @php $totalLandedCost+=$landedCostParticular->amount @endphp
+                            @if($landedCostParticular->particular->action && $landedCostParticular->particular->p_code=='NEG')
+                                @php
+                                
+                                    $negArr[] = $landedCostParticular;
+                                
+                                @endphp
+                            @endif
+                        </tr>
+                    @endforeach
                     <tfoot>
                         <tr>
                             <th colspan="2">
@@ -231,10 +231,10 @@
                 </table>
             </div>
 
-            <div class="mt-4">
+            <div class="mt-1">
             <div class="row justify-content-between ">
                 <div class="col-5">
-                    <table class="table" style="font-size: 23px;">
+                    <table class="table" style="font-size: 19px;">
                         <tr>
                             <td><b>LC OPENING CHARGE</b></td>
                             @if($detail->lcopeningcharges->open_amount->lc_reference ?? false)
@@ -278,7 +278,7 @@
                     </table>
                 </div>
                 <div class="col-7">
-                    <table class="table" style="font-size: 22px;">
+                    <table class="table" style="font-size: 19px;">
                         <tr>
                             <td><b>LC/DP NEGO</b></td>
                             <td class="text-right"><b>Price Per Metric Ton</b></td>
@@ -287,7 +287,7 @@
                             </th>
                         </tr>
                     </table>
-                    <table class="table text-center" style="font-size: 22px;">
+                    <table class="table text-center" style="font-size: 19px;">
                         <thead>
                             <tr>
                                 <th>Date</th>
