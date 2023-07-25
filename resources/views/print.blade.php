@@ -43,19 +43,8 @@
     page-break-after: always;
     } */
 
-    table.table-bordered{
-        border:1.1px solid black;
-        margin-top:20px;
-    }
-    table.table-bordered > thead > tr > th{
-        border:1.1px solid black;
-    }
-    table.table-bordered > tbody > tr > td{
-        border:1.1px solid black;
-    }
-
     @page {
-    margin: 15mm
+    margin: 10mm -1mm
     }
 
     @media print {
@@ -65,7 +54,29 @@
     button {display: none;}
     
     body {margin: 0;}
+
+    .adjust.table thead tr th,.adjust.table tbody tr td ,.adjust.table tbody tr th,.adjust.table tfoot tr th{
+        border-width: .01px !important;
+        border-style: solid !important;
+        border-color: #000 !important;
     }
+
+    .border_bottom .table tr td,.border_bottom .table tr th{
+        border-bottom: 1px !important;
+        border-style: solid !important;
+        border-color: #000 !important;
+    }
+   
+    }
+
+    .ellipses th,
+    .ellipses td {
+        overflow: hidden;
+        text-overflow: ellipsis;
+        white-space: nowrap;
+    }
+
+    
   </style>
 </head>
 
@@ -107,11 +118,11 @@
           <!--*** CONTENT GOES HERE ***-->
           <div class="page content-box">
             
-            <div class="row justify-content-between mt-2">
+            <div class="row justify-content-between mb-0">
                 <div class="col-6">
-                    <table class="table table-sm">
+                    <table class="table ellipses border_bottom mb-0" style="font-size: 22px">
                         <tr>
-                            <td><b>Supplier</b></td>
+                            <td witdh="10%"><b>Supplier</b></td>
                             <td>{{ $detail->suppliername }}</td>
                         </tr>
                         <tr>
@@ -130,7 +141,7 @@
                     </table>
                 </div>
                 <div class="col-6">
-                    <table class="table table-sm">
+                    <table class="table ellipses border-bottom mb-0" style="font-size: 22px">
                         <tr>
                             <td><b>ITEM Description</b></td>
                             <td>{{ $detail->description }}</td>
@@ -152,10 +163,10 @@
             </div>
 
             <div class="mt-2">
-                <table class="table table-bordered" style="font-size: 16px;">
-                    <thead >
+                <table class="adjust table table-bordered" style="font-size: 22px;">
+                    <thead>
                         <tr>
-                            <th>L/N</th>
+                            <th width="5%">L/N</th>
                             <th>PARTICULAR</th>
                             <th>REFERENCE NO</th>
                             <th>AMOUNT</th>
@@ -169,30 +180,32 @@
                     $totalLandedCost=0;
                     $negArr = [];
                     @endphp
-                    @foreach($detail->landedcost_particulars->sortBy('particular.p_sort', SORT_REGULAR, false) as $landedCostParticular)
-                        <tr>
-                            <td>{{ ++$i }}</td>
-                            <th>{{ $landedCostParticular->particular->p_name }}</th>
-                            <td>{{ $landedCostParticular->transaction_date.' '.$landedCostParticular->referenceno }}</td>
-                            <th>&#8369;&nbsp;{{ number_format($landedCostParticular->amount,2) }}</th>
-                            @php $totalLandedCost+=$landedCostParticular->amount @endphp
-                            @if($landedCostParticular->particular->action && $landedCostParticular->particular->p_code=='NEG')
-                                @php
-                                
-                                    $negArr[] = $landedCostParticular;
-                                
-                                @endphp
-                            @endif
-                        </tr>
-                    @endforeach
+                    <tbody>
+                        @foreach($detail->landedcost_particulars->sortBy('particular.p_sort', SORT_REGULAR, false) as $landedCostParticular)
+                            <tr>
+                                <td>{{ ++$i }}</td>
+                                <th>{{ $landedCostParticular->particular->p_name }}</th>
+                                <td>{{ $landedCostParticular->transaction_date.' '.$landedCostParticular->referenceno }}</td>
+                                <th> @if (!empty($landedCostParticular->amount)) &#8369;&nbsp;{{ number_format($landedCostParticular->amount,2) }}  @endif </th>
+                                @php $totalLandedCost+=$landedCostParticular->amount @endphp
+                                @if($landedCostParticular->particular->action && $landedCostParticular->particular->p_code=='NEG')
+                                    @php
+                                    
+                                        $negArr[] = $landedCostParticular;
+                                    
+                                    @endphp
+                                @endif
+                            </tr>
+                        @endforeach
+                    </tbody>
                     <tfoot>
                         <tr>
                             <th colspan="2">
                             <div class="row justify-content-between">
-                                <div class="col-8">
+                                <div class="col-6">
                                 TOTAL LANDED COST
                                 </div>
-                                <div class="col-4">
+                                <div class="col-6">
                                 &#8369;&nbsp;{{ number_format($totalLandedCost,4) }}
                                 </div>
                             </div>
@@ -221,11 +234,11 @@
             <div class="mt-4">
             <div class="row justify-content-between ">
                 <div class="col-5">
-                    <table class="table" style="font-size: 15px;">
+                    <table class="table" style="font-size: 23px;">
                         <tr>
                             <td><b>LC OPENING CHARGE</b></td>
                             @if($detail->lcopeningcharges->open_amount->lc_reference ?? false)
-                                <td>{{ $detail->lcopeningcharges->open_amount->lc_reference }}</td>
+                                <th>{{ $detail->lcopeningcharges->open_amount->lc_reference }}</th>
                             @else
                                 <td>N/A</td>
                             @endif
@@ -233,7 +246,7 @@
                         <tr>
                             <td><b>Total LC Opening</b></td>
                             @if($detail->lcopeningcharges->open_amount->lc_amount ?? false)
-                                <td>{{ number_format($detail->lcopeningcharges->open_amount->lc_amount,4) }}</td>
+                                <th>{{ number_format($detail->lcopeningcharges->open_amount->lc_amount,4) }}</th>
                             @else
                                 <td>N/A</td>
                             @endif
@@ -241,7 +254,7 @@
                         <tr>
                             <td><b>Per Invoice MT</b></td>
                             @if($detail->lcopeningcharges->open_amount->lc_mt ?? false)
-                                <td>&#8369;&nbsp;{{ number_format($detail->qtymt,4) }}</td>
+                                <th>&#8369;&nbsp;{{ number_format($detail->qtymt,4) }}</th>
                             @else
                                 <td>N/A</td>
                             @endif
@@ -249,7 +262,7 @@
                         <tr>
                             <td><b>Total LC MT</b></td>
                             @if($detail->lcopeningcharges->open_amount->lc_mt ?? false)
-                                <td>&#8369;&nbsp;{{ number_format($detail->lcopeningcharges->open_amount->lc_mt,4) }}</td>
+                                <th>&#8369;&nbsp;{{ number_format($detail->lcopeningcharges->open_amount->lc_mt,4) }}</th>
                             @else
                                 <td>N/A</td>
                             @endif
@@ -257,7 +270,7 @@
                         <tr>
                             <td><b>Amount Distribution</b></td>
                             @if($detail->lcopeningcharges->open_amount ?? false)
-                                <td>&#8369;&nbsp;{{ number_format((($detail->qtymt/$detail->lcopeningcharges->open_amount->lc_mt ?? 0)*$detail->lcopeningcharges->open_amount->lc_amount?? 0),2) }}</td>
+                                <th>&#8369;&nbsp;{{ number_format((($detail->qtymt/$detail->lcopeningcharges->open_amount->lc_mt ?? 0)*$detail->lcopeningcharges->open_amount->lc_amount?? 0),2) }}</th>
                             @else
                                 <td>N/A</td>
                             @endif
@@ -265,16 +278,16 @@
                     </table>
                 </div>
                 <div class="col-7">
-                    <table class="table" style="font-size: 15px;">
+                    <table class="table" style="font-size: 22px;">
                         <tr>
                             <td><b>LC/DP NEGO</b></td>
                             <td class="text-right"><b>Price Per Metric Ton</b></td>
-                            <td>
+                            <th>
                                 {{  $negArr[0]->lcdpnego[0]->priceMetricTon ?? 'N/A' }}
-                            </td>
+                            </th>
                         </tr>
                     </table>
-                    <table class="table text-center table-sm">
+                    <table class="table text-center" style="font-size: 22px;">
                         <thead>
                             <tr>
                                 <th>Date</th>
@@ -295,7 +308,7 @@
                             <td>{{ $value->percentage }}&nbsp;%</td>
                             <td>&#8369;&nbsp;{{ $value->amount }}</td>
                             <td>&#8369;&nbsp;{{ $value->exchangeRate }}</td>
-                            <td>&#8369;&nbsp;{{ number_format($totalPerNego,2) }}</td>
+                            <th>&#8369;&nbsp;{{ number_format($totalPerNego,2) }}</th>
                         </tr>
                         @empty
                         <tr>

@@ -21,13 +21,14 @@ class DetailService{
            'updated_at'
         );
     
-        $query = Detail::select(['id','pono','vessel','description','invoiceno','posted_at','broker','quantity','qtykls','qtymt','fcl','created_at','updated_at']);
+        $query = Detail::select(['id','pono','vessel','description','invoiceno','posted_at','broker','quantity','qtykls','qtymt','fcl','created_at','updated_at','blno']);
     
         if (!empty($filter)) {
             $query
             ->where('invoiceno', 'like', '%'.$filter.'%')
             ->orwhere('vessel', 'like', '%'.$filter.'%')
             ->orwhere('pono', 'like', '%'.$filter.'%')
+            ->orwhere('blno', 'like', '%'.$filter.'%')
             ->orwhere('description', 'like', '%'.$filter.'%');
         }
     
@@ -63,6 +64,7 @@ class DetailService{
                     "vessel"     => $value->vessel,
                     "description"=> $value->description,
                     "invoiceno"  => $value->invoiceno,
+                    "blno"       => $value->blno,
                     "broker"     => $value->broker,
                     "quantity"   => $value->quantity,
                     "qtykls"     => $value->qtykls,

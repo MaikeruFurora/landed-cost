@@ -127,6 +127,8 @@ Route::middleware(['auth:web','preventBackHistory','auth.user'])->name('authenti
     Route::post('report/filter',[ReportController::class,'filter'])->name('report.filter');
     Route::get('report/filter/invoice',[ReportController::class,'searchItem']);
     Route::get('report/print',[ReportController::class,'print']);
+    ////////
+    Route::get('report/projected-cost/list',[ReportController::class,'projectedCostList']);
     
     //export duties
     Route::get('report/export',[ReportController::class,'exportReport'])->name('report.export');

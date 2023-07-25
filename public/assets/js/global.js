@@ -49,6 +49,8 @@ const BaseModel = {
 
     otherPrev: JSON.parse($("meta[name='otherPrev']").attr("content")),
 
+    initialUserControl: JSON.parse(JSON.stringify($("meta[name='initialUserControl']").attr("content"))),
+
     urlUserControl: $("meta[name='checkUserControl']").attr("content"),
     
     userType: $("meta[name='userType']").attr("content"),
@@ -63,7 +65,7 @@ const BaseModel = {
         }).done(function(data){
             
             if(localStorage.getItem("data") === null){
-                BaseModel.myStorage.setItem('data',JSON.stringify(data))
+                BaseModel.myStorage.setItem('data',data)
             }else{
 
                 const arx = data.filter(x => JSON.parse(BaseModel.myStorage.getItem('data')).indexOf(x) === -1);
@@ -84,7 +86,7 @@ const BaseModel = {
                         // closeOnConfirm: false,
                         // closeOnCancel: true
                       }).then((value) => {
-                        window.location.reload()
+                        window.location.reload(true)
                       });
                     
                 }
@@ -135,4 +137,8 @@ $("body").on('mousemoveend',function(){
         BaseModel.checkControl()
 })
 
+window.onload = () =>{
 
+    BaseModel.myStorage.setItem('data',BaseModel.initialUserControl)
+
+}

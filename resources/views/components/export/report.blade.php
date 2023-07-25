@@ -15,15 +15,23 @@
             <select name="type" class="custom-select custom-select-sm">
                 <option value="dutiesReport">Duties Report</option>
                 <option value="dollarReport">Dollar Report</option>
+                <option value="fundReport">Fund Transfer</option>
+                <option value="projectedCostReport">Landed Cost Tabsheet</option>
             </select>
         </div>
-        <div class="form-group">
+        <div class="form-group company_details">
             <label for="">Company</label>
             <select name="company_id" class="custom-select custom-select-sm">
                   @foreach($companies as $company)
                       <option value="{{ $company->id }}">{{ $company->companyname }}</option>
                   @endforeach
             </select>
+        </div>
+        <div class="form-group itemName_details">
+          <label for="">Item</label>
+          <select name="itemName" class="form-control" style="width:100%;height:50%">
+            <option value="all">All</option>
+          </select>
         </div>
         <div class="input-daterange" id="report-range-modal">
           <div class="form-group">

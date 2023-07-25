@@ -44,6 +44,7 @@
                             <input type="hidden" name="qtykls-${i}" value="${ val['qtykls'] }">
                             <input type="hidden" name="qtymt-${i}" value="${ val['qtymt'] }">
                             <input type="hidden" name="fcl-${i}" value="${ val['fcl'] }"> 
+                            <input type="hidden" name="blno-${i}" value="${ val['blno'] }"> 
                             <input type="hidden" name="doc_date-${i}" value="${ val['doc_date'] }"> 
                             <td>${ val['pono'] }</td>
                             <td>${ val['itemcode'] }</td>
@@ -119,6 +120,7 @@
                 let qtykls      = $("input[name=qtykls-"+iterate+"]").val()
                 let qtymt       = $("input[name=qtymt-"+iterate+"]").val()
                 let fcl         = $("input[name=fcl-"+iterate+"]").val()
+                let blno        = $("input[name=blno-"+iterate+"]").val()
                 let doc_date    = $("input[name=doc_date-"+iterate+"]").val()
                 $.ajax({
                     url:`po/store`,
@@ -126,7 +128,7 @@
                     data:{
                         _token:BaseModel._token,suppliername,
                         pono,itemcode,cardname,cardcode,vessel,description,invoiceno,
-                        broker,createdate,docdate,weight,quantity,qtykls,qtymt,fcl,doc_date
+                        broker,createdate,docdate,weight,quantity,qtykls,qtymt,fcl,doc_date,blno
                     },
                     beforeSend:function(){
                         $("body").html(`

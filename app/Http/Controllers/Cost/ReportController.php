@@ -9,6 +9,9 @@ use Illuminate\Support\Facades\DB;
 use App\Models\Company;
 use App\Exports\DutiesReport;
 use App\Exports\DollarReport;
+use App\Exports\FundReport;
+use App\Exports\ProjectedCostReport;
+use App\Models\Particular;
 use Maatwebsite\Excel\Facades\Excel;
 use Illuminate\Http\Request;
 
@@ -93,12 +96,34 @@ class ReportController extends Controller
                             'Dollar Report - '.date("F_d_Y",strtotime($request->from)).'-'.date("F_d_Y",strtotime($request->to)).'.xlsx'
                         );
                 break;
+
+            case 'fundReport':
+                // return DB::select("exec dbo.sp_getDollarReport ?,?,?",array($request->from,$request->to,$request->company_id));
+                return Excel::download(new FundReport($request->from,$request->to,$request->company_id),
+                            'Dollar Report - '.date("F_d_Y",strtotime($request->from)).'-'.date("F_d_Y",strtotime($request->to)).'.xlsx'
+                        );
+                break;
+
+            case 'projectedCostReport':
+
+                return Excel::download(new ProjectedCostReport($request->from,$request->to,$request->itemName),
+                        'Projected Cost Report - '.date("F_d_Y",strtotime($request->from)).'-'.date("F_d_Y",strtotime($request->to)).'.xlsx'
+                    );
+                    
+                break;
             
             default:
                 return false;
                 break;
         }
     
+    }
+
+    public function projectedCostList(Request $request){
+
+        $particulars = Particular::get(['id','p_name']);#->sortBy('p_sort', SORT_REGULAR, false);
+        return view('users.reports.projected-cost-list',compact('particulars'));
+
     }
 
 }

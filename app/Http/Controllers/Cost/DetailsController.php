@@ -9,15 +9,18 @@ use App\Helper\Helper;
 use App\Services\DetailService;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
+use OwenIt\Auditing\Facades\Auditor;
 
 class DetailsController extends Controller
 {
 
     protected $detailService;
+    protected $auditor;
 
-    public function __construct(DetailService $detailService)
+    public function __construct(DetailService $detailService,Auditor $auditor)
     {
         $this->detailService = $detailService;
+        $this->auditor = $auditor;
     }
 
     public function index(){
@@ -78,12 +81,14 @@ class DetailsController extends Controller
 
             $detail->posted_at = empty($detail->posted_at) ? now() : NULL;
 
+            // if ($audit = Auditor::execute($detail)) {
+            //     Auditor::prune($detail);
+            // }
+
            return $detail->save();
 
         }
         
     }
 
-
-    
 }

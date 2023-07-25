@@ -47,9 +47,10 @@ class Detail extends Model implements Auditable
             'qtymt'         => $request->input('qtymt'),
             'fcl'           => $request->input('fcl'),
             'suppliername'  => $request->input('suppliername'),
+            'blno'          => $request->input('blno'),
             'doc_date'      => $request->input('doc_date'),
             'posted_at'     => $request->input('posted_at'),
-            'company_id'     => $request->input('selectCompany'),
+            'company_id'    => $request->input('selectCompany'),
        ];
     }
 

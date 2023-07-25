@@ -69,9 +69,15 @@
                             <option value="addOption"><b>&plus;</b>&nbsp; Add a selection</option>
                         </select>
                    </div>
-                    <div class="form-group">
-                        <label for="">Posted at</label>
-                        <input type="text" class="form-control form-control-sm" readonly name="posted_at" value="{{ $detail->posted_at }}" >
+                   <div class="form-row">
+                        <div class="form-group col-6">
+                            <label for="">Posted at</label>
+                            <input type="text" class="form-control form-control-sm" readonly name="posted_at" value="{{ $detail->posted_at }}" >
+                        </div>
+                        <div class="form-group col-6">
+                            <label for="">BL NO</label>
+                            <input type="text" class="form-control form-control-sm" readonly name="blno" value="{{ $detail->blno }}" >
+                        </div>
                     </div>
                 </div>
                 <div class="col-lg-6 col-md-6 col-sm-12">

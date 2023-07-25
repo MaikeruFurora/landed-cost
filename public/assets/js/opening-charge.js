@@ -124,10 +124,10 @@ let openAmountId  = $("input[name=id_lcopc]")
         e.preventDefault()
         var row = $("#datatable").DataTable().row($(this).closest('tr'));
         $(".btnCancel").show()
-        // $("input[name=id]").val(row.data()['id'])
-        // $("input[name=amount]").val(row.data()['lc_amount'])
-        // $("input[name=mt]").val(row.data()['lc_mt'])
-        // $("input[name=reference]").val(row.data()['lc_reference'])
+        $("input[name=id]").val(row.data()['id'])
+        $("input[name=amount]").val(row.data()['lc_amount'])
+        $("input[name=mt]").val(row.data()['lc_mt'])
+        $("input[name=reference]").val(row.data()['lc_reference'])
     })
 
 

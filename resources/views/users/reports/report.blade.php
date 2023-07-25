@@ -10,7 +10,7 @@
     <x-page-title title="REPORT">
         @if (Helper::usrChckCntrl(['RP003']) || auth()->user()->type)
         <button type="button" class="btn btn-sm btn-primary" data-toggle="modal" data-target="#dutiesModal">
-            <i class="fas fa-download mr-1"></i> Dollar & Duties
+            <i class="fas fa-download mr-1"></i> Report
         </button>
         @endif
     </x-page-title>
@@ -132,7 +132,9 @@
             })         
     })
 
-    $('select[name="item"]').select2({
+    const select2Source = () =>{
+
+      return   {
         placeholder: 'Select an item',
         ajax: {
             url: 'report/filter/invoice',
@@ -150,7 +152,15 @@
             },
             cache: true
         }
-    });
+    }
+
+    }
+
+    $('select[name="item"]').select2(select2Source());
+    $('select[name="itemName"]').select2(select2Source());
+
+
+
 
     $('#print').on('click',function(){
         
@@ -176,7 +186,16 @@
     //         $("input[type=search]").val('')
     //     }, 3000);
     // })
+    $(".itemName_details").hide()
+    $("select[name=type]").on('change',function(){
+        if ($(this).val()=="projectedCostReport") {
+            $(".company_details").hide()
+            $(".itemName_details").show()
+        } else {
+            $(".company_details").show()
+            $(".itemName_details").hide()
+        }
+    })
 
-   
 </script>
 @endsection

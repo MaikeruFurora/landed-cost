@@ -12,9 +12,9 @@ let dated_at        = $('input[name=dated_at]')
 
 let exchangeRateDate= $('input[name=exchangeRateDate]')
 
-$('input[name=amount]').number( true, 2 );
-$('input[name=exchangeRate]').number( true, 2 );
-$('input[name=phpAmount]').number( true, 2 );
+$('input[name=amount]').number( true, 4 );
+$('input[name=exchangeRate]').number( true, 4 );
+$('input[name=phpAmount]').number( true, 4 );
 
 exchangeRateDate.datepicker({
     toggleActive: true,

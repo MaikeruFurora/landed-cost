@@ -34,10 +34,6 @@ class AuditService{
         $sortColumnName = $sortColumns[$order[0]['column']];
     
         $query->take($length)->skip($start);
-    
-        if($draw==1){
-            $query->orderBy($sortColumnName, $order[0]['dir']);
-        }
         
         $json = array(
             'draw' => $draw,

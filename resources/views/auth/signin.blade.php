@@ -71,7 +71,7 @@
                                         @csrf
                                         <div class="form-group row">
                                             <div class="col-12">
-                                                <input class="form-control" type="text" placeholder="Email | Username" name="username" autocomplete="off" autofocus value="itdept">
+                                                <input class="form-control" type="text" placeholder="Email | Username" name="username" autocomplete="off" autofocus value="">
                                                 @error('username')
                                                 <small class="form-text text-danger">{{ $message }}</small>
                                                 @enderror
@@ -79,7 +79,7 @@
                                         </div>
                                         <div class="form-group row">
                                             <div class="col-12">
-                                                <input class="form-control" type="password" placeholder="Password" name="password" value="password">
+                                                <input class="form-control" type="password" placeholder="Password" name="password" value="">
                                                 @error('password')
                                                 <small class="form-text text-danger">{{ $message }}</small>
                                                 @enderror

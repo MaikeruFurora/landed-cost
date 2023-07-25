@@ -13,6 +13,7 @@
                             <div class="mt-4 ">
                                 <p><i class="mdi mdi-arrow-right text-primary mr-2"></i>Perhaps you aren't allowed to view that page.</p>
                                 <p><i class="mdi mdi-arrow-right text-primary mr-2"></i>If you continue to receive an access denied, please contact IT for assistance. </p>
+                                <p><i class="mdi mdi-arrow-right text-primary mr-2"></i>Use the <a target="_blank" href="http://202.57.58.188:81/portal">AIMI SERVICE DESCK PORTAL</a> to submit a support request</p>
                             </div>
                         </div>
                     </div>

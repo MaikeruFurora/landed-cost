@@ -10,6 +10,7 @@
         <meta content="{{ Helper::helperRight() }}" name="myRights" />
         <meta content="{{ auth()->user()->type }}" name="userType" />
         <meta content="{{ json_encode(auth()->user()->other_prev) }}" name="otherPrev" />
+        <meta content="{{ json_encode(auth()->user()->getUserControl()) }}" name="initialUserControl" />
         <meta content="{{ route('authenticate.check.user.control') }}" name="checkUserControl" />
         <meta content="ThemeDesign" name="author" />
         <meta http-equiv="X-UA-Compatible" content="IE=edge" />

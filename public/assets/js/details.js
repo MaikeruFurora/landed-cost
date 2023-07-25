@@ -73,6 +73,10 @@ columns:[
     },
     {
         orderable: false,
+        data:"blno"
+    },
+    {
+        orderable: false,
         data:null,
         render:function(data){
             return (data["broker"]!="null")?data["broker"]:""

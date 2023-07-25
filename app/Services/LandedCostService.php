@@ -55,7 +55,9 @@ class LandedCostService{
 
                 $landedparticular->update([
 
-                    'amount'=>      empty($landedparticular->detail->posted_at) ? $this->getBrokerageAmount($landedparticular->detail->invoiceno) : $landedparticular->amount,
+                    // 'amount'=>      empty($landedparticular->detail->posted_at) ? $this->getBrokerageAmount($landedparticular->detail->invoiceno) : $landedparticular->amount,
+
+                    'amount'    =>   ((empty($landedparticular->amount) || $landedparticular->amount==0) ?  $this->getBrokerageAmount($landedparticular->detail->invoiceno) : $landedparticular->amount),
 
                     'referenceno'=> empty($landedparticular->detail->posted_at) ? $this->getBrokerageReference($landedparticular->detail->invoiceno) : $landedparticular->referenceno,
 
@@ -76,9 +78,9 @@ class LandedCostService{
                /* Updating the amount,referenceno and transaction_date of the particular. */
                 $landedparticular->update([
 
-                    #'amount'            => (empty($landedparticular->amount) || $landedparticular->amount==0) ? $this->getInsuranceAmount($landedparticular->detail->invoiceno) ?? null: $landedparticular->amount,
+                    'amount'            => (empty($landedparticular->amount) || $landedparticular->amount==0) ? $this->getInsuranceAmount($landedparticular->detail->invoiceno) ?? null: $landedparticular->amount,
                     
-                    'amount'            => empty($landedparticular->detail->posted_at)  ? $this->getInsuranceAmount($landedparticular->detail->invoiceno) : $landedparticular->amount,
+                    // 'amount'            => empty($landedparticular->detail->posted_at)  ? $this->getInsuranceAmount($landedparticular->detail->invoiceno) : $landedparticular->amount,
 
                     'referenceno'       => empty($landedparticular->detail->posted_at)  ? ($docRef ) : $landedparticular->referenceno,
                     

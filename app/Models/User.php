@@ -131,4 +131,15 @@ class User extends Authenticatable implements Auditable
 
         ]);
     }
+
+    public function getUserControl(){
+
+        if (auth()->user()->type) {
+            return UserControl::get('code')->pluck(['code'])->toArray();
+        }else{
+            return auth()->user()->user_accesses
+            ->load('user_control:id,code')->pluck('user_control.code')->toArray();
+        }
+
+    }
 }

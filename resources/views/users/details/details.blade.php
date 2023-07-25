@@ -35,6 +35,65 @@
         </div>
     @endif
 
+    {{-- <div class="row">
+        <div class="col-xl-3 col-md-6">
+            <div class="card mb-3 bg-primary mini-stat text-white">
+                <div class="p-3 mini-stat-desc">
+                    <div class="clearfix">
+                        <h6 class="text-uppercase mt-0 float-left text-white-50">Orders</h6>
+                        <h4 class="mb-3 mt-0 float-right">1,587</h4>
+                    </div>
+                    <div>
+                        <span class="badge badge-light text-info"> +11% </span> <span class="ml-2">From previous period</span>
+                    </div>
+                    
+                </div>
+               
+            </div>
+        </div>
+    
+        <div class="col-xl-3 col-md-6">
+            <div class="card mb-3 bg-info mini-stat text-white">
+                <div class="p-3 mini-stat-desc">
+                    <div class="clearfix">
+                        <h6 class="text-uppercase mt-0 float-left text-white-50">Revenue</h6>
+                        <h4 class="mb-3 mt-0 float-right">$46,785</h4>
+                    </div>
+                    <div>
+                        <span class="badge badge-light text-danger"> -29% </span> <span class="ml-2">From previous period</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="col-xl-3 col-md-6">
+            <div class="card mb-3 bg-pink mini-stat text-white">
+                <div class="p-3 mini-stat-desc">
+                    <div class="clearfix">
+                        <h6 class="text-uppercase mt-0 float-left text-white-50">Average Price</h6>
+                        <h4 class="mb-3 mt-0 float-right">15.9</h4>
+                    </div>
+                    <div>
+                        <span class="badge badge-light text-primary"> 0% </span> <span class="ml-2">From previous period</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    
+        <div class="col-xl-3 col-md-6">
+            <div class="card mb-3 bg-success mini-stat text-white">
+                <div class="p-3 mini-stat-desc">
+                    <div class="clearfix">
+                        <h6 class="text-uppercase mt-0 float-left text-white-50">Product Sold</h6>
+                        <h4 class="mb-3 mt-0 float-right">1890</h4>
+                    </div>
+                    <div>
+                        <span class="badge badge-light text-info"> +89% </span> <span class="ml-2">From previous period</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>  --}}
+
     <!-- Aler End -->
    <div class="card">
         <div class="card-body">
@@ -51,6 +110,7 @@
                        <th>Vessel</th>
                        <th>Description</th>
                        <th>Inv No.</th>
+                       <th>BL No.</th>
                        <th>Broker</th>
                        <th>Qty</th>
                        <th>Qty(KLS)</th>
@@ -66,7 +126,8 @@
            </table>
             </div>
         </div>
-   </div>
+   </div> 
+   
     <div class="modal fade" id="propMessage" data-backdrop="static" data-keyboard="false" tabindex="-1" aria-labelledby="propMessageLabel" aria-hidden="true">
         <div class="modal-dialog modal-sm modal-dialog-centered">
             <div class="modal-content">

@@ -90,6 +90,7 @@ class DataService{
                             'docdate'       => $data[0]->DocDate ?? '',
                             'weight'        => (int)$data[0]->Weight,
                             'uom'           => $data[0]->UOM ?? '',
+                            'blno'          => $data[0]->BLNo ?? '',
                             'quantity'      => array_sum(array_column($data,'quantity')),
                             'qtykls'        => array_sum(array_column($data,'QtyInKls')),
                             'qtymt'         => array_sum(array_column($data,'QtyInMT')),
