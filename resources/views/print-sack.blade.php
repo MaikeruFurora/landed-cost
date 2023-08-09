@@ -174,70 +174,73 @@
                         
                     </tr>
                 </thead>
+                @if (count($prices)!=0)
                 <tbody>
-                    @foreach ($detail->item as $i => $item)
-                    <tr>
-                        <td class="text-left">{{ $item->description }}</td>
-                        <td>{{ number_format($item->qtypcs,4) }}</td>
-                        <td>{{ $prices[0]->prices[$i] ?? 0 }}</td>
-                        <td>
-                          @php $sum=0; @endphp
-                          @if (count($prices)!=0)
-                            @foreach ($prices as $price)
-                                @php  $sum+=$price->exchangeRate; @endphp
-                            @endforeach
-                            {{  $sum/count($prices)}}
-                          @endif
-                        </td>
-                        <td>
-                            @php
-                            $totalDollar+=$prices[0]->prices[$i]*$item->qtypcs;
-                            echo number_format($prices[0]->prices[$i]*$item->qtypcs,2) ?? 0;   
-                            @endphp
-                        </td>
-                        <td>{{ number_format(($prices[0]->prices[$i]*$item->qtypcs*$sum/count($prices)),4) ?? 0 }}</td>
-                        @foreach ($detail->landedcost_particulars->where('amount','>',0)->whereNotIn('particular.p_code',['NEG']) as $key => $val)
-                            @php  
-                                $total = 0; $total = ($val->amount/$totalPCS); $final = $total*$item->qtypcs;
-                                $array[]=array($item->itemcode => $final);
-                            @endphp
-                        <td>{{ number_format($final,4) }}</td>
-                        @endforeach
-                        <td>
-                            @php
-                                $sumTotal+=array_sum(array_column($array,$item->itemcode));
-                                echo number_format(
-                                  (($prices[0]->prices[$i]*$item->qtypcs*$sum/count($prices))+array_sum(array_column($array,$item->itemcode))  
-                                ),4);
-                            @endphp
-                        </td>
-                        <td>
+                  @foreach ($detail->item as $i => $item)
+                  <tr>
+                      <td class="text-left">{{ $item->description }}</td>
+                      <td>{{ number_format($item->qtypcs,4) }}</td>
+                      <td>{{ $prices[0]->prices[$i] ?? 0 }}</td>
+                      <td>
+                        @php $sum=0; @endphp
+                        @if (count($prices)!=0)
+                          @foreach ($prices as $price)
+                              @php  $sum+=$price->exchangeRate; @endphp
+                          @endforeach
+                          {{  $sum/count($prices)}}
+                        @endif
+                      </td>
+                      <td>
                           @php
-                          $superTotal=0;
-                          $superTotal=($prices[0]->prices[$i]*$item->qtypcs*$sum/count($prices))+array_sum(array_column($array,$item->itemcode));
-                          $superSumTotal+=($superTotal/$item->qtypcs);
-                          echo '&#8369; '.number_format(($superTotal/$item->qtypcs),4);
-                      @endphp</td>
-                    </tr>
-                    @endforeach
-                    <tr>
-                        <th>TOTAL</th>
-                        <td>{{ number_format($totalPCS,4) }}</td>
-                        <td colspan="2"></td>
-                        <td>${{ number_format($totalDollar,4) }}</td>
-                        <td></td>
-                        @foreach ($detail->landedcost_particulars->where('amount','>',0)->whereNotIn('particular.p_code',['NEG']) as $item)
-                            <td>&#8369;{{ number_format($item->amount,4) }}</td>
-                        @endforeach
-                        <th></th>
-                        <th>&#8369; {{ number_format(($superSumTotal/count($detail->item)),4) }}</th>
-                    </tr>
-                    <tr>
-                      <th class="bg-avg">AVG. PROJECTED LANDEDCOST</th>
-                      <td colspan="{{ (count($countRow)+6) }}"></td>
-                      <td>{{ number_format(($sumTotal/$totalPCS),4) }}</td>
-                    </tr>
-                </tbody>
+                          $totalDollar+=$prices[0]->prices[$i]*$item->qtypcs;
+                          echo number_format($prices[0]->prices[$i]*$item->qtypcs,2) ?? 0;   
+                          @endphp
+                      </td>
+                      <td>{{ number_format(($prices[0]->prices[$i]*$item->qtypcs*$sum/count($prices)),4) ?? 0 }}</td>
+                      @foreach ($detail->landedcost_particulars->where('amount','>',0)->whereNotIn('particular.p_code',['NEG']) as $key => $val)
+                          @php  
+                              $total = 0; $total = ($val->amount/$totalPCS); $final = $total*$item->qtypcs;
+                              $array[]=array($item->itemcode => $final);
+                          @endphp
+                      <td>{{ number_format($final,4) }}</td>
+                      @endforeach
+                      <td>
+                          @php
+                              $sumTotal+=array_sum(array_column($array,$item->itemcode));
+                              echo number_format(
+                                (($prices[0]->prices[$i]*$item->qtypcs*$sum/count($prices))+array_sum(array_column($array,$item->itemcode))  
+                              ),4);
+                          @endphp
+                      </td>
+                      <td>
+                          @php
+                            $superTotal=0;
+                            $superTotal=($prices[0]->prices[$i]*$item->qtypcs*$sum/count($prices))+array_sum(array_column($array,$item->itemcode));
+                            $superSumTotal+=($superTotal/$item->qtypcs);
+                            echo '&#8369; '.number_format(($superTotal/$item->qtypcs),4);
+                          @endphp
+                      </td>
+                  </tr>
+                  @endforeach
+                  <tr>
+                      <th>TOTAL</th>
+                      <td>{{ number_format($totalPCS,4) }}</td>
+                      <td colspan="2"></td>
+                      <td>${{ number_format($totalDollar,4) }}</td>
+                      <td></td>
+                      @foreach ($detail->landedcost_particulars->where('amount','>',0)->whereNotIn('particular.p_code',['NEG']) as $item)
+                          <td>&#8369;{{ number_format($item->amount,4) }}</td>
+                      @endforeach
+                      <th></th>
+                      <th>&#8369; {{ number_format(($superSumTotal/count($detail->item)),4) }}</th>
+                  </tr>
+                  <tr>
+                    <th class="bg-avg">AVG. PROJECTED LANDEDCOST</th>
+                    <td colspan="{{ (count($countRow)+6) }}"></td>
+                    <td>{{ number_format(($sumTotal/$totalPCS),4) }}</td>
+                  </tr>
+              </tbody>
+                @endif
             </table>
           <!--*** CONTENT GOES HERE ***-->
         </td>
