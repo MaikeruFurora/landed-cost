@@ -5,3 +5,9 @@
 .highlight{
     background: #abd5ab;
 }
+
+
+.adjust tr td{
+    padding: 4px !important;
+    margin: 0 !important;
+}

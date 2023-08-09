@@ -20,7 +20,7 @@ class NegoService{
 
             return $landedCostParticular->update([
 
-                'amount'=>$request->totalNego
+                'amount' => Helper::cleanNumberByFormat($request->totalNego)
 
             ]);
 
@@ -30,7 +30,7 @@ class NegoService{
 
             return $landedCostParticular->update([
 
-                'amount'=>$request->totalNego
+                'amount' => Helper::cleanNumberByFormat($request->totalNego)
 
             ]);
 
@@ -83,15 +83,18 @@ class NegoService{
     public function negoRequestInput($request){
         return [
 
-            'priceMetricTon'=>$request->input('priceMetricTon'),
+            'priceMetricTon'    => $request->input('priceMetricTon'),
 
-            'exchangeRate'=>$request->input('exchangeRate'),
+            'exchangeRate'      => Helper::cleanNumberByFormat($request->input('exchangeRate')),
 
-            'exchangeRateDate'=>$request->input('exchangeRateDate'),
+            'exchangeRateDate'  => $request->input('exchangeRateDate'),
 
-            'percentage'=>$request->input('percentage'),
+            'percentage'        => Helper::cleanNumberByFormat($request->input('percentage')),
 
-            'amount'=>$request->input('amount'),
+            'amount'            => Helper::cleanNumberByFormat($request->input('amount')),
+
+            'prices'            => $request->input('prices'),
+           # 'prices'            => is_array($request->input('prices'))?(array_map(fn($value): int => str_replace(',', '', $value),$request->input('prices'))):NULL,
 
         ];
     }

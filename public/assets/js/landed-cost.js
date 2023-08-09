@@ -144,10 +144,6 @@ $('.amount-class').keypress(function(event) {
   }
 });
 
-$('input').on('click',function(){
-    $(this).select();
-})
-
 
 //NOTE
 

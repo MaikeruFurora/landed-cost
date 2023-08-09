@@ -71,7 +71,7 @@ Route::middleware(['auth:web','preventBackHistory','auth.user'])->name('authenti
     
     //nego
     Route::get('details/cost/nego-list/{landedcostParticular}',[LandedCostController::class,'negoList']);
-    Route::post('details/cost/nego-store/{landedcostParticular}',[LandedCostController::class,'negoStore']);
+    Route::post('details/cost/nego-store/{landedcostParticular}',[LandedCostController::class,'negoStore'])->name('nego.store');
     Route::delete('details/cost/nego-delete/{lcdpnego}',[LandedCostController::class,'negoDestroy']);
     
     //freight

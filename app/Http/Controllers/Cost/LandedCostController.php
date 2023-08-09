@@ -107,9 +107,19 @@ class LandedCostController extends Controller
 
         $this->landedCostService->updateAmntAndRef($detail);
         
-        $detail->load(['landedcost_particulars','lcopeningcharges','landedcost_particulars.particular','lcopeningcharges.open_amount']);
+        $detail->load(['landedcost_particulars','lcopeningcharges','landedcost_particulars.particular','lcopeningcharges.open_amount','landedcost_particulars'=>function($q){
+                return $q->with('lcdpnego')->get();
+        }]);
 
-        return view('print',compact('detail'));
+        if ($detail->itemcode=='PM'){
+            
+            $paticulars = Particular::get(['id','p_name']);
+
+            return view('print-sack',compact('detail','paticulars'));
+        }else{
+            return view('print',compact('detail'));
+        }
+
 
     }
 
@@ -142,6 +152,8 @@ class LandedCostController extends Controller
     }
 
     public function negoStore(Request $request,LandedcostParticular $landedcostParticular){
+
+        // return $request;
 
         $this->negoService->negoStore($request,$landedcostParticular);
 

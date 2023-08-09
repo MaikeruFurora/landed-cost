@@ -55,7 +55,7 @@
     }
 
     @page {
-    margin: 8mm 3mm
+        margin: 3mm 10mm;
     }
 
     @media print {
@@ -121,13 +121,19 @@
           <div class="page content-box">
             
             <div class="row justify-content-between mb-0">
+                <table class="table ellipses border-bottom table-bordered mb-0 adjust mt-1 " style="font-size: 20px">
+                    <tr>
+                        <td witdh="10%"><b>&nbsp;Item Description</b></td>
+                        <td>{{ $detail->description }}</td>
+                    </tr>
+                </table>
                 <div class="col-6">
-                    <table class="table ellipses border-bottom mb-0 adjust" style="font-size: 20px">
+                    <table class="table ellipses border-bottom table-bordered mb-0 adjust mt-1 " style="font-size: 20px">
                         <tr>
                             <td witdh="10%"><b>Supplier</b></td>
                             <td>{{ $detail->suppliername }}</td>
                         </tr>
-                        <tr>
+                       <tr>
                             <td><b>Vessel</b></td>
                             <td>{{ $detail->vessel }}</td>
                         </tr>
@@ -135,7 +141,6 @@
                             <td><b>PO</b></td>
                             <td>{{ $detail->pono }}</td>
                         </tr>
-                       
                         <tr>
                             <td><b>Invoice No</b></td>
                             <td>{{ $detail->invoiceno }}</td>
@@ -143,18 +148,18 @@
                     </table>
                 </div>
                 <div class="col-6">
-                    <table class="table ellipses border-bottom mb-0 adjust" style="font-size: 20px">
+                    <table class="table ellipses border-bottom table-bordered mb-0 adjust mt-1 " style="font-size: 20px">
                         <tr>
-                            <td><b>ITEM Description</b></td>
-                            <td>{{ $detail->description }}</td>
-                        </tr>
-                        <tr>
-                            <td><b>ITEM Qty(KLS)</b></td>
+                            <td witdh="10%"><b>Item Qty(KLS)</b></td>
                             <td>{{ number_format($detail->qtykls) }}</td>
                         </tr>
                         <tr>
                             <td><b>Actual Qty(KLS)/(MT)</b></td>
                             <td>{{ number_format($detail->actualQtyKLS) }} / {{ number_format($detail->actualQtyMT) }}</td>
+                        </tr>
+                        <tr>
+                            <td><b>FCL</b></td>
+                            <td>{{ $detail->fcl }}</td>
                         </tr>
                         <tr>
                             <td><b>Broker</b></td>
@@ -165,7 +170,7 @@
             </div>
 
             <div class="mt-0">
-                <table class="table table-bordered adjust" style="font-size: 22px;">
+                <table class="table table-bordered adjust" style="font-size: 20px;">
                     <thead>
                         <tr>
                             <th width="5%">L/N</th>

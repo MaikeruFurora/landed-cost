@@ -18,7 +18,8 @@ class Lcdpnego extends Model implements Auditable
         'priceMetricTon'=>'double',
         'exchangeRate'=>'double',
         'percentage'=>'double',
-        'amount'=>'double'
+        'amount'=>'double',
+        'prices'=>'array'
     ];
 
     public function landedcost_particular(){

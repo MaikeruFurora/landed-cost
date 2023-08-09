@@ -142,3 +142,7 @@ window.onload = () =>{
     BaseModel.myStorage.setItem('data',BaseModel.initialUserControl)
 
 }
+
+$('input').on('click',function(){
+    $(this).select();
+})
