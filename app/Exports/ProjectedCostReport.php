@@ -53,6 +53,8 @@ class ProjectedCostReport extends DefaultValueBinder implements ShouldAutoSize,F
 
         return view('users.export-template.projected',[
 
+            'search'        => $this->itemName,
+
             'data'          => $data,
 
             'particulars'   => $particulars,
