@@ -21,6 +21,7 @@ return new class extends Migration
             $table->string('attention',50);
             $table->string('subject',100);
             $table->string('types',3);
+            $table->boolean('isManual')->nullable();
             $table->decimal('amount',18,4)->nullable();
             $table->string('toName',50)->nullable();
             $table->string('toBankName',50)->nullable();

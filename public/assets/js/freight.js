@@ -74,6 +74,7 @@ $("button[name=btnFreight]").on('click',function(e){
         url:`freight-store/${id}`,
         type:'POST',
         data:{
+            vesselType:vesselType.val(),
             dollarRate:freightDollarRate.val(),
             exhangeRate:freightExhangeRate.val(),
             exhangeRateDate:freightExhangeRateDate.val(),
@@ -81,6 +82,7 @@ $("button[name=btnFreight]").on('click',function(e){
             id:idFreight.val()
         },
     }).done(function(data){
+        $("input[name=referenceno-"+ id +"]").val(vesselType.val()+" * "+freightExhangeRate.val()+" * "+freightDollarRate.val())
         tableFreight(id)
         $("button[name=btnFreight]").text('Add Transaction')
         freightFields(false,{
@@ -93,7 +95,6 @@ $("button[name=btnFreight]").on('click',function(e){
         
         tableNego(id,metricTon.val())
         toasMessage("Information","Successfully saved the transaction","info")
-        
     }).fail(function (jqxHR, textStatus, errorThrown) {
         console.log(errorThrown);
     })

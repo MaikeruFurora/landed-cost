@@ -357,4 +357,8 @@ class DollarBookController extends Controller
 
     }
 
+
+    public function dollarbookReport(){
+        return view('users.dollarbook.report.dollarbook-report');
+    }
 }

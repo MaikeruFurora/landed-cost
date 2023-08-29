@@ -55,6 +55,12 @@
                                       <span class="input-group-text px-3">PHP</span>
                                     </div>
                                     <input type="text" class="form-control form-control-sm" id="" autocomplete="off" name="phpAmount" readonly>
+                                    <div class="input-group-prepend">
+                                        <div class="input-group-text">
+                                            <input type="checkbox" name="isManual">
+                                            <i class="fas fa-info-circle ml-2 text-primary" data-toggle="tooltip" data-placement="top" title="Check the box to manually enter the amount (PHP)."></i>
+                                          </div>
+                                      </div>
                                 </div>
                             </div>
                        </div>

@@ -135,6 +135,7 @@ Route::middleware(['auth:web','preventBackHistory','auth.user'])->name('authenti
    
     // transaction
     Route::get('dollarbook',[DollarBookController::class,'dollarbook'])->name('dollarbook');
+    Route::get('dollarbook/report',[DollarBookController::class,'dollarbookReport'])->name('dollarbook.report');
     Route::get('dollarbook/company-details',[DollarBookController::class,'getCompanyDetails']);
     Route::get('dollarbook/bankinfo/list',[DollarBookController::class,'bankInfoList']);
     Route::get('dollarbook/bankinfo/edit/{bankHistory}',[DollarBookController::class,'bankInfo']);

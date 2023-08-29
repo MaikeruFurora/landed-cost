@@ -107,6 +107,8 @@ $(document).on('click','button[name=editBtn_bankHistory]',function(){
 
         $("input[name=phpAmount]").val(data.exchangeRate*data.amount).prop('readonly',true)
 
+        $("input[name=isManual]").prop('checked',data.isManual).prop('disabled',true)
+
         $("input[name=amount]").val(data.amount).prop('readonly',true)
 
         $("input[name=subject]").val(data.subject).prop('readonly',true)

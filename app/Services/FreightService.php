@@ -8,12 +8,13 @@ use App\Models\LandedcostParticular;
 class FreightService{
 
     public function store($request,$landedCostParticular){
-          
+
         if ($landedCostParticular->freight) {
 
             return $landedCostParticular->update([
 
-                'amount'=>$request->totalFreight
+                'amount' => $request->totalFreight
+                
 
             ]);
 
@@ -26,11 +27,16 @@ class FreightService{
             ]);
 
         }
+
           
     }
 
 
     public function freightStore($request,$landedCostParticular){
+
+        $landedCostParticular->update([
+                'referenceno'  => $request->vesselType.' * '.$request->dollarRate.' * '.$request->exhangeRate
+        ]);
 
         if (is_null($request->input('id'))) {
 
@@ -39,7 +45,7 @@ class FreightService{
                 $this->requestInput($request)
 
           );
-                       
+                                 
         } else {
             
             return Freight::find($request->input('id'))->update(

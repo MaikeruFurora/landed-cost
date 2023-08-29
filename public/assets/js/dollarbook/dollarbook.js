@@ -12,6 +12,8 @@ let dated_at        = $('input[name=dated_at]')
 
 let exchangeRateDate= $('input[name=exchangeRateDate]')
 
+let isManual      = $('input[name=isManual]')
+
 $('input[name=amount]').number( true, 4 );
 $('input[name=exchangeRate]').number( true, 4 );
 $('input[name=phpAmount]').number( true, 4 );
@@ -44,6 +46,8 @@ const clearForm = () =>{
 
     $("#FundForm *").prop("readonly", false);
 
+    $("#FundForm input[name=isManual]").prop("disabled", false);
+
     $("input[name=otherTTSpecify]").prop('readonly',true)
     
     $("input[name=bank_history_id]").val('')
@@ -62,17 +66,31 @@ const avoidNegative = (value)=>{
 }
 
 const autoComputePHPAmount = (amnt,exRate) => {
-    $("input[name=phpAmount]").val((exRate!="" || amnt!="") ? ((parseFloat(exRate)>0 && parseFloat(amnt)>0) ? (amnt*exRate) : 0 ) : 0)
-    $(".rateAmount").text((exRate!="" || exRate<0) ?  ((parseFloat(exRate)>0 && parseFloat(amnt)>0) ?exRate:0) : 0).number( true, 2 );
-    $(".usdAmount").text((exRate!="" || amnt!="")  ? ((parseFloat(exRate)>0 && parseFloat(amnt)>0) ? (amnt/exRate) : 0 ) : 0).number( true, 2 );
+    if (!isManual.is(':checked')) {
+        $("input[name=phpAmount]").val((exRate!="" || amnt!="") ? ((parseFloat(exRate)>0 && parseFloat(amnt)>0) ? (amnt*exRate) : 0 ) : 0)
+    }
+        $(".rateAmount").text((exRate!="" || exRate<0) ?  ((parseFloat(exRate)>0 && parseFloat(amnt)>0) ?exRate:0) : 0).number( true, 2 );
+        $(".usdAmount").text((exRate!="" || amnt!="")  ? ((parseFloat(exRate)>0 && parseFloat(amnt)>0) ? (amnt/exRate) : 0 ) : 0).number( true, 2 );
 }
 
 const autoComputeUSDAmount = (amnt,exRate) => {
-    $("input[name=amount]").val((exRate!="" || amnt!="") ? ((parseFloat(exRate)>0 && parseFloat(amnt)>0) ? (amnt/exRate) : 0 ) : 0)
+    if (!isManual.is(':checked')) {
+        $("input[name=amount]").val((exRate!="" || amnt!="") ? ((parseFloat(exRate)>0 && parseFloat(amnt)>0) ? (amnt/exRate) : 0 ) : 0)
+    }
     $(".rateAmount").text((exRate!="" || exRate<0) ? ((parseFloat(exRate)>0 && parseFloat(amnt)>0) ?exRate:0) : 0).number( true, 2 );
     $(".usdAmount").text((exRate!="" || amnt!="") ? ((parseFloat(exRate)>0 && parseFloat(amnt)>0) ?amnt:0) : 0).number( true, 2 );
-    
 }
+
+isManual.on('click',function(){
+    $("input[name=phpAmount]").val('')
+    let ex   = $("input[name=exchangeRate]");
+    let amnt = $("input[name=amount]");
+    if (!$(this).is("checked")) {
+        autoComputePHPAmount(amnt.val(),ex.val())
+    }else{
+        $("input[name=phpAmount]").val('')
+    }
+})
 
 let companybankTable = $("#companybankTable").DataTable({
     "serverSide": true,
@@ -167,7 +185,7 @@ const generalSetting = (data,aodRequisite=false,datedAt=false,types,needToAccnt=
 
 $(document).on('click','button[name=aod]',function(){
     let dataRow = companybankTable.row($(this).closest('tr'));
-    generalSetting(dataRow,true,true,'AOD',true,'AUTHORITY TO DEBIT	')
+    generalSetting(dataRow,true,true,'AOD',true,'AUTHORITY TO DEBIT')
     bankFormModal.find("input[name='account']").val($(this).val())
 })
 
@@ -228,6 +246,8 @@ $('textarea[name=purposes]').summernote({
         }
     }
 });
+
+
 
 $("button[name=saveAndPrint]").on('click',function(e){
     e.preventDefault()

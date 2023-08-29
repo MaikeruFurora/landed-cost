@@ -17,6 +17,12 @@ class BankHistory extends Model implements Auditable
 
     protected $guarded=[];
 
+    protected $casts = [
+
+        'isManual'=>'boolean'
+
+    ];
+
     public function setToNameAttribute($value){
         
         return $this->attributes['toName'] = strtoupper($value);
@@ -79,6 +85,7 @@ class BankHistory extends Model implements Auditable
             'subject'          => $request->input('subject'),
             'transactionNo'    => $request->input('transactionNo'),
             'types'            => $request->input('types'),
+            'isManual'         => $request->has('isManual'),
             'amount'           => Helper::cleanNumberByFormat($request->input('amount')),
             'exchangeRate'     => Helper::cleanNumberByFormat($request->input('exchangeRate')),
             'exchangeRateDate' => $request->input('exchangeRateDate'),

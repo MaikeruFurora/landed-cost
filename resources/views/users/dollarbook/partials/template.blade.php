@@ -11,6 +11,10 @@
         html {
            user-select: none;
         }
+
+        .makeUnderLine{
+            border-bottom: .5px solid #000 ; padding-bottom: 2px.
+        }
      </style>
 </head>
 <body onload="window.print()" class="unselectable">

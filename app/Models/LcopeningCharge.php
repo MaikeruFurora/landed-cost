@@ -26,6 +26,13 @@ class LcopeningCharge extends Model implements Auditable
     
     }
 
+
+    public function freight(){
+    
+        return $this->hasOne(Freight::class);
+    
+    }
+
    
     
 }
