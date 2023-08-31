@@ -79,7 +79,7 @@
   </style>
 </head>
 
-<body onload="window.print()">
+<body onload="window.()">
 
     <div class="page-header" style="text-align: center">
     
@@ -106,7 +106,7 @@
             <!--*** CONTENT GOES HERE ***-->
             <div class="row">
                 <div class="col">
-                    <table class="table table-sm table-bordered text-center adjust" style="font-size: 10px">
+                    <table class="table table-sm table-bordered text-center adjust" style="font-size: 12px">
                         <tr>
                             <th width="11%" rowspan="2">Date<br>T/T</th>
                             <th rowspan="2">Supplier</th>
@@ -121,42 +121,54 @@
                             <th>Full</th>
                         </tr>
                         {{--  --}}
-                        @for ($i = 0; $i < 20; $i++)
+                        @foreach ($data as $dd)
+                        <tr><td colspan="7"></td></tr>
+                          @foreach ($dd->lcdpnego as $item)
                             <tr>
-                                <td>-</td>
-                                <td></td>
-                                <td></td>
-                                <td></td>
-                                <td></td>
+                                <td>{{ $dd->exchangeRateDate }}</td>
+                                <td>{{ $item->landedcost_particular->detail->suppliername }}</td>
+                                <td>{{ $item->landedcost_particular->detail->blno }}</td>
+                                <td>{{ $item->landedcost_particular->detail->vessel }}</td>
+                                <td>{{ $dd->percentage }}%</td>
                                 <td></td>
                                 <td></td>
                             </tr>
-                        @endfor
+                            @endforeach
+                         
+                       @endforeach
                     </table>
                 </div>
                 <div class="col">
-                    <table class="table table-sm table-bordered text-center adjust" style="font-size: 10px">
+                    <table class="table table-sm table-bordered text-center adjust" style="font-size: 12px">
                         <tr>
-                            <th width="11%">Dollar<br>Rate</th>
-                            <th>Invoice No.</th>
-                            <th>Bill of Lading</th>
-                            <th>Vessel Name</th>
-                            <th>Entry No.<br></th>
-                            <th>Date<br>Debited</th>
-                            <th>Dated<br>Filed</th>
+                            <th width="11%">Dollar</th>
+                            <th rowspan="2">Invoice No.</th>
+                            <th rowspan="2">Bill of Lading</th>
+                            <th rowspan="2">Vessel Name</th>
+                            <th rowspan="2">Entry No.<br></th>
+                            <th>Date</th>
+                            <th>Dated</th>
+                        </tr>
+                        <tr>
+                            <th>Rate</th>
+                            <th>Debited</th>
+                            <th>Filed</th>
                         </tr>
                         {{--  --}}
-                        @for ($i = 0; $i < 20; $i++)
-                            <tr>
-                                <td>-</td>
-                                <td></td>
-                                <td></td>
-                                <td></td>
-                                <td></td>
-                                <td></td>
-                                <td></td>
-                            </tr>
-                        @endfor
+                        @foreach ($data as $dd)
+                        <tr><td colspan="7"></td></tr>
+                          @foreach ($dd->lcdpnego as $item)
+                          <tr>
+                              <td>{{ $dd->exchangeRate }}</td>
+                              <td>{{ $item->landedcost_particular->detail->invoiceno }}</td>
+                              <td>{{ $item->landedcost_particular->detail->blno }}</td>
+                              <td>{{ $item->landedcost_particular->detail->vessel }}</td>
+                              <td></td>
+                              <td></td>
+                              <td></td>
+                          </tr>
+                          @endforeach
+                       @endforeach
                     </table>
                 </div>
                </div>

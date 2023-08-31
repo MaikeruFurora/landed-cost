@@ -32,7 +32,7 @@
     </head>
 
 
-    <body>
+    <body transition-style="in:circle:top-right">
         {{-- @if (!(auth()->user()->type)) onmousemove="BaseModel.checkControl()" @endif --}}
         <!-- Loader -->
         @include('_layout.preloader')
@@ -125,7 +125,7 @@
                                 
                                 @if (Helper::usrChckCntrl(['DB001']))
                                 <li class="has-submenu">
-                                    <a href="{{ route('authenticate.dollarbook') }}"><i class="fas fa-book"></i> DollarBook</a>
+                                    <a href="{{ route('authenticate.dollarbook') }}"><i class="fas fa-book-open"></i> DollarBook</a>
                                 </li>
                                 @endif
 

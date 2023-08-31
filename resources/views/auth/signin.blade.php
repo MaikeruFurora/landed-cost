@@ -16,11 +16,10 @@
         <link href="{{ asset('assets/css/bootstrap.min.css') }}" rel="stylesheet" type="text/css" />
         <link href="{{ asset('assets/css/icons.css') }}" rel="stylesheet" type="text/css" />
         <link href="{{ asset('assets/css/style.css') }}" rel="stylesheet" type="text/css" />
-
     </head>
 
 
-    <body>
+    <body transition-style="in:circle:top-right">
 
        @include('_layout.preloader')
 

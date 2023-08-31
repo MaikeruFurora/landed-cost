@@ -7,6 +7,7 @@ use App\Http\Controllers\Controller;
 use App\Models\BankHistory;
 use App\Models\Branch;
 use App\Models\Company;
+use App\Models\Contract;
 use App\Models\TelegraphicHistory;
 use App\Services\DollarBookService;
 use FPDM;
@@ -359,6 +360,11 @@ class DollarBookController extends Controller
 
 
     public function dollarbookReport(){
-        return view('users.dollarbook.report.dollarbook-report');
+
+        $data = Contract::with([
+            'lcdpnego:id,contract_id,percentage,amount,landedcost_particular_id,allocatedAmount',
+            'lcdpnego.landedcost_particular.detail'])->get();
+
+        return view('users.dollarbook.report.dollarbook-report',compact('data'));
     }
 }

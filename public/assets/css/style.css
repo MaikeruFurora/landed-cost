@@ -3129,3 +3129,19 @@ table.focus-on tbody tr.focused td {
   font-size: 0.9em;
 }
 /*# sourceMappingURL=style.css.map */
+
+
+/* ADDITIONAL CSS */
+
+@keyframes circle-in-top-right {
+  from {
+      clip-path: circle(0%);
+  }
+  to {
+      clip-path: circle(150% at top right);
+  }
+  }
+
+  [transition-style="in:circle:top-right"] {
+  animation: 2.5s cubic-bezier(.25, 1, .30, 1) circle-in-top-right both;
+}
