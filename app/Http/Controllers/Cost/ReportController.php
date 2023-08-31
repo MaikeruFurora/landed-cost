@@ -105,8 +105,8 @@ class ReportController extends Controller
                 break;
 
             case 'projectedCostReport':
-
-                return Excel::download(new ProjectedCostReport($request->from,$request->to,$request->itemName),
+                $itemName = empty($request->itemName) ? 'All' : $request->itemName;
+                return Excel::download(new ProjectedCostReport($request->from,$request->to,$itemName),
                         'Projected Cost Report - '.date("F_d_Y",strtotime($request->from)).'-'.date("F_d_Y",strtotime($request->to)).'.xlsx'
                     );
                     

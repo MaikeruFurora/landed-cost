@@ -131,8 +131,7 @@
               <td>{{ $detail->suppliername }}</td>
               <th width="5%">PO</th>
               <td>{{ $detail->pono }}</td>
-              <th rowspan="2" width="8%">FCL</th>
-              <td rowspan="2" >{{ $detail->fcl }}</td>
+              <th rowspan="2" width="8%">{{ $detail->fcl }} FCL</th>
             </tr>
             <tr>
               <th>BL No.</th>
@@ -236,8 +235,9 @@
                   </tr>
                   <tr>
                     <th class="bg-avg">AVG. PROJECTED LANDEDCOST</th>
-                    <td colspan="{{ (count($countRow)+6) }}"></td>
-                    <td>{{ number_format(($sumTotal/$totalPCS),4) }}</td>
+                    <td colspan="5"></td>
+                    <td colspan="{{ (count($countRow)) }}">{{ number_format(($sumTotal/$totalPCS),4) }}</td>
+                    <td class="2"></td>
                   </tr>
               </tbody>
                 @endif

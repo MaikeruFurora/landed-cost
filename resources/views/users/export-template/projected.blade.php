@@ -12,6 +12,10 @@
                 <th colspan="<?=(count($particulars)+5)?>" style="background: "></th>
             </tr>
             <tr>
+                <th>Search:</th>
+                <th colspan="<?=(count($particulars)+5)?>">{{ $search }}</th>
+            </tr>
+            <tr>
                 <th>Date Range:</th>
                 <th colspan="<?=(count($particulars)+5)?>">{{ $from .' - '. $to }}</th>
             </tr>

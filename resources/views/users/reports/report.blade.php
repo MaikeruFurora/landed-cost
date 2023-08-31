@@ -178,9 +178,13 @@
   
 
     $('select[name="itemName"]').select2({
-        placeholder: 'Select an item',
+        // minimumResultsForSearch: -1,
+        placeholder: function(){
+            $(this).data('placeholder');
+        },
         dropdownParent: $('#dutiesModal'),
         closeOnSelect: true,
+        allowClear: true,
         ajax: {
             url: 'report/filter/invoice',
             dataType: 'json',
@@ -197,9 +201,6 @@
             },
             cache: true
         }
-    }).on('change',function(){
-        let newOption = new Option('All', 'all',true,true);
-        $('select[name="itemName"]').append(newOption).trigger("change");
     })
 
     $('#print').on('click',function(){
