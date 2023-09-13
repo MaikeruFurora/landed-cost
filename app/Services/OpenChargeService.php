@@ -59,7 +59,12 @@ class OpenChargeService{
             $query
             ->where('open_amounts.lc_amount', 'like', '%'.$filter.'%')
             ->orwhere('open_amounts.lc_mt', 'like', '%'.$filter.'%')
-            ->orwhere('open_amounts.lc_reference', 'like', '%'.$filter.'%');
+            ->orwhere('open_amounts.lc_reference', 'like', '%'.$filter.'%')
+            ->orWhereHas('lcopening_charge',function($q) use ($filter){
+                return $q->whereHas('detail',function($query) use ($filter){
+                   return $query->where('invoiceno','like', '%'.$filter.'%');
+                });
+            });
         }
     
         $recordsTotal = $query->count();
@@ -68,9 +73,9 @@ class OpenChargeService{
     
         $query->take($length)->skip($start);
     
-        if($draw==1){
-            $query->orderBy($sortColumnName, $order[0]['dir']);
-        }
+        // if($draw==1){
+        //     $query->orderBy($sortColumnName, $order[0]['dir']);
+        // }
         
         $json = array(
             'draw' => $draw,

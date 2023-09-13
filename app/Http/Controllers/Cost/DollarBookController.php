@@ -358,10 +358,9 @@ class DollarBookController extends Controller
 
     }
 
-
     public function dollarbookReport(){
 
-        $data = Contract::with([
+         $data = Contract::with([
             'lcdpnego:id,contract_id,percentage,amount,landedcost_particular_id,allocatedAmount',
             'lcdpnego.landedcost_particular.detail'])->get();
 

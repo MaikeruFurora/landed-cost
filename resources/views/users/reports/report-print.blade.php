@@ -35,7 +35,7 @@
     position: fixed;
     top: 0mm;
     width: 100%;
-    border-bottom: 2px solid black; /* for demo */
+    border-bottom: 1px solid black; /* for demo */
     /* background: yellow; for demo */
     }
 
@@ -44,7 +44,7 @@
     } */
 
     @page {
-    margin: 15mm
+    margin: 5mm 3mm
     }
 
     @media print {

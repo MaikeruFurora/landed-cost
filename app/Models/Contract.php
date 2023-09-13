@@ -52,6 +52,7 @@ class Contract extends Model implements Auditable
             'percentage'       => Helper::cleanNumberByFormat($request->input('percentage')),
             'exchangeRate'     => Helper::cleanNumberByFormat($request->input('exchangeRate')),
             'exchangeRateDate' => $request->input('exchangeRateDate'),
+            'suppliername'     => $request->input('suppliername'),
             'amountPHP'        => Helper::cleanNumberByFormat($request->input('amountPHP')),
         ];
 

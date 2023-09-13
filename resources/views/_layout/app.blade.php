@@ -31,8 +31,8 @@
 
     </head>
 
-
-    <body transition-style="in:circle:top-right">
+    {{-- transition-style="in:circle:top-right" --}}
+    <body>
         {{-- @if (!(auth()->user()->type)) onmousemove="BaseModel.checkControl()" @endif --}}
         <!-- Loader -->
         @include('_layout.preloader')

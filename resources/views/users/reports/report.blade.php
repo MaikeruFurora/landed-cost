@@ -230,12 +230,21 @@
 
     $(".itemName_details").hide()
     $("select[name=type]").on('change',function(){
-        if ($(this).val()=="projectedCostReport") {
-            $(".company_details").hide()
-            $(".itemName_details").show()
-        } else {
-            $(".company_details").show()
-            $(".itemName_details").hide()
+
+        switch ($(this).val()) {
+            case "projectedCostReport":
+                    $(".company_details").hide()
+                    $(".itemName_details").show()
+                break;
+            case "dollarBook":
+                    $(".company_details").hide()
+                    $(".itemName_details").hide()
+                break;
+        
+            default:
+                $(".company_details").show()
+                $(".itemName_details").hide()
+                break;
         }
     })
 

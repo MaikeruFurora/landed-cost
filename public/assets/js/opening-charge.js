@@ -55,7 +55,7 @@ let openAmountId  = $("input[name=id_lcopc]")
                         <li class="list-group-item d-flex justify-content-between align-items-center p-1"><a href='/landed-cost/public/auth/details/cost/${val.detail.id}'>${val.detail.invoiceno}</a>
                             ${
                                 (data.lc_mt!=tot) ?
-                                 (BaseModel.findPrev('OA005')?'<button class="btn btn-sm" value="${val.id}" name="removeInvoice"><i class="text-danger fas fa-times-circle"></i></button>':'')
+                                 (BaseModel.findPrev('OA005')?`<button class="btn btn-sm" value="${val.id}" name="removeInvoice"><i class="text-danger fas fa-times-circle"></i></button>`:'')
                                 :
                                 '<i class="text-success fas fa-check-circle"></i>'
                             }

@@ -13,6 +13,7 @@ use App\Models\Lcdpnego;
 use App\Services\ContractService;
 use App\Services\DataService;
 use App\Services\NegoService;
+use Carbon\Carbon;
 
 class ContractController extends Controller
 {
@@ -38,7 +39,6 @@ class ContractController extends Controller
     }
 
     public function store(Request $request){
-
 
         return empty($request->id) ? Contract::store($request) : Contract::updateContract($request);
 
@@ -144,5 +144,18 @@ class ContractController extends Controller
     }
 
 
+    public function report($start,$end){
+
+        $dateS = Carbon::parse($start);
+        $dateE = Carbon::parse($end);
+        
+        $data = Contract::with(['lcdpnego:id,contract_id,percentage,amount,landedcost_particular_id,allocatedAmount',
+                                'lcdpnego.landedcost_particular.detail:id,invoiceno,qtymt,description,blno'])
+                        ->whereBetween('contracts.created_at',[$dateS,$dateE])
+                        ->get();
+
+        return view('users.contract.report',compact('data'));
+    
+    }
 
 }

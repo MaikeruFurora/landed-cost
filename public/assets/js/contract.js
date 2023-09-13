@@ -243,8 +243,10 @@ let tblContract = $('#datatable').DataTable({
                 orderable: false,
                 data:"amountPHP"
             },
-            
-           
+            {   
+                orderable: false,
+                data:"amountPHP"
+            },
             {
                 orderable: false,
                 data:null,
@@ -453,4 +455,18 @@ const removeInvoice = (inv) =>{
 
 $(document).on('click','.fa-minus-circle',function(){
     removeInvoice(invoice);
+})
+
+$('#date-range').datepicker({
+    toggleActive: true,
+    format: 'mm-dd-yyyy',
+});
+
+$("#contractReport").on('submit',function(e){
+    e.preventDefault()
+    let start = $(this).find("input[name=start]").val()
+    let end = $(this).find("input[name=end]").val()
+    let url = $(this).attr("action").replace(":start",start).replace(":end",end)
+    console.log(url);
+    window.open(url,'_blank')
 })

@@ -90,6 +90,7 @@ Route::middleware(['auth:web','preventBackHistory','auth.user'])->name('authenti
 
     //contract
     Route::get('contract',[ContractController::class,'index'])->name('contract');
+    Route::get('contract/report/{start}/{end}',[ContractController::class,'report'])->name('contract.report');
     Route::post('contract/store',[ContractController::class,'store']);
     Route::get('contract/list',[ContractController::class,'list']);
     Route::get('contract/search',[ContractController::class,'search']);

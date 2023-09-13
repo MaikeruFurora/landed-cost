@@ -15,7 +15,7 @@ return new class extends Migration
     {
         Schema::create('contracts', function (Blueprint $table) {
             $table->id();
-            $table->string('contract_no',20);
+            $table->string('contract_no',35);
             $table->double('metricTon',18,4);
             $table->double('priceMetricTon',18,4);
             $table->double('amountUSD',18,4);

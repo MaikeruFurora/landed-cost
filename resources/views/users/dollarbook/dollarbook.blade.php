@@ -39,7 +39,6 @@
             </div>
         </div>
    </form> --}}
-   <button class="btn btn-outline-primary btn-sm" data-toggle="modal" data-target="#staticBackdrop"><i class="fas fa-paste"></i>&nbsp; Dollar Book Report</button>
 </x-page-title>
 <!-- Button trigger modal -->
 <div class="card" oncopy="return false" oncut="return false" onpaste="return false">

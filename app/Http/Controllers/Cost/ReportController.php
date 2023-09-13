@@ -10,6 +10,7 @@ use App\Models\Company;
 use App\Exports\DutiesReport;
 use App\Exports\DollarReport;
 use App\Exports\FundReport;
+use App\Exports\MultipleWorkSheet;
 use App\Exports\ProjectedCostReport;
 use App\Models\Particular;
 use Maatwebsite\Excel\Facades\Excel;
@@ -111,6 +112,24 @@ class ReportController extends Controller
                     );
                     
                 break;
+            case 'dollarBook':
+                    return Excel::download(new MultipleWorkSheet($request->from,$request->to),
+                        'DOLLARBOOK'.'.xlsx'
+                    );
+                    // return DB::select("exec dbo.sp_getPivotTabSheet ?,?",array($request->from,$request->to));
+                  
+
+                    $data = DB::select("exec dbo.sp_getDollarBookReport ?,?",array($request->from,$request->to));
+                    $coll = collect($data);
+                    $key  = collect($data)->unique(['REF'])->pluck('REF');
+                    $res  = $coll->groupBy('REF');
+                    for ($i=0; $i <count($key); $i++) {
+                        return ($res[$key[1]]);
+                        // for ($j=0; $j < count($res[$key[$i]]) ; $j++) { 
+                        //     print_r($res[$key[$i]]['INVOICE']);
+                        // }
+                    }
+                    break;
             
             default:
                 return false;

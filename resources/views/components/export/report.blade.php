@@ -17,6 +17,7 @@
                   <option value="dollarReport">Dollar Report</option>
                   <option value="fundReport">Fund Transfer</option>
                   <option value="projectedCostReport">Landed Cost Tabsheet</option>
+                  <option value="dollarBook">Dollar Book</option>
               </select>
           </div>
           <div class="form-group company_details">
@@ -39,7 +40,7 @@
                 <input type="search" class="form-control form-control-sm" name="from" required>
             </div>
             <div class="form-group">
-                <label for="">Date To</label>
+                <label for="">To</label>
                 <input type="search" class="form-control form-control-sm" name="to" required>
             </div>
           </div>
