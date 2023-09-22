@@ -48,8 +48,11 @@
               <a class="nav-link active" id="account-tab" data-toggle="tab" data-target="#account" type="button" role="tab" aria-controls="account" aria-selected="true"><i class="fas fa-file-invoice"></i> Account</a>
             </li>
             <li class="nav-item " role="presentation">
-              <a class="nav-link" id="records-tab" data-toggle="tab" data-target="#records" type="button" role="tab" aria-controls="records" aria-selected="false"><i class="fas fa-list-ul"></i> Records ( ToF / AoD )</a>
+              <a class="nav-link" id="posted-tab" data-toggle="tab" data-target="#posted" type="button" role="tab" aria-controls="posted" aria-selected="false"><i class="fas fa-list-ul"></i> POSTED (ToF / AoD)</a>
             </li>
+            <li class="nav-item " role="presentation">
+                <a class="nav-link" id="draft-tab" data-toggle="tab" data-target="#draft" type="button" role="tab" aria-controls="draft" aria-selected="false"><i class="fas fa-list-ul"></i> DRAFT (ToF / AoD)</a>
+              </li>
             <li class="nav-item " role="presentation">
                 <a class="nav-link" id="config-tab" data-toggle="tab" data-target="#config" type="button" role="tab" aria-controls="config" aria-selected="false"><i class="fas fa-list-ul"></i> Record for Telegraphic</a>
               </li>
@@ -80,7 +83,30 @@
                    <h6 class="p-3"><em>Access Denied</em></h6>
                @endif
             </div>
-            <div class="tab-pane fade" id="records" role="tabpanel" aria-labelledby="records-tab">
+            <div class="tab-pane fade" id="draft" role="tabpanel" aria-labelledby="draft-tab">
+                @if (Helper::usrChckCntrl(['DB003']))
+                <div class="table-responsive mt-4">
+                    <table id="bankHistoryTableDraft" class="table table-sm table-bordered text-center" style="font-size: 11px" width="100%">
+                        <thead class="bg-secondary text-white">
+                        <tr>
+                            <td rowspan="2" width="5%">REFERENCE</td>
+                            <td rowspan="2" width="15%">TYPES</td>
+                            <td rowspan="2" width="15%">AMOUNT</td>
+                            <td colspan="2" width="55%">TRANSFER</td>
+                            <td rowspan="2" width="10%">OPTIONS</td>
+                        </tr>
+                        <tr>
+                            <td width="50%">FROM</td>
+                            <td width="50%">TO</td>
+                        </tr>
+                        </thead>
+                    </table>
+                </div>
+                @else
+                    <h6 class="p-3"><em>Access Denied</em></h6>
+                @endif
+            </div>
+            <div class="tab-pane fade" id="posted" role="tabpanel" aria-labelledby="posted-tab">
                 @if (Helper::usrChckCntrl(['DB003']))
                 <div class="table-responsive mt-4">
                     <table id="bankHistoryTable" class="table table-sm table-bordered text-center" style="font-size: 11px" width="100%">
@@ -150,7 +176,4 @@
     <script src="{{ asset('assets/js/dollarbook/dollarbook.js') }}"></script>
     <script src="{{ asset('assets/js/dollarbook/bankhistory.js') }}"></script>
     <script src="{{ asset('assets/js/dollarbook/telegraphic.js') }}"></script>
-
-    <script>
-    </script>
 @endsection

@@ -18,12 +18,12 @@ class ReportService{
             c.exchangeRate,
             convert(DATE,c.created_at) as created_at
         from details 
-                a inner join 
+                a left join 
             landedcost_particulars b on 
                 a.id = b.detail_id 
-                inner join 
+                left join 
             lcdpnegos c on b.id = c.landedcost_particular_id 
-        where convert(DATE,a.doc_date) between convert(date,'{$request->start}') AND convert(date,'{$request->end}') 
+        where convert(DATE,a.created_at) between convert(date,'{$request->start}') AND convert(date,'{$request->end}') 
         
         and 
             a.description = '{$request->item}'");

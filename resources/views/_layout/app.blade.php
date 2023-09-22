@@ -111,7 +111,7 @@
                                                 <li><a href="{{ route('authenticate.opening.charge') }}"><i class="fas fa-wallet mr-2" style="font-size:10px"></i>LC Open Amount</a></li>
                                             @endif
                                             @if (Helper::usrChckCntrl(['AP001']))
-                                                <li><a href="{{ route('authenticate.contract') }}"><i class="far fa-credit-card mr-2" style="font-size:10px"></i>Advance Payment</a></li>
+                                                <li><a href="{{ route('authenticate.contract') }}"><i class="far fa-credit-card mr-2" style="font-size:10px"></i>Payment Advance</a></li>
                                             @endif
                                         </ul>
                                     </li>

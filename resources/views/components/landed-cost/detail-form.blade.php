@@ -5,7 +5,8 @@
             <div class="card-body">
                 <input type="hidden" name="id" value="{{ $detail->id }}">
                 <input type="hidden" name="cardcode" value="{{ $detail->cardcode }}">
-                <input type="hidden" name="itemcode" value="{{ $detail->itemcode }}">
+                <input type="hidden" name="doc_date" value="{{ $detail->doc_date }}">
+                <input type="hidden" name="weight"   value="{{ $detail->weight }}">
                 <div class="row">
                     <div class="col-lg-3 col-md-3 col-sm-12">
                         <div class="form-group">
