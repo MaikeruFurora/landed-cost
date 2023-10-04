@@ -99,7 +99,7 @@
         <div class="card-body">
             
             <div class="table-responsive mt-2">
-            <table cellpadding="0" cellspacing="0" id="datatable" class="table table-bordered table-hover dt-responsive nowrap" style="border-collapse: collapse; border-spacing: 0; width: 100%;font-size:10px">
+            <table cellpadding="0" cellspacing="0" id="datatable" class="table table-bordered table-hover dt-responsive nowrap adjust" style="border-collapse: collapse; border-spacing: 0; width: 100%;font-size:10px">
                
                <thead class="bg-secondary text-white">
                    <tr>
@@ -120,9 +120,7 @@
                    </tr>
                </thead>
                <tbody>
-                  
                </tbody>
-              
            </table>
             </div>
         </div>

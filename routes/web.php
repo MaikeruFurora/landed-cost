@@ -12,6 +12,7 @@ use App\Http\Controllers\Cost\ReportController;
 use App\Http\Controllers\user\AuditLogController;
 use App\Http\Controllers\Cost\CompanyController;
 use App\Http\Controllers\Cost\ContractController;
+use App\Http\Controllers\Cost\ContractPaymentController;
 use App\Http\Controllers\Cost\DollarBookController;
 use App\Http\Controllers\User\UserController;
 use App\Models\User;
@@ -96,6 +97,16 @@ Route::middleware(['auth:web','preventBackHistory','auth.user'])->name('authenti
     Route::get('contract/search',[ContractController::class,'search']);
     Route::post('contract/invoice/store/{contract}',[ContractController::class,'saveInvoice']);
     Route::post('contract/invoice/remove',[ContractController::class,'removeInvoice']);
+    
+    
+    //payment
+    Route::get('payment',[ContractPaymentController::class,'index'])->name('payment');
+    Route::post('payment/store',[ContractPaymentController::class,'store'])->name('payment.store');
+    Route::get('payment/list',[ContractPaymentController::class,'list'])->name('payment.list');
+    //detail payment
+    Route::post('payment/detail/store',[ContractPaymentController::class,'storeDetail'])->name('payment.detail.store');
+    Route::get('payment/detail/list/{contractPayment}',[ContractPaymentController::class,'listDetail'])->name('payment.detail.list');
+    
     
     //gather data from sap datatabse
     Route::get('po',[GatherDataController::class,'index'])->name('po.search');

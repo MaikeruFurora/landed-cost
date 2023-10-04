@@ -29,6 +29,9 @@
         <link href="{{ asset('assets/css/style.css') }}" rel="stylesheet" type="text/css" />
         <link href="{{ asset('assets/css/app.css') }}" rel="stylesheet" type="text/css" />
 
+        {{-- datepicker --}}
+        <link href="{{ asset('plugins/bootstrap-datepicker/css/bootstrap-datepicker.min.css') }}" rel="stylesheet">
+
     </head>
 
     {{-- transition-style="in:circle:top-right" --}}
@@ -108,11 +111,14 @@
                                         <a href="#"><i class="fab fa-gripfire" style="color: #2a58a7;"></i> LC & Advance Payment<i class="mdi mdi-chevron-down mdi-drop"></i></a>
                                         <ul class="submenu">
                                             @if (Helper::usrChckCntrl(['OA001']))
-                                                <li><a href="{{ route('authenticate.opening.charge') }}"><i class="fas fa-wallet mr-2" style="font-size:10px"></i>LC Open Amount</a></li>
+                                                <li><a href="{{ route('authenticate.opening.charge') }}"><i class="fas fa-wallet mr-2" style="font-size:11px"></i>LC Open Amount</a></li>
                                             @endif
+                                            {{-- @if (Helper::usrChckCntrl(['AP001']))
+                                                <li><a href="{{ route('authenticate.contract') }}"><i class="far fa-credit-card mr-2" style="font-size:11px"></i>Payment Advance</a></li>
+                                            @endif --}}
                                             @if (Helper::usrChckCntrl(['AP001']))
-                                                <li><a href="{{ route('authenticate.contract') }}"><i class="far fa-credit-card mr-2" style="font-size:10px"></i>Payment Advance</a></li>
-                                            @endif
+                                                <li><a href="{{ route('authenticate.payment') }}"><i class="far fa-credit-card mr-2" style="font-size:11px"></i>Payment</a></li>
+                                             @endif
                                         </ul>
                                     </li>
                                 @endif
@@ -125,7 +131,7 @@
                                 
                                 @if (Helper::usrChckCntrl(['DB001']))
                                 <li class="has-submenu">
-                                    <a href="{{ route('authenticate.dollarbook') }}"><i class="fas fa-book-open"></i> DollarBook</a>
+                                    <a href="{{ route('authenticate.dollarbook') }}"><i class="fas fa-university"></i> DollarBook</a>
                                 </li>
                                 @endif
 
@@ -160,7 +166,7 @@
 
         <div class="wrapper">
             <div class="alert alert-warning p-1" style="font-size: 11px;" role="alert">
-                <div class="container-fluid"><span class="ml-2"><b>Public beta testing</b> - <span class="text-dark">The product is publicly released to the general public via channels</span></span></div>
+                <div class="container-fluid"><span class="ml-2">  <span class="text-dark"><b>Private beta testing</b> is exclusive to AIMI users.</span></span></div>
             </div>
             <div class="container-fluid">
                 @yield('content')
@@ -180,11 +186,12 @@
         <script src="{{ asset('assets/js/modernizr.min.js') }}"></script>
         <script src="{{ asset('assets/js/waves.js') }}"></script>
         <script src="{{ asset('assets/js/jquery.slimscroll.js') }}"></script>
-        <script src="{{ asset('assets/js/global.js') }}"></script>
-      
+        {{-- datepicker --}}
+        <script src="{{ asset('plugins/bootstrap-datepicker/js/bootstrap-datepicker.min.js') }}"></script>
         <script src="{{ asset('plugins/jquery-toast/jquery.toast.js') }}"></script>
         <script src="{{ asset('plugins/sweet-alert2/sweetalert2.min.js') }}"></script>
-        
+        <script src="{{ asset('assets/js/global.js') }}"></script>
+      
         @yield('moreJs')
         
         <!-- App js -->

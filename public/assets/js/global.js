@@ -146,3 +146,6 @@ window.onload = () =>{
 $('input').on('click',function(){
     $(this).select();
 })
+
+
+$(".datepciker").datepicker()

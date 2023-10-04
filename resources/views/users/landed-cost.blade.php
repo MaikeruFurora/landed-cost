@@ -9,7 +9,6 @@
         font-size: 1px;
     }
 </style>
-<link href="{{ asset('plugins/bootstrap-datepicker/css/bootstrap-datepicker.min.css') }}" rel="stylesheet">
 @endsection
 @section('content')
    <!-- Page-Title -->
@@ -102,7 +101,6 @@
 
 @endsection
 @section('moreJs')
-<script src="{{ asset('plugins/bootstrap-datepicker/js/bootstrap-datepicker.min.js') }}"></script>
 <script src="{{ asset('plugins/jquery-number/jquery.number.js') }}"></script>
 <script src="{{ asset('assets/js/landed-cost.js')}}"></script>
 <script src="{{ asset('assets/js/company.js')}}"></script>
