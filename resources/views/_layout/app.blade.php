@@ -131,7 +131,7 @@
                                 
                                 @if (Helper::usrChckCntrl(['DB001']))
                                 <li class="has-submenu">
-                                    <a href="{{ route('authenticate.dollarbook') }}"><i class="fas fa-university"></i> DollarBook</a>
+                                    <a href="{{ route('authenticate.dollarbook') }}"><i class="fas fa-university"></i> TOF/AOD/TELE</a>
                                 </li>
                                 @endif
 

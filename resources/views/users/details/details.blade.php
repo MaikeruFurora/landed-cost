@@ -99,17 +99,16 @@
         <div class="card-body">
             
             <div class="table-responsive mt-2">
-            <table cellpadding="0" cellspacing="0" id="datatable" class="table table-bordered table-hover dt-responsive nowrap adjust" style="border-collapse: collapse; border-spacing: 0; width: 100%;font-size:10px">
+            <table cellpadding="0" cellspacing="0" id="datatable" class="table table-bordered table-hover dt-responsive nowrap" style="border-collapse: collapse; border-spacing: 0; width: 100%;font-size:10px">
                
                <thead class="bg-secondary text-white">
                    <tr>
                        <th>&nbsp;</th>
                        <th>ID(s)</th>
-                       <th>PO No.</th>
                        <!-- <th>Item Code.</th> -->
+                       <th>Inv No.</th>
                        <th>Vessel</th>
                        <th>Description</th>
-                       <th>Inv No.</th>
                        <th>BL No.</th>
                        <th>Broker</th>
                        <th>Qty</th>

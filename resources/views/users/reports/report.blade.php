@@ -102,7 +102,7 @@
                         printVar.show()
                         data.forEach(element => {
                             html+=` <tr style="font-size: 11px;">
-                                        <td>${element.doc_date}</td>
+                                        <td>${element.exchangeRateDate}</td>
                                         <td>${element.invoiceno}</td>
                                         <td>${element.qtymt}</td>
                                         <td>&#36; ${element.priceMetricTon}</td>

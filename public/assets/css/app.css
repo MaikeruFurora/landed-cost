@@ -15,3 +15,8 @@
 *{
     font-family: 'Century Gothic';
 }
+
+.dataTableLayout {
+    table-layout:fixed;
+    width:100%;
+}

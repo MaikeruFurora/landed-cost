@@ -145,4 +145,8 @@ class ReportController extends Controller
 
     }
 
+    public function paymentReport($start,$end){
+        return view('users.reports.payment-report');
+    }
+
 }

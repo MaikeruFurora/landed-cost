@@ -1,23 +1,112 @@
 $('.amount-class').number( true, 4 );
 const ConPay = {
     
-    freightTable        : $("#freightTable"),
-    contractTable       : $("#contractTable"),
-    paymentDetailTable  : $("#paymentDetailTable"),
-    invoiceTable        : $("#invoiceTable"),
+    freightTable                : $("#freightTable"),
+    contractTable               : $("#contractTable"),
+    paymentDetailTable          : $("#paymentDetailTable"),
+    invoiceTable                : $("#invoiceTable"),
     //form
-    freightForm         : $("#freightForm"),
-    contractForm        : $("#contractForm"),
-    paymentDetailForm   : $("#paymentDetailForm"),
+    freightForm                 : $("#freightForm"),
+    contractForm                : $("#contractForm"),
+    paymentDetailForm           : $("#paymentDetailForm"),
+    seachInvoiceUnderPaymentForm: $("#seachInvoiceUnderPaymentForm"),
     // modal
-    modalFreight        : $("#modalFreight"),
-    modalPaymentDetail  : $("#modalPaymentDetail"),
-    modalInvoice        : $("#modalInvoice"),
+    modalFreight                : $("#modalFreight"),
+    modalPaymentDetail          : $("#modalPaymentDetail"),
+    modalInvoice                : $("#modalInvoice"),
     //function
     computeTotal  : ()=>{
         return parseFloat(ConPay.contractForm.find("input[name=totalmt]").val())*parseFloat(ConPay.contractForm.find("input[name=mtprice]").val())
-    }
+    },
+
 }
+
+let mt              = ConPay.contractForm.find("input[name=metricTon]")
+let pmt             = ConPay.contractForm.find("input[name=priceMetricTon]")
+let amntUSD         = ConPay.contractForm.find("input[name=amountUSD]")
+let contract_percent= ConPay.contractForm.find("input[name=contract_percent]")
+let exchangeRate    = ConPay.contractForm.find("input[name=exchangeRate]")
+let amountPHP       = ConPay.contractForm.find("input[name=amountPHP]")
+let paidAmountUSD   = ConPay.contractForm.find("input[name=paidAmountUSD]")
+
+
+const getTotalAmountUSD = () =>{
+
+    if ((mt.val()!="" || mt.val()!=0 ) && (pmt.val()!="" || pmt.val()!=0)) {
+        amntUSD.val(pmt.val() * mt.val())
+    } else {
+        // amntUSD.val(0)
+        // contract_percent.val(0)
+    }
+
+}
+
+const getAmount = () =>{
+
+    if ((mt.val()!="" || mt.val()!=0 ) && (pmt.val()!="" || pmt.val()!=0) && (contract_percent.val()!="" || contract_percent.val()!=0)) {
+
+        paidAmountUSD.val((amntUSD.val()*contract_percent.val())/100)
+
+    }else{
+        paidAmountUSD.val(0)
+        contract_percent.val(0)
+        // alert("Unable to Calculate Amount!");
+    }
+
+}
+
+const getcontract_percent = () =>{
+
+    if ((mt.val()!="" || mt.val()!=0 ) && (pmt.val()!="" || pmt.val()!=0) && (paidAmountUSD.val()!="" || paidAmountUSD.val()!=0)) {
+        perc = ((paidAmountUSD.val()/amntUSD.val())*100);
+        if ((parseInt(paidAmountUSD.val()) <= parseInt(amntUSD.val())) && parseInt(perc)<=100) {
+            contract_percent.val((perc))
+        }else{
+            paidAmountUSD.val(0)
+            contract_percent.val(0)
+        }
+
+    }else{
+        paidAmountUSD.val(0)
+        contract_percent.val(0)
+        // alert("Unable to Calculate contract_percent!");   
+    }
+
+}
+
+const getAmountPHP = () =>{
+
+    amountPHP.val(
+            ((paidAmountUSD.val()!="" || parseInt(paidAmountUSD.val())!=0 ) && (exchangeRate.val()!="" || parseInt(exchangeRate.val())!=0)) ? (paidAmountUSD.val()*exchangeRate.val()) : 0
+        )
+}
+
+paidAmountUSD.on('keyup',function(){
+    getcontract_percent()
+})
+
+mt.on('keyup',function(){
+    getcontract_percent()
+    getAmount()
+    getTotalAmountUSD()
+    getAmountPHP()
+})
+pmt.on('keyup',function(){
+    getcontract_percent()
+    getAmount()
+    getTotalAmountUSD()
+    getAmountPHP()
+})
+
+contract_percent.on('keyup',function(){
+    if(contract_percent.val()<=100){
+        getAmount() 
+        getAmountPHP()
+    } else {
+        $(this).val(0)
+    }
+})
+
 
 
 ConPay.contractForm.find("input[name=totalmt]").on('input',function(){
@@ -59,41 +148,91 @@ let tableCon = ConPay.contractTable.DataTable({
     },
     // order: [[0, 'desc']],
     columns:[
+        {
+            className: 'dt-control',
+            orderable: false,
+            data: null,
+            defaultContent: '',
+        },
         { data:'suppliername' },
+        { data:'description' },
         { data:'reference' },
-        { data:'totalmt' },
-        { data:'mtprice' },
-        { data:'totalprice' },
+        { data:'metricTon' },
+        { data:'priceMetricTon' },
         { 
             data:null,
             render:function(data){
-                return `<button
-                           name="paymentView"
-                           value="${data.id}"
-                           class="btn btn-outline-secondary btn-sm">
-                           <i class="fas fa-plus-circle"></i> Payment / View
-                        </button>
-                        <button
-                            name="searchInvoice"
-                            value="${data}"
-                            type="button"
-                            class="btn btn-outline-secondary btn-sm">
-                            <i class="fas fa-plus-circle"></i> Invoice
-                        </button>`
+                let per = Math.round(data.payment_detail.reduce((total,val)=>total+=parseFloat(val.totalPercentPayment),0))
+                return (per==data.contract_percent)
+                    ?   data.contract_percent+" / "+per+'<i class="ml-2 fas fa-check-circle text-success"></i>'
+                    :   data.contract_percent+" / "+per;
+
+            }
+        },
+        { 
+            data:null,
+            render:function(data){
+                return BaseModel.dropdown([
+                    {
+                        text:'View / Initial Payment',
+                        name:'paymentView',
+                        icon:'<i class="far fa-eye"></i>',
+                        elementType:'button',
+                        id:data.amountUSD,
+                        value:data.id
+                    },
+                    {
+                        text:'Payment',
+                        name:'shipmentPayment',
+                        icon:'<i class="fas fa-tag"></i>',
+                        elementType:'button',
+                        id:data.amountUSD,
+                        value:data.id
+                    },
+                ])
             }
         },
     ]
 })
 
+
+/****
+ * 
+ * 
+ * 
+ * VIEW INITIAL PAYMENT
+ * 
+ * 
+ * 
+ * 
+ */
+
+let cancelpaymentDetail = ConPay.paymentDetailTable.find("button[name=cancelpaymentDetail]")
+
+cancelpaymentDetail.on('click',function(){
+    ConPay.paymentDetailForm[0].reset()
+    ConPay.paymentDetailForm.find('input[name=id]').val('')
+    $(this).hide()
+}).hide()
+
+const detailView = (data) =>{
+    $('.suppliername').text(data.suppliername)
+    $('.totalMetricTon').text($.number(data.metricTon))
+    $('.initialContractPayment').text($.number(data.paidAmountUSD))
+    $('.initialContractPercent').text($.number(data.contract_percent))
+    $('.totalAmountUSD').text($.number(data.amountUSD))
+    $('.priceMetricTon').text($.number(data.priceMetricTon))
+    $('.reference').text(data.reference)
+}
+
 $(document).on('click','button[name=paymentView]',function(e){
     e.preventDefault()
+    console.log($(this).attr("id"));
     ConPay.modalPaymentDetail.modal("show")
     const data = tableCon.row( $(this).closest('tr') ).data()
     ConPay.paymentDetailForm[0].reset()
     ConPay.paymentDetailForm.find('input[name=id]').val('')
-    $('.suppliername').text(data.suppliername)
-    $('.totalMetricTon').text(data.totalmt)
-    $('.reference').text(data.reference)
+    detailView(data)
     ConPay.paymentDetailForm.find("input[name=contract_payment]").val($(this).val())
     initialize($(this).val())
 })
@@ -112,8 +251,10 @@ const initialize = (id) =>{
         // order: [[0, 'desc']],
         columns:[
             { data:'exchangeDate' },
-            { data:'metricTon' },
+            { data:'dollar' },
             { data:'exchangeRate' },
+            { data:'totalAmountInPHP' },
+            { data:'totalPercentPayment' },
             { 
                 data:null,
                 render:function(data){
@@ -127,10 +268,80 @@ const initialize = (id) =>{
                            `
                 }
             },
-        ]
+        ],
+
+        "footerCallback": function ( row, data, start, end, display ) {
+            var api = this.api(), data;
+ 
+            // converting to interger to find total
+            var intVal = function ( i ) {
+                return typeof i === 'string' ?
+                    i.replace(/[\$,]/g, '')*1 :
+                    typeof i === 'number' ?
+                        i : 0;
+            };
+ 
+            // computing column Total of the complete result 
+            var monTotal = api
+                .column( 1 )
+                .data()
+                .reduce( function (a, b) {
+                    return intVal(a) + intVal(b);
+                }, 0 );
+                
+            var tueTotal = api
+                .column( 2 )
+                .data()
+                .reduce( function (a, b) {
+                    return intVal(a) + intVal(b);
+                }, 0 ) /  api.column( 2 ).data().count();
+                
+            var wedTotal = api
+                .column( 3 )
+                .data()
+                .reduce( function (a, b) {
+                    return intVal(a) + intVal(b);
+                }, 0 );
+                
+            var thuTotal = api
+                .column( 4 )
+                .data()
+                .reduce( function (a, b) {
+                    return intVal(a) + intVal(b);
+                }, 0 );
+                
+            var friTotal = api
+                .column( 5 )
+                .data()
+                .reduce( function (a, b) {
+                    return intVal(a) + intVal(b);
+                }, 0 );
+            
+                
+            // Update footer by showing the total with the reference of the column index 
+        $( api.column( 0 ).footer() ).html('Total');
+            $( api.column( 1 ).footer() ).html($.number(monTotal,2));
+            $( api.column( 2 ).footer() ).html('Avg. '+$.number(tueTotal,2));
+            $( api.column( 3 ).footer() ).html($.number(wedTotal,2));
+            $( api.column( 4 ).footer() ).html(Math.round(thuTotal));
+        },
+       
     })
 }
 
+
+ConPay.paymentDetailTable.find('input[name=exchangeRate]').on('input',function(){
+    ConPay.paymentDetailTable.find('input[name=totalAmountInPHP]').val(this.value*ConPay.paymentDetailTable.find('input[name=dollar]').val())
+    ConPay.paymentDetailTable.find('input[name=totalPercentPayment]').val(
+        ConPay.paymentDetailTable.find('input[name=dollar]').val()/$('.totalAmountUSD').text().replaceAll(",","")*100
+    )
+})
+ConPay.paymentDetailTable.find('input[name=dollar]').on('input',function(){
+    ConPay.paymentDetailTable.find('input[name=totalAmountInPHP]').val(this.value*ConPay.paymentDetailTable.find('input[name=exchangeRate]').val())
+    ConPay.paymentDetailTable.find('input[name=totalPercentPayment]').val(
+        ConPay.paymentDetailTable.find('input[name=dollar]').val()/$('.totalAmountUSD').text().replaceAll(",","")*100
+    )
+})
 
 ConPay.paymentDetailForm.on('submit',function(e){
     e.preventDefault()
@@ -147,139 +358,13 @@ ConPay.paymentDetailForm.on('submit',function(e){
             ConPay.paymentDetailForm.find('input[name=id]').val('')
             toasMessage(data.msg,"success")
             initialize(ConPay.paymentDetailForm.find("input[name=contract_payment]").val())
+            tableCon.ajax.reload()
         }
     }).fail(function (jqxHR, textStatus, errorThrown) {
         toasMessage(data.msg,jqxHR,"danger")
     })
 })
 
-
-$(document).on('click','button[name=editPaymentDetail]',function(){
-    console.log($(this).closest('tr').find('td')[0].innerText);
-    let tdd = $(this).closest('tr')
-    $("input[name=id]").val($(this).val())
-    $("input[name=exchangeDate]").val(tdd.find('td')[0].innerText)
-    $("input[name=metricTon]").val(tdd.find('td')[1].innerText)
-    $("input[name=exchangeRate]").val(tdd.find('td')[2].innerText)
-})
-
-//search invoice
-$(document).on('click','button[name=searchInvoice]',function(){
-    ConPay.modalInvoice.modal("show")
-})
-
-ConPay.invoiceTable.DataTable({
-    // serverSide: true,
-    paging:false,
-    ordering:false,
-    // createdRow:function( row, data, dataIndex){
-    //     if (data.res.posted_at!=null) {
-    //         $(row).find("td").addClass('highlight');
-    //     }
-    // },
-    // "ajax": {
-    //     url: "details/list", 
-    //     method: "get"
-    // },
-    // columns:[
-    //     {
-    //         orderable:false,
-    //         searchable: false,
-    //         data:null,
-    //         render:function(data){
-    //             if (data.res.posted_at==null) {
-    //                return `<input type="checkbox" class="form-check" value="${data["id"]}" ${BaseModel.findPrev('posting') ? '':'disabled'}>`
-    //             }else{
-    //                 return '<i class="fas fa-check-circle text-secondary" style="font-size:13px"></i>'
-    //             }
-    //         }
-    //     },
-    //     {
-    //         data: "updated_at",
-    //         // target: 0,
-    //         visible: false,
-    //         searchable: false
-    //     },
-    //     {
-    //         orderable: false,
-    //         data:"pono"
-    //     },
-    //     {
-    //         orderable: false,
-    //         data:null,
-    //         render:function(data){
-    //             return (data["vessel"]!="null")?data["vessel"]:""
-    //         }
-    //     },
-    //     {
-    //         orderable: false,
-    //         data:"description"
-    //     },
-    //     {
-    //         orderable: false,
-    //         data:"invoiceno"
-    //     },
-    //     {
-    //         orderable: false,
-    //         data:"blno"
-    //     },
-    //     {
-    //         orderable: false,
-    //         data:null,
-    //         render:function(data){
-    //             return (data["broker"]!="null")?data["broker"]:""
-    //         }
-    //     },
-    //     {
-    //         orderable: false,
-    //         data:"quantity"
-    //     },
-    //     {
-    //         orderable: false,
-    //         data:"qtykls"
-    //     },
-    //     {
-    //         orderable: false,
-    //         data:null,
-    //         render:function(data){
-    //             return data.qtymt.toFixed(2)
-    //         }
-    //     },
-    //     {
-    //         orderable: false,
-    //         data:"fcl"
-    //     },
-    //     {
-    //         orderable: false,
-    //         data:null,
-    //         render:function(data){
-    //             return `<div class="btn-group btn-group-sm" role="group">
-    //                         <button type="button" class="btn btn-primary btn-sm dropdown-toggle" style="font-size:11px" data-toggle="dropdown" aria-expanded="false">
-    //                             Action
-    //                         </button>
-    //                         <div class="dropdown-menu" style="font-size:11px">
-    //                             <a href="details/cost/${data["id"]}" class="dropdown-item"><i class="fas fa-project-diagram"></i> Particular</a>
-    //                             ${
-    //                                 BaseModel.findPrev('LC004')?`
-    //                                 <a class="dropdown-item border" id="print"  style="cursor:pointer" value="${data["id"]}"><i class="fas fa-print"></i> Print</a>
-    //                                 `:``
-    //                             }
-    //                             ${
-    //                                 BaseModel.findPrev('LC005')?`
-    //                                 <a class="dropdown-item border" id="posting" style="cursor:pointer; display:${ (data.res.posted_at!=null && !BaseModel.findPrev('LCOO6'))? 'none' :'' }"
-    //                                  value="${data.res.id}"
-    //                                  data-title="${data.res.invoiceno}"
-    //                                  data-post="${data.res.posted_at}">
-    //                                  ${data.res.posted_at!=null?'<i class="fas fa-check-circle"></i>&nbsp;Unpost':'<i class="far fa-check-circle"></i>&nbsp;Post'}
-    //                                 </a>
-                                    
-    //                                 `:``
-    //                             }
-    //                             <a class="dropdown-item"  aria-expanded="false" style="cursor:pointer"><i class="fas fa-times"></i> Close Action</a>
-                               
-    //                         </div>
-    //                     </div>`
-    //         }
-    //     },
-    // ]
+ConPay.freightTable.DataTable({
+    
 })

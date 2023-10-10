@@ -6,18 +6,11 @@ use App\Helper\Helper;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-class PaymentDetail extends Model
+class InvoicePayment extends Model
 {
     use HasFactory;
 
     protected $guarded=[];
-
-    protected $casts=[
-        'exchangeRate'          => 'double',
-        'dollar'                => 'double',
-        'totalPercentPayment'   => 'double',
-        'totalAmountInPHP'      => 'double',
-    ];
 
     public function contract_payment(){
         return $this->belongsTo(ContractPayment::class);
@@ -33,14 +26,13 @@ class PaymentDetail extends Model
 
     public function requestInput($request){
         return [
+          
             'contract_payment_id' => $request->contract_payment,
-            'exchangeDate'        => $request->exchangeDate,
-            'exchangeRate'        => Helper::cleanNumberByFormat($request->exchangeRate),
-            'dollar'              => Helper::cleanNumberByFormat($request->dollar),
-            'totalAmountInPHP'    => Helper::cleanNumberByFormat($request->totalAmountInPHP),
-            'totalPercentPayment' => Helper::cleanNumberByFormat($request->totalPercentPayment),
+            'reference'           => $request->reference,
+            'metricTon'           => Helper::cleanNumberByFormat($request->metricTon),
+            'priceMetricTon'      => Helper::cleanNumberByFormat($request->priceMetricTon),
+            'amountUSD'           => Helper::cleanNumberByFormat($request->amountUSD),
         ];
     }
-    
-    
+
 }

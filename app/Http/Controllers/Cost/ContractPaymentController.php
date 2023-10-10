@@ -4,19 +4,28 @@ namespace App\Http\Controllers\Cost;
 
 use App\Http\Controllers\Controller;
 use App\Models\ContractPayment;
+use App\Models\Detail;
+use App\Models\LandedcostParticular;
+use App\Models\Lcdpnego;
 use App\Models\PaymentDetail;
 use App\Services\ContractPaymentService;
+use App\Services\DataService;
+use App\Services\NegoService;
 use Illuminate\Http\Request;
+use PHPUnit\TextUI\Help;
 
 class ContractPaymentController extends Controller
 {
    
     protected $contractPaymentService;
+    protected $dataService;
+    protected $negoService;
     
-    public function __construct(ContractPaymentService $contractPaymentService)
+    public function __construct(ContractPaymentService $contractPaymentService,DataService $dataService,NegoService $negoService)
     {
         $this->contractPaymentService   = $contractPaymentService;
-
+        $this->dataService              = $dataService;
+        $this->negoService              = $negoService;
     } 
 
      public function index(){
@@ -24,6 +33,7 @@ class ContractPaymentController extends Controller
     }
 
     public function store(Request $request){
+
 
         $data = (empty($request->id)) 
 
@@ -63,6 +73,16 @@ class ContractPaymentController extends Controller
         // return $contractPayment->payment_detail;
         return $this->contractPaymentService->listDetail($request,$contractPayment);        
     }
+
+    public function search(Request $request){
+
+        $data   =   $this->dataService->sqlSap($request,'lcdpnego');
+
+        return ($this->dataService->filterItemCode($data ?? [],FALSE));
+
+    }
+
+
 
 
 }

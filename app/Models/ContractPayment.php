@@ -13,13 +13,18 @@ class ContractPayment extends Model
     protected $guarded=[];
 
     protected $casts=[
-        'totalmt' => 'double',
-        'mtprice' => 'double',
-        'totalprice' => 'double',
+        'priceMetricTon'    => 'double',
+        // 'contract_percent'  => 'double',
+        'amountUSD'         => 'double',
+        'paidAmountUSD'     => 'double',
     ];
 
     public function payment_detail(){
         return $this->hasMany(PaymentDetail::class);
+    }
+
+    public function invoice_payment(){
+        return $this->hasMany(InvoicePayment::class);
     }
 
     public function scopeStorePayment($q,$request){
@@ -32,11 +37,14 @@ class ContractPayment extends Model
 
     public function requestInput($request){
         return [
-            'suppliername' => $request->suppliername,
-            'reference'    => $request->reference,
-            'totalmt'      => Helper::cleanNumberByFormat($request->totalmt),
-            'mtprice'      => Helper::cleanNumberByFormat($request->mtprice),
-            'totalprice'   => Helper::cleanNumberByFormat($request->totalprice),
+            'suppliername'      => $request->suppliername,
+            'reference'         => $request->reference,
+            'description'       => $request->description,
+            'contract_percent'  => $request->contract_percent,
+            'metricTon'         => Helper::cleanNumberByFormat($request->metricTon),
+            'priceMetricTon'    => Helper::cleanNumberByFormat($request->priceMetricTon),
+            'amountUSD'         => Helper::cleanNumberByFormat($request->amountUSD),  
+            'paidAmountUSD'     => Helper::cleanNumberByFormat($request->paidAmountUSD),
         ];
     }
 

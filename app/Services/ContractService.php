@@ -65,6 +65,5 @@ class ContractService{
         return $json;
 
     }
-
-
+    
 }

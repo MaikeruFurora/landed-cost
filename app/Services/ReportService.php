@@ -10,7 +10,7 @@ class ReportService{
     public function filterService($request){
         $data = DB::select("
         select 
-            convert(DATE,a.doc_date) as doc_date,
+            c.exchangeRateDate,
             a.description,
             a.invoiceno,
             a.qtymt,
@@ -23,7 +23,7 @@ class ReportService{
                 a.id = b.detail_id 
                 left join 
             lcdpnegos c on b.id = c.landedcost_particular_id 
-        where convert(DATE,a.created_at) between convert(date,'{$request->start}') AND convert(date,'{$request->end}') 
+        where convert(DATE,c.exchangeRateDate) between convert(date,'{$request->start}') AND convert(date,'{$request->end}') 
         
         and 
             a.description = '{$request->item}'");
@@ -64,7 +64,8 @@ class ReportService{
             
                 $output[] =  [
 
-                    'doc_date'      => date("m/d/y",strtotime($data[0]->doc_date)),
+                    // 'doc_date'      => date("m/d/y",strtotime($data[0]->doc_date)),
+                    'exchangeRateDate'      => date("m/d/y",strtotime($data[0]->exchangeRateDate)),
 
                     'invoiceno'     => $key,
 

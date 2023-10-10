@@ -2,12 +2,12 @@
 
 namespace App\Services;
 
-use App\Models\ContractPayment;
-use App\Models\PaymentDetail;
+use App\Models\InvoicePayDetail;
+use App\Models\InvoicePayment;
 
-class ContractPaymentService{
+class InvoicePaymentService{
 
-    public function list($request){
+    public function list($request,$contractPayment){
 
         $search = $request->query('search', array('value' => '', 'regex' => false));
         $draw = $request->query('draw', 0);
@@ -19,28 +19,14 @@ class ContractPaymentService{
         $filter = $search['value'];
     
     
-         $query = ContractPayment::select([
-            'id',
-            'suppliername',
-            'description',
-            'reference',
-            'metricTon',
-            'priceMetricTon',
-            'contract_percent',
-            'amountUSD',
-            'paidAmountUSD',
-         ]);
+         $query = InvoicePayment::with(['contract_payment'])->where('contract_payment_id',$contractPayment->id);
     
         if (!empty($filter)) {
             $query
-            ->where('suppliername', 'like', '%'.$filter.'%')
-            ->where('description', 'like', '%'.$filter.'%')
             ->where('reference', 'like', '%'.$filter.'%')
             ->where('metricTon', 'like', '%'.$filter.'%')
             ->where('priceMetricTon', 'like', '%'.$filter.'%')
-            ->where('contract_percent', 'like', '%'.$filter.'%')
-            ->where('amountUSD', 'like', '%'.$filter.'%')
-            ->where('paidAmountUSD', 'like', '%'.$filter.'%');
+            ->where('amountUSD', 'like', '%'.$filter.'%');
         }
     
         $recordsTotal = $query->count();
@@ -62,15 +48,10 @@ class ContractPaymentService{
            
                 $json['data'][] = [
                     "id"                => $value->id,
-                    "payment_detail"    => $value->payment_detail,
-                    "suppliername"      => $value->suppliername,
-                    "description"       => $value->description,
                     "reference"         => $value->reference,
                     "metricTon"         => $value->metricTon,
                     "priceMetricTon"    => $value->priceMetricTon,
-                    "contract_percent"  => $value->contract_percent,
                     "amountUSD"         => number_format($value->amountUSD,2),
-                    "paidAmountUSD"     => number_format($value->paidAmountUSD,2),
                 ];
         }
 
@@ -78,7 +59,8 @@ class ContractPaymentService{
 
     }
 
-    public function listDetail($request,$contractPayment){
+
+    public function listDetail($request,$invoicePayment){
 
         $search = $request->query('search', array('value' => '', 'regex' => false));
         $draw = $request->query('draw', 0);
@@ -92,7 +74,7 @@ class ContractPaymentService{
     
         // $query = PaymentDetail::with(['contract_payment']);
 
-        $query  = PaymentDetail::with(['contract_payment'])->where('contract_payment_id',$contractPayment->id);
+        $query  = InvoicePayDetail::with(['invoice_payment'])->where('invoice_payment_id',$invoicePayment->id);
     
         if (!empty($filter)) {
             $query
@@ -121,6 +103,7 @@ class ContractPaymentService{
         foreach ($products as $value) {
            
                 $json['data'][] = [
+                    "id"                    => $value->id,
                     "payment_detail"        => $value,
                     "contract_payment"      => $value->contract_payment,
                     "exchangeDate"          => $value->exchangeDate,2,
@@ -134,5 +117,6 @@ class ContractPaymentService{
         return $json;
 
     }
+
 
 }

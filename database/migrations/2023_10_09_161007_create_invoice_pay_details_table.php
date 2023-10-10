@@ -13,10 +13,10 @@ return new class extends Migration
      */
     public function up()
     {
-        Schema::create('payment_details', function (Blueprint $table) {
+        Schema::create('invoice_pay_details', function (Blueprint $table) {
             $table->id();
-            $table->unsignedBigInteger('contract_payment_id');
-            $table->foreign('contract_payment_id')->references('id')->on('contract_payments')->onDelete('cascade')->onUpdate('cascade');
+            $table->unsignedBigInteger('invoice_payments_id');
+            $table->foreign('invoice_payments_id')->references('id')->on('invoice_payments')->onDelete('cascade')->onUpdate('cascade');
             $table->double('exchangeRate',18,4);
             $table->date('exchangeDate');
             $table->double('dollar',18,4);
@@ -33,6 +33,6 @@ return new class extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('payment_details');
+        Schema::dropIfExists('invoice_pay_details');
     }
 };
