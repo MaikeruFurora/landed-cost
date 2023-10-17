@@ -29,6 +29,7 @@ class InvoicePayDetail extends Model
         return [
             'invoice_payment_id'  => $request->invoice_payment,
             'exchangeDate'        => $request->exchangeDate,
+            'partial'             => $request->has('partial'),
             'exchangeRate'        => Helper::cleanNumberByFormat($request->exchangeRate),
             'dollar'              => Helper::cleanNumberByFormat($request->dollar),
             'totalAmountInPHP'    => Helper::cleanNumberByFormat($request->totalAmountInPHP),

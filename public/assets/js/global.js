@@ -12,7 +12,7 @@ const BaseModel = {
     },
 
     disabledProperties:(target,bool=true) =>{
-        $("#"+target+" *").prop("disabled", bool);
+        $("#"+target+" *").prop("readonly", bool);
     },
 
     commaSeparateNumber:(val) => {

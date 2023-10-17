@@ -10,10 +10,10 @@ use App\Models\Contract;
 use App\Models\Detail;
 use App\Models\LandedcostParticular;
 use App\Models\Lcdpnego;
+use App\Models\Particular;
 use App\Services\ContractService;
 use App\Services\DataService;
 use App\Services\NegoService;
-use Carbon\Carbon;
 
 class ContractController extends Controller
 {
@@ -32,7 +32,8 @@ class ContractController extends Controller
     public function index(){
         
         if (Helper::usrChckCntrl(['AP001'])) {
-            return view('users/contract/contract');
+            $particulars = Particular::get(['p_code','p_name']);
+            return view('users/contract/contract',compact('particulars'));
         }
 
         return view('users.default'); 
@@ -144,18 +145,5 @@ class ContractController extends Controller
     }
 
 
-    public function report($start,$end){
-
-        $dateS = Carbon::parse($start);
-        $dateE = Carbon::parse($end);
-        
-        $data = Contract::with(['lcdpnego:id,contract_id,percentage,amount,landedcost_particular_id,allocatedAmount',
-                                'lcdpnego.landedcost_particular.detail:id,invoiceno,qtymt,description,blno'])
-                        ->whereBetween('contracts.created_at',[$dateS,$dateE])
-                        ->get();
-
-        return view('users.contract.report',compact('data'));
-    
-    }
 
 }

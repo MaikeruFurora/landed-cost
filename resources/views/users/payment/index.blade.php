@@ -5,7 +5,18 @@
     <link href="{{ asset('plugins/datatables/buttons.bootstrap4.min.css') }}" rel="stylesheet" type="text/css" />
     <!-- Responsive datatable examples -->
     <link href="{{ asset('plugins/datatables/responsive.bootstrap4.min.css') }}" rel="stylesheet" type="text/css" />
-    
+    <link href="{{ asset('plugins/select2/select2.min.css') }}" rel="stylesheet" />
+    <link href="{{ asset('plugins/bootstrap-popover/jquery.webui-popover.min.css') }}" rel="stylesheet" />
+    <style>
+        .highlight td {
+            background-color: #ffeed9 !important;
+        }
+        span.select2 {
+            display         : table;
+            table-layout    : fixed;
+            width           : 100% !important;
+        }
+    </style>
 @endsection
 @section('content')
 <!-- Page-Title -->
@@ -31,14 +42,14 @@
     <div class="card-body p-3">
         <ul class="nav nav-tabs" id="myTab" role="tablist">
             <li class="nav-item" role="presentation">
-              <button class="nav-link active" id="contract" data-toggle="tab" data-target="#home" type="button" role="tab" aria-controls="home" aria-selected="true">Contract</button>
+              <button class="nav-link " id="contract" data-toggle="tab" data-target="#home" type="button" role="tab" aria-controls="home" aria-selected="true">Contract ( LC NEGO )</button>
             </li>
             <li class="nav-item" role="presentation">
-              <button class="nav-link" id="freight" data-toggle="tab" data-target="#profile" type="button" role="tab" aria-controls="profile" aria-selected="false">Freight</button>
+              <button class="nav-link active" id="freight" data-toggle="tab" data-target="#profile" type="button" role="tab" aria-controls="profile" aria-selected="false">Freight</button>
             </li>
           </ul>
           <div class="tab-content" id="myTabContent">
-            <div class="tab-pane fade show active" id="home" role="tabpanel" aria-labelledby="contract">
+            <div class="tab-pane fade " id="home" role="tabpanel" aria-labelledby="contract">
                     <div class="mt-4">
                         <div class="row">
                             <div class="col-8">
@@ -77,7 +88,7 @@
                                             </div>
                                             <div class="form-group">
                                                 <small for="">Item Description</small>
-                                                <input type="text" class="needFormat form-control form-control-sm" required name="description">
+                                                <select id="{{ route("authenticate.report.filter.description") }}" class="form-control form-control-sm" required name="description"></select>
                                             </div>
                                             <div class="form-row">
                                                 <div class="form-group col-6 mb-2">
@@ -113,31 +124,58 @@
                                         </div>
                                        </div>
                                         <button type="submit" class="btn btn-sm btn-primary btn-block">Submit</button>
-                                        <button type="button" class="btn btn-sm btn-warning btn-block">Cancel</button>
+                                        <button type="button" class="btn btn-sm btn-warning btn-block" onclick="location.reload();">Cancel</button>
                                 </form>
                             </div>
                         </div>
                     </div>
                 </div>
-                <div class="tab-pane fade" id="profile" role="tabpanel" aria-labelledby="freight">
+                <div class="tab-pane fade show active" id="profile" role="tabpanel" aria-labelledby="freight">
                     <div class="mt-4">
-                        <button class="btn btn-outline-primary btn-sm float-right mr-3" name="freightBtn"><i class="fas fa-plus-circle"></i> Create</button>
-                        <table class="table table-sm table-bordered adjust" id="freightTable" style="width:100%">
+                       <form id="freightForm" action="{{ route("authenticate.payment.freight.store") }}" autocomplete="off">@csrf
+                        <table 
+                            data-url="{{ route("authenticate.payment.freight.list") }}"
+                            data-cost="{{ route('authenticate.details.landedcost',['invoice']) }}"
+                            data-invoice="{{ route("authenticate.payment.freight.invoice.save") }}" 
+                            class="table table-sm table-bordered adjust" 
+                            id="freightTable" 
+                            style="width:100%;font-size:12px">
                             <thead>
                                 <tr>
-                                    <th>Sample</th>
-                                    <th>Sample</th>
-                                    <th>Sample</th>
-                                    <th>Sample</th>
+                                    <th width="10%">Exchange Date</th>
+                                    <th>Suppliername</th>
+                                    <th width="20%">Item Description</th>
+                                    <th width="8%">FCL / MT</th>
+                                    <th width="8%">Dollar Rate</th>
+                                    <th width="9%">Exchange Rate</th>
+                                    <th>Total (PHP)</th>
+                                    <th width="12%">Action</th>
+                                </tr>
+                                <tr>
+                                    <th><input name="exchangeDate" class="form-control form-control-sm datepciker" required></th>
+                                    <th><input name="suppliername" class="form-control form-control-sm" required></th>
+                                    <th><select name="description" class="form-control form-control-sm" required></select></th>
+                                    <th><input value="0" name="quantity" class="form-control form-control-sm amount-class"></th>
+                                    <th><input value="0" name="dollar" class="form-control form-control-sm amount-class"></th>
+                                    <th><input value="0" name="exchangeRate" class="form-control form-control-sm amount-class"></th>
+                                    <th><input name="totalAmountInPHP" class="form-control form-control-sm amount-class" readonly></th>
+                                    <th>
+                                        <input type="hidden" name="id">
+                                        <button type="submit" class="btn btn-sm btn-block btn-primary">Save</button>
+                                        <button type="button" name="cancelButton" class="btn btn-sm btn-outline-warning btn-block m-0 mt-1">Cancel</button>
+                                    </th>
                                 </tr>
                             </thead>
                         </table>
+                       </form>
                     </div>
                 </div>
           </div>
     </div>
 </div>
+
 @include('users.payment.modal.modal-payment')
+@include('users.payment.modal.modal-invoice-payment')
 @include('users.payment.modal.modal-invoice')
 @include('users.payment.modal.modal-freight')
 @endsection
@@ -149,7 +187,9 @@
     <script src="{{ asset('plugins/datatables/dataTables.responsive.min.js') }}"></script>
     <script src="{{ asset('plugins/datatables/responsive.bootstrap4.min.js') }}"></script>
     <script src="{{ asset('plugins/jquery-number/jquery.number.js') }}"></script>
+    <script src="{{ asset('plugins/select2/select2.min.js') }}"></script>
+    <script src="{{ asset('plugins/bootstrap-popover/jquery.webui-popover.min.js') }}"></script>
     <script src="{{ asset('assets/js/payment/contract.js') }}"></script>
-    <script src="{{ asset('assets/js/payment/tagging-invoice.js') }}"></script>
-    <script src="{{ asset('assets/js/payment/invoice-payment-header.js') }}"></script>
+    <script src="{{ asset('assets/js/payment/payment.js') }}"></script>
+    <script src="{{ asset('assets/js/payment/freight.js') }}"></script>
 @endsection

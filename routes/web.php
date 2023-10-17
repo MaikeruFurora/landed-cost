@@ -15,6 +15,7 @@ use App\Http\Controllers\Cost\ContractController;
 use App\Http\Controllers\Cost\ContractPaymentController;
 use App\Http\Controllers\Cost\DollarBookController;
 use App\Http\Controllers\Cost\InvoicePaymentController;
+use App\Http\Controllers\Cost\FreightPaymentController;
 use App\Http\Controllers\User\UserController;
 use App\Models\User;
 use Illuminate\Support\Facades\Route;
@@ -104,19 +105,26 @@ Route::middleware(['auth:web','preventBackHistory','auth.user'])->name('authenti
     Route::get('payment',[ContractPaymentController::class,'index'])->name('payment');
     Route::post('payment/store',[ContractPaymentController::class,'store'])->name('payment.store');
     Route::get('payment/list',[ContractPaymentController::class,'list'])->name('payment.list');
-    Route::get('payment/search',[ContractPaymentController::class,'search'])->name('payment.invoice.search');
+    Route::post('payment/search',[ContractPaymentController::class,'search'])->name('payment.invoice.search');
+    Route::post('payment/search/save',[ContractPaymentController::class,'save'])->name('payment.invoice.save');
     //detail payment
     Route::post('payment/detail/store',[ContractPaymentController::class,'storeDetail'])->name('payment.detail.store');
     Route::get('payment/detail/list/{contractPayment}',[ContractPaymentController::class,'listDetail'])->name('payment.detail.list');
     
     //inv header
     Route::post('invoice/payment/store',[InvoicePaymentController::class,'store'])->name('payment.invoice.store');
+    Route::get('invoice/payment/remove/{invoicePayment}',[InvoicePaymentController::class,'remove'])->name('payment.invoice.remove');
     Route::get('invoice/payment/list/{contractPayment}',[InvoicePaymentController::class,'list'])->name('payment.invoice.list');
-     //inv details
-     Route::post('invoice/payment/detail/store',[InvoicePaymentController::class,'storeInvoiceDetail'])->name('payment.invoice.detail.store');
-     Route::get('invoice/payment/detail/list/{invoicePayment}',[InvoicePaymentController::class,'listInvoiceDetail'])->name('payment.invoice.detail.list');
-     
 
+    //inv details
+    Route::post('invoice/payment/detail/store',[InvoicePaymentController::class,'storeInvoiceDetail'])->name('payment.invoice.detail.store');
+    Route::get('invoice/payment/detail/list/{invoicePayment}',[InvoicePaymentController::class,'listInvoiceDetail'])->name('payment.invoice.detail.list');
+
+     //freight payment
+     Route::post('payment/freight/store',[FreightPaymentController::class,'store'])->name('payment.freight.store');
+     Route::get('payment/freight/list',[FreightPaymentController::class,'list'])->name('payment.freight.list');
+     Route::post('payment/freight/invoice/save',[FreightPaymentController::class,'saveFreightInvoice'])->name('payment.freight.invoice.save');
+    
     //gather data from sap datatabse
     Route::get('po',[GatherDataController::class,'index'])->name('po.search');
     Route::get('po/search',[GatherDataController::class,'search']);
@@ -146,9 +154,9 @@ Route::middleware(['auth:web','preventBackHistory','auth.user'])->name('authenti
     //generate report
     Route::get('report',[ReportController::class,'index'])->name('report');
     Route::post('report/filter',[ReportController::class,'filter'])->name('report.filter');
-    Route::get('report/filter/invoice',[ReportController::class,'searchItem']);
+    Route::get('report/filter/description',[ReportController::class,'searchItem'])->name('report.filter.description');
+    Route::get('report/filter/supplier',[ReportController::class,'searchSupplier'])->name('report.filter.supplier');
     Route::get('report/print',[ReportController::class,'print']);
-    Route::get('report/payment/{start}/{end}',[ReportController::class,'paymentReport']);
     ////////
     Route::get('report/projected-cost/list',[ReportController::class,'projectedCostList']);
     

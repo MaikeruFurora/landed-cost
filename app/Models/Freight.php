@@ -16,7 +16,7 @@ class Freight extends Model
         
         'dollarRate'      => 'double',
 
-        'exhangeRate'     => 'double',
+        'exchangeRate'     => 'double',
 
         //'exhangeRateDate' => 'date'
 
@@ -27,6 +27,12 @@ class Freight extends Model
     //     $this->attributes['exhangeRateDate'] = (new Carbon($value))->format('m/d/Y');
 
     // }
+
+    public function landedcost_particular(){
+        
+        return $this->belongsTo(LandedcostParticular::class);
+        
+    }
 
     public function scopeStoreFreight($q, $request){
 
@@ -48,9 +54,9 @@ class Freight extends Model
 
             'dollarRate'              => $request->freightDollarRate,
 
-            'exhangeRate'             => $request->freightExhangeRate,
+            'exchangeRate'             => $request->freightExhangeRate,
 
-            'exhangeRateDate'         => $request->freightExhangeRateDate
+            'exchangeRateDate'         => $request->freightExhangeRateDate
 
         ];
     }

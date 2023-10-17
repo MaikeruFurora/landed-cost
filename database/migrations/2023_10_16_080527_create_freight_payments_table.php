@@ -13,16 +13,16 @@ return new class extends Migration
      */
     public function up()
     {
-        Schema::create('invoice_pay_details', function (Blueprint $table) {
+        Schema::create('freight_payments', function (Blueprint $table) {
             $table->id();
-            $table->unsignedBigInteger('invoice_payments_id');
-            $table->foreign('invoice_payments_id')->references('id')->on('invoice_payments')->onDelete('cascade')->onUpdate('cascade');
+            $table->string('suppliername',150);
+            $table->string('description',200);
+            $table->string('reference',100)->nullable();
             $table->double('exchangeRate',18,4);
             $table->date('exchangeDate');
+            $table->double('quantity',18,4);
             $table->double('dollar',18,4);
             $table->double('totalAmountInPHP',18,4);
-            $table->double('totalPercentPayment',18,4);
-            $table->boolean('partial')->default(false);
             $table->timestamps();
         });
     }
@@ -34,6 +34,6 @@ return new class extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('invoice_pay_details');
+        Schema::dropIfExists('freight_payments');
     }
 };

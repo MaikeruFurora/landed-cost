@@ -1,5 +1,5 @@
-<div class="modal fade" id="{{ $identify }}" data-backdrop="static" data-keyboard="false" tabindex="-1" aria-hidden="true">
-    <div class="modal-dialog modal-dialog-centered modal-{{ $size ?? 'sm' }}">
+<div class="modal fade" id="{{ $identify }}" data-backdrop="static" data-keyboard="false" tabindex="-1" aria-hidden="true" data-focus-on="input:first">
+    <div class="modal-dialog {{ $center?'modal-dialog-centered':'' }} modal-{{ $size ?? 'sm' }}">
       <div class="modal-content">
         <div class="modal-header p-2">
           <p class="modal-title" id="modalFreight">{{ $title ?? 'Component Modal' }}</p>

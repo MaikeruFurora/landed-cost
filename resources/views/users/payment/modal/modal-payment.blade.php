@@ -2,6 +2,7 @@
 identify='modalPaymentDetail'
 title='Initial Payment Details'
 size='lg'
+center=1
 save='0'
 close='1'
 >
@@ -34,7 +35,7 @@ close='1'
            data-url="{{ route('authenticate.payment.detail.list',['cp']) }}">
         <thead>
             <tr>
-                <td>Exhange Date</td>
+                <td width="15%">Exhange Date</td>
                 <td>Dollar (USD)</td>
                 <td>Exhange Rate</td>
                 <td>Amount (PHP)</td>
@@ -50,7 +51,7 @@ close='1'
                 <td>
                     <input  type="hidden" name="contract_payment" required>
                     <button type="submit" class="btn btn-sm btn-outline-primary btn-block m-0">Save</button>
-                    <button type="button" name="cancelpaymentDetail" class="btn btn-sm btn-outline-warning btn-block m-0 mt-1">Cancel</button>
+                    <button type="button" name="cancelButton" class="btn btn-sm btn-outline-warning btn-block m-0 mt-1">Cancel</button>
                 </td>
             </tr>
         </thead>

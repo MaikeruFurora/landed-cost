@@ -36,6 +36,10 @@ class InvoicePaymentController extends Controller
         return $this->invoicePaymentService->list($request,$contractPayment);
     }
 
+    public function remove(InvoicePayment $invoicePayment){
+        return $invoicePayment->delete();
+    }
+
     public function storeInvoiceDetail(Request $request){
 
 
@@ -54,7 +58,5 @@ class InvoicePaymentController extends Controller
     public function listInvoiceDetail(Request $request,InvoicePayment $invoicePayment){
         return $this->invoicePaymentService->listDetail($request,$invoicePayment);        
     }
-
-
    
 }

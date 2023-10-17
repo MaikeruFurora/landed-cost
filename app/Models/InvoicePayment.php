@@ -16,6 +16,10 @@ class InvoicePayment extends Model
         return $this->belongsTo(ContractPayment::class);
     }
 
+    public function invoice_pay_detail(){
+        return $this->hasMany(InvoicePayDetail::class);
+    }
+
     public function scopeStorePayment($q,$request){
         return Static::create($this->requestInput($request));
     }

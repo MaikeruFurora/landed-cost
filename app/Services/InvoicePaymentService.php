@@ -2,6 +2,7 @@
 
 namespace App\Services;
 
+use App\Models\Detail;
 use App\Models\InvoicePayDetail;
 use App\Models\InvoicePayment;
 
@@ -19,7 +20,7 @@ class InvoicePaymentService{
         $filter = $search['value'];
     
     
-         $query = InvoicePayment::with(['contract_payment'])->where('contract_payment_id',$contractPayment->id);
+         $query = InvoicePayment::with(['contract_payment','invoice_pay_detail'])->where('contract_payment_id',$contractPayment->id);
     
         if (!empty($filter)) {
             $query
@@ -48,9 +49,11 @@ class InvoicePaymentService{
            
                 $json['data'][] = [
                     "id"                => $value->id,
+                    "invoice"           => Detail::where("invoiceno",$value->reference)->first()->id ?? '',
                     "reference"         => $value->reference,
                     "metricTon"         => $value->metricTon,
                     "priceMetricTon"    => $value->priceMetricTon,
+                    "invoicePayDetail"  => $value->invoice_pay_detail,
                     "amountUSD"         => number_format($value->amountUSD,2),
                 ];
         }
@@ -105,6 +108,7 @@ class InvoicePaymentService{
                 $json['data'][] = [
                     "id"                    => $value->id,
                     "payment_detail"        => $value,
+                    "partial"               => $value->partial,
                     "contract_payment"      => $value->contract_payment,
                     "exchangeDate"          => $value->exchangeDate,2,
                     "exchangeRate"          => number_format($value->exchangeRate,2),

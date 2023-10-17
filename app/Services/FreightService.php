@@ -35,7 +35,7 @@ class FreightService{
     public function freightStore($request,$landedCostParticular){
 
         $landedCostParticular->update([
-                'referenceno'  => $request->vesselType.' * '.$request->dollarRate.' * '.$request->exhangeRate
+                'referenceno'  => $request->vesselType.' * '.$request->dollarRate.' * '.$request->exchangeRate
         ]);
 
         if (is_null($request->input('id'))) {
@@ -98,9 +98,9 @@ class FreightService{
 
             'dollarRate'       => $request->dollarRate,
     
-            'exhangeRate'      => $request->exhangeRate,
+            'exchangeRate'      => $request->exchangeRate,
 
-            'exhangeRateDate'  => $request->exhangeRateDate
+            'exchangeRateDate'  => $request->exchangeRateDate
 
         ];
        

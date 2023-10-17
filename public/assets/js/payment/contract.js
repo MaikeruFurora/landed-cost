@@ -1,3 +1,4 @@
+
 $('.amount-class').number( true, 4 );
 const ConPay = {
     
@@ -9,11 +10,10 @@ const ConPay = {
     freightForm                 : $("#freightForm"),
     contractForm                : $("#contractForm"),
     paymentDetailForm           : $("#paymentDetailForm"),
-    seachInvoiceUnderPaymentForm: $("#seachInvoiceUnderPaymentForm"),
     // modal
     modalFreight                : $("#modalFreight"),
     modalPaymentDetail          : $("#modalPaymentDetail"),
-    modalInvoice                : $("#modalInvoice"),
+    modalInvoicePayment         : $("#modalInvoicePayment"),
     //function
     computeTotal  : ()=>{
         return parseFloat(ConPay.contractForm.find("input[name=totalmt]").val())*parseFloat(ConPay.contractForm.find("input[name=mtprice]").val())
@@ -163,9 +163,9 @@ let tableCon = ConPay.contractTable.DataTable({
             data:null,
             render:function(data){
                 let per = Math.round(data.payment_detail.reduce((total,val)=>total+=parseFloat(val.totalPercentPayment),0))
-                return (per==data.contract_percent)
-                    ?   data.contract_percent+" / "+per+'<i class="ml-2 fas fa-check-circle text-success"></i>'
-                    :   data.contract_percent+" / "+per;
+                return (per==Math.round(data.contract_percent))
+                    ?   per+" / "+Math.round(data.contract_percent)+'<i class="ml-2 fas fa-check-circle text-success"></i>'
+                    :   per+" / "+Math.round(data.contract_percent)+'<i class="fas fa-exclamation-triangle text-warning"></i>';
 
             }
         },
@@ -207,8 +207,8 @@ let tableCon = ConPay.contractTable.DataTable({
  * 
  */
 
-let cancelpaymentDetail = ConPay.paymentDetailTable.find("button[name=cancelpaymentDetail]")
-
+let cancelpaymentDetail = ConPay.paymentDetailTable.find("button[name=cancelButton]")
+let paymentDetailTable;
 cancelpaymentDetail.on('click',function(){
     ConPay.paymentDetailForm[0].reset()
     ConPay.paymentDetailForm.find('input[name=id]').val('')
@@ -239,9 +239,10 @@ $(document).on('click','button[name=paymentView]',function(e){
 
 
 const initialize = (id) =>{
-    ConPay.paymentDetailTable.DataTable({
+    paymentDetailTable = ConPay.paymentDetailTable.DataTable({
         serverSide:true,
         paging:false,
+        searching:false,
         destroy:true,
         ordering:false,
         "ajax": {
@@ -329,6 +330,14 @@ const initialize = (id) =>{
     })
 }
 
+$(document).on('click','button[name=editPaymentDetail]',function(){
+    cancelpaymentDetail.show()
+    let data = paymentDetailTable.row( $(this).closest('tr') ).data()
+    $.each($('#paymentDetailTable .form-control'),(ind, value) => {
+        ConPay.paymentDetailTable.find("input[name="+value.name+"]").val(data[value.name])
+    });
+    $("input[name=id]").val($(this).val())
+})
 
 ConPay.paymentDetailTable.find('input[name=exchangeRate]').on('input',function(){
     ConPay.paymentDetailTable.find('input[name=totalAmountInPHP]').val(this.value*ConPay.paymentDetailTable.find('input[name=dollar]').val())
@@ -365,6 +374,30 @@ ConPay.paymentDetailForm.on('submit',function(e){
     })
 })
 
-ConPay.freightTable.DataTable({
-    
-})
+$('select[name="description"]').select2({
+    allowClear:true,
+    placeholder: 'Select Item',
+    tags:true,
+    ajax: {
+        url: $('select[name="description"]').attr("id"),
+        dataType: 'json',
+        delay: 250,
+        processResults: function (data) {
+            return {
+                results:  $.map(data, function (item) {
+                    return {
+                        text: item.description.toUpperCase(),
+                        id: item.description.toUpperCase(),
+                    }
+                })
+            };
+        },
+        cache: true
+    }
+}).on('select2:close', function(){
+    var element = $(this);
+    var new_category = $.trim(element.val());
+    element.append('<option value="'+new_category+'">'+new_category+'</option>').val(new_category);
+});
+
+

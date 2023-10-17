@@ -8,6 +8,12 @@ use Illuminate\Support\Facades\DB;
 class ReportService{
     
     public function filterService($request){
+
+        return [
+            DB::select("exec dbo.sp_negoFilter ?,?,?,?",array($request->start,$request->end,$request->supplier,$request->item)),
+            DB::select("exec dbo.sp_freightFilter ?,?,?,?",array($request->start,$request->end,$request->supplier,$request->item)),
+        ];
+
         $data = DB::select("
         select 
             c.exchangeRateDate,
@@ -34,8 +40,6 @@ class ReportService{
 
     public function searchTerm($request){
 
-
-        
         $data =  Detail::groupby(['description'])->orderby('description','asc')
         
         ->where('description', 'like', '%'.$request->get('term').'%')
@@ -43,6 +47,18 @@ class ReportService{
         ->limit(5)->get(['description']);
 
         // $data[] = (object) ['description' => 'All']; 
+
+        return $data;
+
+    }
+
+    public function searchSupplier($request){
+
+        $data =  Detail::groupby(['suppliername'])->orderby('suppliername','asc')
+        
+        ->where('suppliername', 'like', '%'.$request->get('term').'%')
+        
+        ->limit(5)->get(['suppliername']);
 
         return $data;
 
