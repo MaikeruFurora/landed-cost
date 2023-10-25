@@ -36,6 +36,7 @@
                 <thead class="thead-dark">
                         <tr>
                             <th>ID(s)</th>
+                            <th>Date</th>
                             <th>Amount</th>
                             <th>Metric Ton</th>
                             <th>Referece No</th>
@@ -69,6 +70,10 @@
                     <div class="form-group">
                         <label for="">Reference</label>
                         <input type="text" class="form-control" id="" required name="reference">
+                    </div>
+                    <div class="form-group">
+                        <label for="">Date</label>
+                        <input type="text" class="form-control" id="" required name="transaction_date">
                     </div>
                     @if (Helper::usrChckCntrl(['OA002']))
                         <button type="submit" class="btn btn-primary btn-block">Submit</button>

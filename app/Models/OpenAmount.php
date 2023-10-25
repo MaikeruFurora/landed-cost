@@ -39,11 +39,15 @@ class OpenAmount extends Model implements Auditable
 
         return [
             
-        'lc_reference' => strtoupper($request->input('reference')),
+            'lc_reference'      => strtoupper($request->input('reference')),
 
-        'lc_amount'    => Helper::cleanNumberByFormat($request->input('amount')),
+            'transaction_date'  => $request->input('transaction_date'),
 
-        'lc_mt'        => Helper::cleanNumberByFormat($request->input('mt'))];
+            'lc_amount'         => Helper::cleanNumberByFormat($request->input('amount')),
+
+            'lc_mt'             => Helper::cleanNumberByFormat($request->input('mt'))
+        
+        ];
 
     }
 

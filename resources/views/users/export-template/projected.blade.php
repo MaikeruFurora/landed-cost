@@ -26,7 +26,7 @@
             <tr>
                 <th colspan="<?=(count($particulars)+5)?>" style="background: "></th>
             </tr>
-            <tr class="">
+            <tr class="" style="border:1px solid black">
                 <th>Invoice</th>
                 <th>Description</th>
                 <th>AVG ExRate(PHP)</th>

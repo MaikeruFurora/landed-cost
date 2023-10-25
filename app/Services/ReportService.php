@@ -8,9 +8,15 @@ use Illuminate\Support\Facades\DB;
 class ReportService{
     
     public function filterService($request){
+
+        return [
+            DB::select("exec dbo.sp_negoFilter ?,?,?,?",array($request->start,$request->end,$request->supplier,$request->item)),
+            DB::select("exec dbo.sp_freightFilter ?,?,?,?",array($request->start,$request->end,$request->supplier,$request->item)),
+        ];
+
         $data = DB::select("
         select 
-            convert(DATE,a.doc_date) as doc_date,
+            c.exchangeRateDate,
             a.description,
             a.invoiceno,
             a.qtymt,
@@ -23,7 +29,7 @@ class ReportService{
                 a.id = b.detail_id 
                 left join 
             lcdpnegos c on b.id = c.landedcost_particular_id 
-        where convert(DATE,a.created_at) between convert(date,'{$request->start}') AND convert(date,'{$request->end}') 
+        where convert(DATE,c.exchangeRateDate) between convert(date,'{$request->start}') AND convert(date,'{$request->end}') 
         
         and 
             a.description = '{$request->item}'");
@@ -34,8 +40,6 @@ class ReportService{
 
     public function searchTerm($request){
 
-
-        
         $data =  Detail::groupby(['description'])->orderby('description','asc')
         
         ->where('description', 'like', '%'.$request->get('term').'%')
@@ -43,6 +47,18 @@ class ReportService{
         ->limit(5)->get(['description']);
 
         // $data[] = (object) ['description' => 'All']; 
+
+        return $data;
+
+    }
+
+    public function searchSupplier($request){
+
+        $data =  Detail::groupby(['suppliername'])->orderby('suppliername','asc')
+        
+        ->where('suppliername', 'like', '%'.$request->get('term').'%')
+        
+        ->limit(5)->get(['suppliername']);
 
         return $data;
 
@@ -64,7 +80,8 @@ class ReportService{
             
                 $output[] =  [
 
-                    'doc_date'      => date("m/d/y",strtotime($data[0]->doc_date)),
+                    // 'doc_date'      => date("m/d/y",strtotime($data[0]->doc_date)),
+                    'exchangeRateDate'      => date("m/d/y",strtotime($data[0]->exchangeRateDate)),
 
                     'invoiceno'     => $key,
 

@@ -36,7 +36,6 @@ class ProjectedCostReport extends DefaultValueBinder implements ShouldAutoSize,F
     {
         if ($cell->getColumn() == 'A' || $cell->getColumn() == 'B') {
             $cell->setValueExplicit($value, DataType::TYPE_STRING);
-
             return true;
         }
         return parent::bindValue($cell, $value);

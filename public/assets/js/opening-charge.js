@@ -13,7 +13,7 @@ let openAmountId  = $("input[name=id_lcopc]")
 // })
     let tableOpenAmount = $('#datatable').DataTable({
         "serverSide": true,
-        // pageLength: 5,
+        ordering:false,
         paging:true,
         "ajax": {
             url: "charge/list", 
@@ -28,21 +28,20 @@ let openAmountId  = $("input[name=id_lcopc]")
                 searchable: false
             },
             {
-                orderable: false,
+                data: "transaction_date",
+            },
+            {
                 data:null,
                 render:function(data){
                     return `&#8369; `+data.lc_amount
                 }
             },
             {   
-                 orderable: false,
                  data:"lc_mt"},
             {   
-                 orderable: false,
                  data:"lc_reference"},
             // {data:"created_at"},
             {
-                orderable: false,
                 data:null,
                 render:function(data){
                     let hold=``;
@@ -307,4 +306,10 @@ $(document).on('change','input[type="checkbox"]',function(){
     } else {
         btnSaved.hide()
     }
+})
+
+$('input[name=transaction_date]').datepicker({
+    toggleActive: true,
+    autoclose: true,
+    format:'yyyy-mm-dd'
 })

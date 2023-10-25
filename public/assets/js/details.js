@@ -54,7 +54,7 @@ columns:[
     },
     {
         orderable: false,
-        data:"pono"
+        data:"invoiceno"
     },
     {
         orderable: false,
@@ -67,10 +67,7 @@ columns:[
         orderable: false,
         data:"description"
     },
-    {
-        orderable: false,
-        data:"invoiceno"
-    },
+   
     {
         orderable: false,
         data:"blno"

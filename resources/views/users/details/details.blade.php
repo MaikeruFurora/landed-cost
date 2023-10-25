@@ -105,11 +105,10 @@
                    <tr>
                        <th>&nbsp;</th>
                        <th>ID(s)</th>
-                       <th>PO No.</th>
                        <!-- <th>Item Code.</th> -->
+                       <th>Inv No.</th>
                        <th>Vessel</th>
                        <th>Description</th>
-                       <th>Inv No.</th>
                        <th>BL No.</th>
                        <th>Broker</th>
                        <th>Qty</th>
@@ -120,9 +119,7 @@
                    </tr>
                </thead>
                <tbody>
-                  
                </tbody>
-              
            </table>
             </div>
         </div>

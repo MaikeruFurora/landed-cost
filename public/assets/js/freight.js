@@ -39,13 +39,13 @@ const tableFreight = (id) =>{
         if(data.length){
             
             data.forEach(element => {
-                totalFreightTable+=((vesselType.val()*element.dollarRate)*element.exhangeRate)
+                totalFreightTable+=((vesselType.val()*element.dollarRate)*element.exchangeRate)
                 holdfFreight+=`
                         <tr class="${element.id}">
                             <td class="dollarRate">${element.dollarRate}</td>
-                            <td class="exhangeRate">${element.exhangeRate}</td>
-                            <td class="freightTotalRow">${((vesselType.val()*element.dollarRate)*element.exhangeRate)}</td>
-                            <td class="exhangeRateDate">${element.exhangeRateDate}</td>
+                            <td class="exchangeRate">${element.exchangeRate}</td>
+                            <td class="freightTotalRow">${((vesselType.val()*element.dollarRate)*element.exchangeRate)}</td>
+                            <td class="exchangeRateDate">${element.exchangeRateDate}</td>
                             <td class="text-center">
                                 <button class="btn btn-sm pb-0 pt-0 pl-1 pr-2 pencil-freight" style="font-size:12px"><i class="fas fa-pencil-alt text-info "></i></button>
                                 <button class="btn btn-sm pb-0 pt-0 pl-1 pr-2 times-freight" value="${element.id}" id="${id}" style="font-size:12px"><i class="fas fa-times text-danger "></i></button>
@@ -76,8 +76,8 @@ $("button[name=btnFreight]").on('click',function(e){
         data:{
             vesselType:vesselType.val(),
             dollarRate:freightDollarRate.val(),
-            exhangeRate:freightExhangeRate.val(),
-            exhangeRateDate:freightExhangeRateDate.val(),
+            exchangeRate:freightExhangeRate.val(),
+            exchangeRateDate:freightExhangeRateDate.val(),
             _token:BaseModel._token,
             id:idFreight.val()
         },
@@ -87,8 +87,8 @@ $("button[name=btnFreight]").on('click',function(e){
         $("button[name=btnFreight]").text('Add Transaction')
         freightFields(false,{
             dollarRate:'',
-            exhangeRate:'',
-            exhangeRateDate:'',
+            exchangeRate:'',
+            exchangeRateDate:'',
             id:'',
             freightTotalAmount:'',
         })
@@ -105,8 +105,8 @@ $("button[name=btnFreight]").on('click',function(e){
 const freightFields = (cancel,data) =>{
     cancel? btnFreightCancel.show() : btnFreightCancel.hide()
     freightDollarRate.val(data.dollarRate)
-    freightExhangeRate.val(data.exhangeRate)
-    freightExhangeRateDate.val(data.exhangeRateDate)
+    freightExhangeRate.val(data.exchangeRate)
+    freightExhangeRateDate.val(data.exchangeRateDate)
     freightTotalAmount.val(data.freightTotalAmount)
     idFreight.val(data.id)
 }
@@ -115,8 +115,8 @@ $(document).on("click",".pencil-freight",function(){
     $("button[name=btnFreight]").text('Update Transaction').attr('disabled',false)
     freightFields(true,{
         dollarRate:$(this).closest("tr").find(".dollarRate").text(),
-        exhangeRate:$(this).closest("tr").find(".exhangeRate").text(),
-        exhangeRateDate:$(this).closest("tr").find(".exhangeRateDate").text(),
+        exchangeRate:$(this).closest("tr").find(".exchangeRate").text(),
+        exchangeRateDate:$(this).closest("tr").find(".exchangeRateDate").text(),
         freightTotalAmount:$(this).closest("tr").find(".freightTotalRow ").text(),
         id:$(this).closest("tr").attr('class')
     })
@@ -127,8 +127,8 @@ btnFreightCancel.on('click',function(){
     freightFields(false,{
         freightDollarRate:null,
         dollarRate:null,
-        exhangeRate:null,
-        exhangeRateDate:null,
+        exchangeRate:null,
+        exchangeRateDate:null,
         freightTotalAmount:null,
         id:null,
     })

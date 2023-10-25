@@ -60,6 +60,7 @@ class OpenChargeService{
             ->where('open_amounts.lc_amount', 'like', '%'.$filter.'%')
             ->orwhere('open_amounts.lc_mt', 'like', '%'.$filter.'%')
             ->orwhere('open_amounts.lc_reference', 'like', '%'.$filter.'%')
+            ->orwhere('open_amounts.transaction_date', 'like', '%'.$filter.'%')
             ->orWhereHas('lcopening_charge',function($q) use ($filter){
                 return $q->whereHas('detail',function($query) use ($filter){
                    return $query->where('invoiceno','like', '%'.$filter.'%');
@@ -68,8 +69,6 @@ class OpenChargeService{
         }
     
         $recordsTotal = $query->count();
-    
-        $sortColumnName = $sortColumns[$order[0]['column']];
     
         $query->take($length)->skip($start);
     
@@ -94,6 +93,7 @@ class OpenChargeService{
                 "lc_reference"    => $value->lc_reference,
                 "invoice_amount"  => $value->lc_reference,
                 "lcopening_charge"=> $value->lcopening_charge,
+                "transaction_date"=> $value->transaction_date,
                 "id"              => $value->id,
                 "updated_at"      => strtotime($value->updated_at),
             ];

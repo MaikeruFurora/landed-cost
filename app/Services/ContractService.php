@@ -59,6 +59,9 @@ class ContractService{
                     "amountPHP"         => number_format($value->amountPHP,2),
                     "lcdpnego"          => $value->lcdpnego,
                     "id"                => $value->id,
+                    "suppliername"      => $value->suppliername,
+                    "description"       => $value->description,
+                    "type"              => $value->type,
                 ];
         }
 

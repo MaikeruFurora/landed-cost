@@ -2,6 +2,7 @@
 
 namespace App\Helper;
 
+use App\Models\Particular;
 use Carbon\Carbon;
 use Illuminate\Support\Facades\DB;
 
@@ -13,11 +14,13 @@ class Helper{
     ];
 
     public static $intact_particular=[
-        array('p_name'=>'LC Opening Charge','p_code'=>'LC','action'=>true),
-        array('p_name'=>'LC/DP NEGO','p_code'=>'NEG','action'=>true),
-        array('p_name'=>'Brokerage Fee','p_code'=>'BF'),
-        array('p_name'=>'Insurance','p_code'=>'IN'),
-        array('p_name'=>'Freight','p_code'=>'FR','action'=>true),
+        /*0*/ array('p_name'=>'LC Opening Charge','p_code'=>'LC','action'=>true),
+        /*1*/ array('p_name'=>'LC/DP NEGO','p_code'=>'NEG','action'=>true),
+        /*2*/ array('p_name'=>'Brokerage Fee','p_code'=>'BF'),
+        /*3*/ array('p_name'=>'Insurance','p_code'=>'IN'),
+        /*4*/ array('p_name'=>'Freight','p_code'=>'FR','action'=>true),
+        /*5*/ array('p_name'=>'Shipping Fee','p_code'=>'SF','action'=>true),
+        /*6*/ array('p_name'=>'Bank Charge','p_code'=>'BC','action'=>true),
     ];
 
     public static $otherPrev  = ['Print','Gather-SAP','Posting','Unposting','Generate-Report','Dollar-Book','Particular-Invoice'];
@@ -44,6 +47,31 @@ class Helper{
 
         return (auth()->user()->accountingHead() || auth()->user()->type);
 
+    }
+
+    public static function fields($data){
+        return [
+            'pono'          => $data[0]->PONumber,
+            'itemcode'      => $data[0]->ItemCode,
+            'cardname'      => $data[0]->CardName,
+            'cardcode'      => $data[0]->CardCode,
+            'actualQtyKLS'  => $data[0]->actualQtyKLS ?? NULL,
+            'actualQtyMT'   => $data[0]->actualQtyMT ?? NULL,
+            'vessel'        => $data[0]->vessel,
+            'description'   => $data[0]->Dscription,
+            'invoiceno'     => $data[0]->InvoiceNo,
+            'broker'        => $data[0]->Broker,
+            'weight'        => (int)$data[0]->Weight,
+            'quantity'      => $data[0]->quantity,
+            'qtykls'        => $data[0]->QtyInKls,
+            'qtymt'         => $data[0]->QtyInMT,
+            'fcl'           => count($data),
+            'suppliername'  => $data[0]->suppliername,
+            'blno'          => $data[0]->BLNo,
+            'doc_date'      => $data[0]->DocDate,
+            'posted_at'     => $data[0]->posted_at ?? NULL,
+            'company_id'    => $data[0]->selectCompany ?? NULL,
+        ];
     }
 
     public static function usrChckCntrl($code) 

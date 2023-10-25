@@ -245,8 +245,19 @@ let tblContract = $('#datatable').DataTable({
             },
             {   
                 orderable: false,
-                data:"amountPHP"
+                data:"suppliername"
             },
+            {   
+                orderable: false,
+                data:"description"
+            },
+
+            {   
+                orderable: false,
+                data:"type"
+            },
+            
+           
             {
                 orderable: false,
                 data:null,
@@ -317,6 +328,7 @@ $("#formSearchInvoice").on('submit',function(e){
         }
         }).done(function(data){
             dataTable(data)
+            $('select[name="description"]').val(null).trigger('change');
             $("#formSearchInvoice *").prop("disabled", false);
         }).fail(function (jqxHR, textStatus, errorThrown) {
             $("#formSearchInvoice *").prop("disabled", false);
@@ -334,6 +346,7 @@ $(document).on('click','.btnEdit',function(e){
     formContract.find(".btn-warning").show()
     input.filter(e => Object.keys(data).indexOf(e) !== -1).forEach(element => {
         $("input[name="+element+"]").val(data[element])
+        $("select[name="+element+"]").append(new Option(data[element], data[element], true, true)).trigger('change');
     });
 })
 
@@ -457,16 +470,57 @@ $(document).on('click','.fa-minus-circle',function(){
     removeInvoice(invoice);
 })
 
-$('#date-range').datepicker({
-    toggleActive: true,
-    format: 'mm-dd-yyyy',
+
+$('select[name="description"]').select2({
+    tags:true,
+    ajax: {
+        url: $('select[name="description"]').attr("id"),
+        dataType: 'json',
+        delay: 250,
+        processResults: function (data) {
+            return {
+                results:  $.map(data, function (item) {
+                    return {
+                        text: item.description,
+                        id: item.description,
+                    }
+                })
+            };
+        },
+        cache: true
+    }
+}).on('select2:close', function(){
+    var element = $(this);
+    var new_category = $.trim(element.val());
+    element.append('<option value="'+new_category+'">'+new_category+'</option>').val(new_category);
+
 });
 
-$("#contractReport").on('submit',function(e){
-    e.preventDefault()
-    let start = $(this).find("input[name=start]").val()
-    let end = $(this).find("input[name=end]").val()
-    let url = $(this).attr("action").replace(":start",start).replace(":end",end)
-    console.log(url);
-    window.open(url,'_blank')
-})
+
+$('select[name="suppliername"]').select2({
+    tags:true,
+    ajax: {
+        url: $('select[name="suppliername"]').attr("id"),
+        dataType: 'json',
+        delay: 250,
+        processResults: function (data) {
+            return {
+                results:  $.map(data, function (item) {
+                    return {
+                        text: item.suppliername,
+                        id: item.suppliername,
+                    }
+                })
+            };
+        },
+        cache: true
+    }
+}).on('select2:close', function(){
+    var element = $(this);
+    var new_category = $.trim(element.val());
+    element.append('<option value="'+new_category+'">'+new_category+'</option>').val(new_category);
+});
+
+
+
+

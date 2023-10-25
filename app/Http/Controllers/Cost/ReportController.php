@@ -45,7 +45,7 @@ class ReportController extends Controller
     }
 
     public function filter(Request $request){
-        
+
         Helper::auditLog('Generate Data (Report)','Generate Data (Report)');
 
         return $this->reportService->filterService($request);
@@ -55,6 +55,16 @@ class ReportController extends Controller
     public function searchItem(Request $request){
 
         $data =  $this->reportService->searchTerm($request);
+        // $data[0]=["description" => "ALL"];
+
+        return response()->json($data);
+
+    }
+
+    public function searchSupplier(Request $request){
+
+        $data =  $this->reportService->searchSupplier($request);
+        // $data[0]=["suppliername" => "ALL"];
 
         return response()->json($data);
 

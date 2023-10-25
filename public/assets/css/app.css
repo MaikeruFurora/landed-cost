@@ -8,6 +8,15 @@
 
 
 .adjust tr td{
-    padding: 6px !important;
+    padding: 6px 10px !important;
     margin: 0 !important;
+}
+
+*{
+    font-family: 'Century Gothic';
+}
+
+.dataTableLayout {
+    table-layout:fixed;
+    width:100%;
 }

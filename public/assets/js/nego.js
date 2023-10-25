@@ -43,14 +43,14 @@
             });
             hold+=` <tr>
                         <td class="text-right">Total</td>
-                        <td ><b>${sumPercentage}%</b></td>
+                        <td ><b>${Math.round(sumPercentage)}%</b></td>
                         <td ><b>$${BaseModel.commaSeparateNumber(sumAmount)}</b></td>
                         <td colspan="2" class="text-right text-white bg-dark">Total Amount</td>
                         <td class="tsumNego"><b>&#8369;&nbsp;${(BaseModel.commaSeparateNumber(tSumNego))}</b></td>
                     </tr>`
             hold+=` <tr>
                         <td class="text-right">Remaining Balance</td>
-                        <td ><b>${100-sumPercentage}%</b></td>
+                        <td ><b>${100-Math.round(sumPercentage)}%</b></td>
                         <td ><b>$${BaseModel.commaSeparateNumber((metricTon.val()*getPerMetricTon)-sumAmount)}</b></td>
                         <td colspan="3"></td>
                     </tr>`
@@ -65,7 +65,7 @@
         $("button[name=btnNego]").prop('disabled',(sumPercentage>=100))            
         totalNego.val(tSumNego)
         $("#tableNeg").html(hold)
-        $(".percentLeft").text((100-sumPercentage)) //-> show percentage left
+        $(".percentLeft").text((100-Math.round(sumPercentage))) //-> show percentage left
     }).fail(function (jqxHR, textStatus, errorThrown) {
         // $("#invoiceForm").find('.btn-success').html('Post').attr('disabled',false)
         console.log(errorThrown);

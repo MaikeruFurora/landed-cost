@@ -1,7 +1,6 @@
 @extends('../_layout/app')
 @section('moreCss')
     <link href="{{ asset('plugins/bootstrap-datepicker/css/bootstrap-datepicker.min.css') }}" rel="stylesheet">
-    <link href="{{ asset('plugins/bootstrap-datepicker/css/bootstrap-datepicker.min.css') }}" rel="stylesheet">
     <!-- DataTables -->
     <link href="{{ asset('plugins/datatables/dataTables.bootstrap4.min.css') }}" rel="stylesheet" type="text/css" />
     <link href="{{ asset('plugins/datatables/buttons.bootstrap4.min.css') }}" rel="stylesheet" type="text/css" />
@@ -9,6 +8,7 @@
     <link href="{{ asset('plugins/sweet-alert2/sweetalert2.css') }}" rel="stylesheet" type="text/css">
     <!-- Responsive datatable examples -->
     <link href="{{ asset('plugins/datatables/responsive.bootstrap4.min.css') }}" rel="stylesheet" type="text/css" />
+    <link href="{{ asset('plugins/select2/select2.min.css') }}" rel="stylesheet" />
     <style>
         label{
             font-size: 11px
@@ -17,11 +17,10 @@
 @endsection
 @section('content')
 <!-- Page-Title -->
-    <x-page-title title="Payment Ledger">
+    <x-page-title title="Advance Payment">
         <a class="btn btn-primary btn-sm" href="{{ url()->previous() }}">
             <i class="fas fa-arrow-left"></i> Back
         </a>
-        <button class="btn btn-outline-primary btn-sm" data-toggle="modal" data-target="#staticBackdrop"><i class="fas fa-paste"></i>&nbsp; Report</button>
     </x-page-title>
 <!-- end page title end breadcrumb -->
 <!-- Alert Start -->
@@ -40,7 +39,7 @@
         <div class="card">
             <div class="card-body">
                 <div class="table-responsive mt-2">
-                <table cellpadding="0" cellspacing="0" id="datatable" class="table table-bordered dt-responsive nowrap adjust" style="border-collapse: collapse; border-spacing: 0; width: 100%;font-size:11px">
+                <table cellpadding="0" cellspacing="0" id="datatable" class="table table-bordered dt-responsive nowrap" style="border-collapse: collapse; border-spacing: 0; width: 100%;font-size:11px">
                     <thead class="bg-secondary text-white">
                         <tr>
                             <th class="text-center" rowspan="2">&nbsp;</th>
@@ -52,7 +51,9 @@
                             <th class="text-center border" rowspan="2" >Dollar<br>Rate</th>
                             <th class="text-center" rowspan="2">Date</th>
                             <th rowspan="2">Amount<br>(PHP)</th>
-                            <th rowspan="2">Supplier</th>
+                            <th class="text-center" rowspan="2">Supplier Name</th>
+                            <th class="text-center" rowspan="2">Item Name</th>
+                            <th class="text-center" rowspan="2">Type</th>
                             <th class="text-center" rowspan="2">Invoice</th>
                         </tr>
                         <tr class="text-center">
@@ -62,6 +63,7 @@
                             <th>Amount<br>(USD)</th>
                             <th>Paid<br>(USD)</th>
                             <th>Percent</th>
+                           
                         </tr>
                     </thead>
                 </table>
@@ -75,16 +77,34 @@
                 CONTRACT INFO
             </div>
             <div class="card-body">
-                <form method="POST" id="formContract" action="{{ route('authenticate.opening.store') }}" autocomplete="off">@csrf
+                <form method="POST" id="formContract"  autocomplete="off">@csrf
                     <input type="hidden" class="form-control" name="id">
-                    <div class="form-group">
-                        <label for="">Supplier</label>
-                        <input type="text" class="form-control form-control-sm" required name="suppliername" maxlength="100">
-                    </div>
                     <div class="form-group">
                         <label for="">Contract Number</label>
                         <input type="text" class="needFormat form-control form-control-sm" required name="contract_no" maxlength="35">
                     </div>
+                    <div class="form-group">
+                        <label for="">Item Description</label>
+                        <select id="{{ route("authenticate.report.filter.description") }}" class="form-control form-control-sm" required name="description" maxlength="35"></select>
+                    </div>
+                    <div class="form-group">
+                        <label for="">Supplier name</label>
+                        <select id="{{ route("authenticate.report.filter.supplier") }}" class="form-control form-control-sm" required name="suppliername" maxlength="35"></select>
+                    </div>
+                   <div class="form-row">
+                        <div class="form-group col-6">
+                            <label for="">Type of payment</label>
+                           <select class="form-control form-control-sm" name="type">
+                                @foreach ($particulars as $item)
+                                    <option value="{{ $item->p_code }}">{{ strtoupper($item->p_name)  }}</option>
+                                @endforeach
+                           </select>
+                        </div>
+                        <div class="form-group col-6">
+                            <label for="">Invoice</label>
+                            <input type="text" class="needFormat form-control form-control-sm" name="invoiceno" maxlength="35">
+                        </div>
+                   </div>
                    <div class="card border mb-2">
                     <div class="card-body p-3">
                         <div class="form-row">
@@ -189,32 +209,6 @@
     </div>
     <!-- modal-end -->
 
-    <!-- Modal -->
-    <x-dollarbook.dollar-book-report/>
-
-
-    <div class="col">
-        <div class="card">
-            <div class="card-body">
-                <ul class="nav nav-tabs" id="myTab" role="tablist">
-                    <li class="nav-item" role="presentation">
-                      <button class="nav-link active" id="home-tab" data-toggle="tab" data-target="#home" type="button" role="tab" aria-controls="home" aria-selected="true">Home</button>
-                    </li>
-                    <li class="nav-item" role="presentation">
-                      <button class="nav-link" id="profile-tab" data-toggle="tab" data-target="#profile" type="button" role="tab" aria-controls="profile" aria-selected="false">Profile</button>
-                    </li>
-                    <li class="nav-item" role="presentation">
-                      <button class="nav-link" id="contact-tab" data-toggle="tab" data-target="#contact" type="button" role="tab" aria-controls="contact" aria-selected="false">FREIGHT</button>
-                    </li>
-                  </ul>
-                  <div class="tab-content" id="myTabContent">
-                    <div class="tab-pane fade show active" id="home" role="tabpanel" aria-labelledby="home-tab">...</div>
-                    <div class="tab-pane fade" id="profile" role="tabpanel" aria-labelledby="profile-tab">...</div>
-                    <div class="tab-pane fade" id="contact" role="tabpanel" aria-labelledby="contact-tab">...</div>
-                  </div>
-            </div>
-        </div>
-    </div>
 </div><!-- row -->
 @endsection
 @section('moreJs')
@@ -222,12 +216,11 @@
     <!-- Required datatable js -->
     <script src="{{ asset('plugins/datatables/jquery.dataTables.min.js') }}"></script>
     <script src="{{ asset('plugins/datatables/dataTables.bootstrap4.min.js') }}"></script>
-    {{-- datepicker --}}
-    <script src="{{ asset('plugins/bootstrap-datepicker/js/bootstrap-datepicker.min.js') }}"></script>
     <!-- Responsive examples -->
     <script src="{{ asset('plugins/datatables/dataTables.responsive.min.js') }}"></script>
     <script src="{{ asset('plugins/datatables/responsive.bootstrap4.min.js') }}"></script>
     <script src="{{ asset('plugins/jquery-number/jquery.number.js') }}"></script>
     <script src="{{ asset('plugins/sweet-alert2/sweetalert2.min.js') }}"></script>
+    <script src="{{ asset('plugins/select2/select2.min.js') }}"></script>
     <script src="{{ asset('assets/js/contract.js') }}"></script>t
 @endsection

@@ -12,7 +12,7 @@ const BaseModel = {
     },
 
     disabledProperties:(target,bool=true) =>{
-        $("#"+target+" *").prop("disabled", bool);
+        $("#"+target+" *").prop("readonly", bool);
     },
 
     commaSeparateNumber:(val) => {
@@ -109,6 +109,34 @@ const BaseModel = {
     },
 
 
+    dropdown: function(buttons){
+        // {name:null,text:null,value:null,icon:null,color:null,id:null}
+        let btnHTML=`
+        <div class="btn-group btn-group-sm" role="group text-center">
+            <button type="button" class="btn dropdown-toggle" data-toggle="dropdown" aria-expanded="false" style="font-size:11px;background:#bbdaee;color:black">Action</button>
+             <div class="dropdown-menu" style="font-size:11px">`
+                buttons.forEach(val => {
+                        val.elementType=='button' || !val.hasOwnProperty('elementType')?
+                        btnHTML+=`<button 
+                                        ${ ((val.disabled)?'disabled':'') }      
+                                        name="${val.name}"
+                                        type="button"
+                                        value="${val.value}"
+                                        class="dropdown-item border  ${val.hasOwnProperty('color')?val.color:'primary'}" id="${val.id}">
+                                        ${val.icon} ${val.text}
+                                    </button>`
+                        :
+                        btnHTML+=`<a class="dropdown-item border" href="${ (val.hasOwnProperty('disabled'))?((val.disabled)?'':val.url):val.url }">${val.icon} ${val.text}</a>`
+                });
+        btnHTML+=`</div>
+        </div>`
+
+        return btnHTML;
+        
+    },
+
+
+
 }
 
 const toasMessage = (heading,text,icon) =>{
@@ -146,3 +174,6 @@ window.onload = () =>{
 $('input').on('click',function(){
     $(this).select();
 })
+
+
+$(".datepciker").datepicker()
