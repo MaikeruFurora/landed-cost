@@ -11,27 +11,7 @@
         url="{{ route('authenticate.payment.invoice.save') }}"
         id='seachInvoiceUnderPaymentForm'
     /> --}}
-    <div class="row mb-3">
-        <div class="col">
-            <dl class="row mx-2 mb-0">
-                <dt class="col-6">Supplier</dt>
-                <dd class="col-6">: <span class="suppliername"></span></dd>
-                <dt class="col-6">Total Metric Ton</dt>
-                <dd class="col-6">: <span class="totalMetricTon"></span> (Price MT: <span class="priceMetricTon"></span>)</dd>
-                <dt class="col-6">Initial Payment</dt>
-                <dd class="col-6">: <span class="initialContractPayment"></span>&nbsp;(<span class="initialContractPercent"></span> %)</dd>
-            </dl>
-        </div>
-        <div class="col">
-            <dl class="row mx-2 mb-0">
-                <dt class="col-5">Reference</dt>
-                <dd class="col-7">: <span class="reference"></span></dd>
-                <dt class="col-5">Total US Dollar</dt>
-                <dd class="col-7">: <span class="totalAmountUSD"></span></dd>
-    
-            </dl>
-        </div>
-    </div>
+
     <div class="card m-0 mb-2 border">
         <div class="card-header p-1">
             <form id="searchInvoiceForm" action="{{ route('authenticate.payment.invoice.search') }}" autocomplete="off">@csrf
