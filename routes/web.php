@@ -116,14 +116,13 @@ Route::middleware(['auth:web','preventBackHistory','auth.user'])->name('authenti
     Route::get('invoice/payment/remove/{invoicePayment}',[InvoicePaymentController::class,'remove'])->name('payment.invoice.remove');
     Route::get('invoice/payment/list/{contractPayment}',[InvoicePaymentController::class,'list'])->name('payment.invoice.list');
 
-    //inv details
+    //inv details (nego)
     Route::post('invoice/payment/detail/store',[InvoicePaymentController::class,'storeInvoiceDetail'])->name('payment.invoice.detail.store');
     Route::get('invoice/payment/detail/list/{invoicePayment}',[InvoicePaymentController::class,'listInvoiceDetail'])->name('payment.invoice.detail.list');
-
-     //freight payment
-     Route::post('payment/freight/store',[FreightPaymentController::class,'store'])->name('payment.freight.store');
-     Route::get('payment/freight/list',[FreightPaymentController::class,'list'])->name('payment.freight.list');
-     Route::post('payment/freight/invoice/save',[FreightPaymentController::class,'saveFreightInvoice'])->name('payment.freight.invoice.save');
+    
+    // inv other payment (freight,shipping fee,bank charge)
+    Route::post('invoice/payment/detail/other/store',[InvoicePaymentController::class,'storeInvoiceOtherPayment'])->name('payment.invoice.other.store');
+    Route::get('invoice/payment/detail/other/list/{invoicePayment}',[InvoicePaymentController::class,'listInvoiceOtherpayment'])->name('payment.invoice.other.list');
     
     //gather data from sap datatabse
     Route::get('po',[GatherDataController::class,'index'])->name('po.search');

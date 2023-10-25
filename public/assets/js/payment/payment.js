@@ -5,16 +5,7 @@ let applyPayment    = $(".applyPayment")
 let shipPay         = $("#shipmentPaymentForm")
 let shipTbl         = $("#shipContractTable")
 let invPayDetailForm  = $("#invoicePaymentDetailForm")
-$(document).on('click','button[name=shipmentPayment]',function(){
-    shipPay.find("input[name=contract_payment]").val($(this).val())
-    ConPay.modalInvoicePayment.modal({
-        keyboard: false
-      });
-    invoicePayment($(this).val())
-    $(".selectedInvoicePaymentReference").text('')
-    $('#invoicePaymentDetailTable').DataTable().clear().destroy();
-    applyPayment.hide()
-})
+
 
 
 const invoicePayment = (contract_payment) =>{
@@ -25,13 +16,23 @@ const invoicePayment = (contract_payment) =>{
         ordering:false,
         paging:false,
         destroy:true,
-        "ajax": {
+        ajax: {
             url: shipTbl.attr("data-url").replace("cp",contract_payment),
             method: "get"
         },
+        language: {
+            'loadingRecords': '&nbsp;',
+            'processing': 'Loading...'
+        }, 
+        columnDefs: [
+            {
+                "targets": 5, // your case first column
+                "className": "text-center",
+           },
+         ],
         // order: [[0, 'desc']],
         columns:[
-            // { data:'reference' },
+            { data:'reference' },
             { data:'metricTon' },
             { data:'priceMetricTon' },
             { data:'amountUSD' },
@@ -45,22 +46,22 @@ const invoicePayment = (contract_payment) =>{
                 data:null,
                 render:function(data){
                     let per = Math.round(parseFloat(data.invoicePayDetail.reduce((total,value)=>total+parseFloat(value.totalPercentPayment),0)));
-                    console.log(per);
-                    return `${((data.reference!=null || per==100)
-                                ?  (data.reference!=null)?`<a target="_blank" href="${shipTbl.attr("data-cost").replace("invoice",data.invoice)}">${data.reference}</a>` : ''
+                    return `${((data.invoiceno!=null || per==100)
+                                ?  (data.invoiceno!=null)?`<a target="_blank" href="${shipTbl.attr("data-cost").replace("invoice",data.invoice_id)}">${data.invoiceno}</a>` : ''
                                 :  `<button type="button" name="applyPayment" value="${data.id}" class="btn btn-sm btn-outline-primary">Apply Payment</button>`)}
                             ${
-                               ( data.invoicePayDetail.length==0)
+                               (data.invoicePayDetail.length==0 && data.otherPaymentDetail.length==0)
                                 ?`<button type="button" 
                                          name="deleteInvoiceDetail" 
                                          value="${data.id}"
                                          class="btn btn-sm btn-outline-danger">Remove</button>`
-                                :((data.reference==null)?(per==100)?(`<button value="${data.id}" name="searchInvoice" type="button" class="btn btn-outline-primary btn-sm btn-block">Invoice</button>`):'':'')
+                                :((data.invoiceno==null)?(per==100)?(`<button type="button" name="applyPayment" value="${data.id}" class="btn btn-sm btn-outline-primary">Apply Payment</button>
+                                <button value="${data.id}" name="searchInvoice" type="button" class="btn btn-outline-primary btn-sm">Invoice</button>`):'':'')
                             }`
                 }
             }
         ],
-
+        
         
         "footerCallback": function ( row, data, start, end, display ) {
             var api = this.api(), data;
@@ -110,7 +111,6 @@ const invoicePayment = (contract_payment) =>{
     
 }
 
-
 shipPay.find("input[name=metricTon]").on('input',function(){
     shipPay.find("input[name=amountUSD]").val(this.value*shipPay.find("input[name=priceMetricTon]").val())
 })
@@ -155,17 +155,21 @@ $(document).on('click','button[name=deleteInvoiceDetail]',function(e){
 
 $(document).on('click','button[name=applyPayment]',function(){
     var $row = $(this).closest('tr'); // Find the parent row
-    $('#shipContractTable tbody tr').removeClass('highlight');
-    // Add or remove the 'highlight' class to change the row color
-    $row.toggleClass('highlight');
+    $('#shipContractTable tbody tr').removeClass('highlight-yellow');
+    // Add or remove the 'highlight-yellow' class to change the row color
+    $row.toggleClass('highlight-yellow');
     let data = shipContractTable.row( $(this).closest('tr') ).data()
     invPayDetailForm.find("input[name=invoice_payment]").val($(this).val())
+    Other.form.find("input[name=invoice_payment]").val($(this).val())
     invPayDetailForm.find("input[name=invoice_amountUSD]").val(data.amountUSD)
     $(".selectedInvoicePaymentReference").text(data.reference)
     invPayDetailForm[0].reset()
     cancelpaymentInvoicePayDetail.hide()
     applyPayment.show()
     invoicePaymentDetail(data.id)
+    invoiceOtherPaymentDetail(data.id)
+    // Disabled if 100 percent payment
+    $("#invoicePaymentDetailForm *").prop("disabled", data.invoicePayDetail.reduce((total,value)=>total+parseFloat(value.totalPercentPayment),0)==100);
 })
 
 let cancelpaymentInvoicePayDetail= $('#invoicePaymentDetailTable').find("button[name=cancelButton]")
@@ -178,7 +182,7 @@ cancelpaymentInvoicePayDetail.on('click',function(){
 
 $(".applyPaymentAction").on('click',function(){
     applyPayment.hide()
-    $('#shipContractTable tbody tr').removeClass('highlight');
+    $('#shipContractTable tbody tr').removeClass('highlight-yellow');
     $('#invoicePaymentDetailTable').DataTable().clear().destroy();
 })
 
@@ -196,7 +200,6 @@ invPayDetailForm.find('input[name=exchangeRate]').on('input',function(){
         // invPayDetailForm.find('input[name=dollar]').val()
         )
 })
-
 
 invPayDetailForm.find('input[name=exchangeRate]').on('input',function(){
     invPayDetailForm.find('input[name=totalAmountInPHP]').val(this.value*invPayDetailForm.find('input[name=dollar]').val())
@@ -233,8 +236,6 @@ invPayDetailForm.on("submit",function(e){
     })
 })
 
-
-
 const invoicePaymentDetail = (invoice_payment) =>{
 
      invoicePaymentDetailTable = $("#invoicePaymentDetailTable").DataTable({
@@ -247,9 +248,18 @@ const invoicePaymentDetail = (invoice_payment) =>{
             url: $("#invoicePaymentDetailTable").attr("data-url").replace("ip",invoice_payment),
             method: "get"
         },
+        language: {
+            'loadingRecords': '&nbsp;',
+            'processing': 'Loading...'
+        },  
         // order: [[0, 'desc']],
         columns:[
-            { data:'exchangeDate' },
+            { 
+                data:null,
+                render:function(data){
+                    return data.exchangeDate +' '+(data.partial==1?'<small class="text-danger"><b>(PARTIAL FROM ADV PAYMT.)</b></small>':'')
+                }
+            },
             { data:'dollar' },
             { data:'exchangeRate' },
             { data:'totalAmountInPHP' },
@@ -272,8 +282,12 @@ const invoicePaymentDetail = (invoice_payment) =>{
                 data:'partial',
             },
         ],
-
-        "footerCallback": function ( row, data, start, end, display ) {
+        rowCallback: function(row, data) {
+            if (data.partial === '1') { // Check the 'highlight' flag
+                $(row).addClass('highlight'); // Add a CSS class to highlight the row
+            }
+        },
+        footerCallback: function ( row, data, start, end, display ) {
             var api = this.api(), data;
  
             // converting to interger to find total
@@ -331,17 +345,31 @@ const invoicePaymentDetail = (invoice_payment) =>{
         
     })
 
-    
 }
+
+$(document).on('click','button[name=shipmentPayment]',function(){
+    shipPay.find("input[name=contract_payment]").val($(this).val())
+    ConPay.modalInvoicePayment.modal({
+        keyboard: false
+    });
+    let data = tableCon.row( $(this).closest('tr') ).data()
+    detailView(data)
+    invoicePayment($(this).val())
+    $(".selectedInvoicePaymentReference").text('')
+    $('#invoicePaymentDetailTable').DataTable().clear().destroy();
+    applyPayment.hide()
+})
 
 $(document).on('click','button[name=editInvoicePaymentDetail]',function(){
     let data = invoicePaymentDetailTable.row( $(this).closest('tr') ).data()
-    cancelpaymentInvoicePayDetail.show()
     $.each($('#invoicePaymentDetailForm .form-control'),(ind, value) => {
-           invPayDetailForm.find("input[name="+value.name+"]").val(data[value.name])
+        console.log(parseInt(data[value.name]));
+        invPayDetailForm.find("input[name="+value.name+"]").val(data[value.name])
     });
+    cancelpaymentInvoicePayDetail.show()
+    cancelpaymentInvoicePayDetail.prop('disabled',false)
     invPayDetailForm.find("input[name=id]").val($(this).val())
-    invPayDetailForm.find("input[name=partial]").prop("checked",!data.partial)
+    invPayDetailForm.find("input[name=partial]").prop("checked",data.partial==1)
 })
 
 // $(document).on('click',".searchInvoice",function(){
@@ -425,7 +453,6 @@ const searchInvoiceTable = (data,control) =>{
         ]
     })
 }
-
 
 $(document).on('click','button[name=addInvoiceContract]',function(data){
     $.ajax({

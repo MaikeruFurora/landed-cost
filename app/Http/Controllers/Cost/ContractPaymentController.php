@@ -10,6 +10,8 @@ use App\Models\InvoicePayDetail;
 use App\Models\InvoicePayment;
 use App\Models\LandedcostParticular;
 use App\Models\Lcdpnego;
+use App\Models\OtherPayment;
+use App\Models\Particular;
 use App\Models\PaymentDetail;
 use App\Services\ContractPaymentService;
 use App\Services\DataService;
@@ -32,7 +34,8 @@ class ContractPaymentController extends Controller
     } 
 
      public function index(){
-        return view('users.payment.index');
+        $particular = Particular::whereIn('p_code',['FR','SF','BC'])->get(['id','p_name','p_code']);
+        return view('users.payment.index',compact('particular'));
     }
 
     public function store(Request $request){
@@ -86,9 +89,7 @@ class ContractPaymentController extends Controller
     }
 
     public function save(Request $request){
-
-        // return $request;
-        
+    
         /* This code block is related to saving an invoice for a contract. */
         $particular      = $this->negoService->checkFirstParticular();
 
@@ -133,10 +134,23 @@ class ContractPaymentController extends Controller
                    ]);
                 }
 
+                $dataOtherpay =  InvoicePayment::with('other_payment')->find($request->invoice_payment);
+
+                foreach ($dataOtherpay->other_payment as $key => $value) {
+                    $prtclr = Particular::checkIfExists($value->particular);
+                    if (Particular::checkIfExists($value->particular)) {
+                      LandedcostParticular::checkExistInvoiceAndParticular($detail->id,$prtclr->id)->update([
+                            'amount'            => $value->totalAmountInPHP,
+                            'referenceno'       => $value->dollar.'*'.$value->exchangeRate.'*'.$value->quantity,
+                            'transaction_date'  => $value->exchangeDate,
+                        ]);
+                    }
+                }
+
                 // update reference
                 $lcData->amount            = $dataInvoicepay->invoice_pay_detail->sum('totalAmountInPHP'); 
                 $lcData->save();
-                $dataInvoicepay->reference = $detail->invoiceno;
+                $dataInvoicepay->invoiceno = $detail->invoiceno;
                 $dataInvoicepay->save();
 
                 return response()->json([
@@ -154,6 +168,7 @@ class ContractPaymentController extends Controller
         }
             
     }
+
 
 
 }

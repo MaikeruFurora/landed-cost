@@ -125,7 +125,7 @@ exchangeRate.on('keyup',function(){
     }
 })
 
-percentage.on('keyup',function(){
+percentage.on('input',function(){
     let value = $(this).val() 
     let ttper = parseFloat(totalPecent)+parseFloat(value)
     amount.prop("readonly",!(value=="" || value==0 && parseFloat(value)>100 || parseFloat(value)<=0 || ttper>100))
@@ -145,7 +145,7 @@ percentage.on('keyup',function(){
     amount.prop("readonly",false)
 })
 
-amount.on('keyup',function(){
+amount.on('input',function(){
     let val = $(this).val()  
     percentage.prop("readonly",!(val=="" || val==0))
     if (parseFloat(totalDollar.val())>=parseFloat(val)) {   

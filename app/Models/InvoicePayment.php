@@ -20,6 +20,10 @@ class InvoicePayment extends Model
         return $this->hasMany(InvoicePayDetail::class);
     }
 
+    public function other_payment(){
+        return $this->hasMany(OtherPayment::class);
+    }
+
     public function scopeStorePayment($q,$request){
         return Static::create($this->requestInput($request));
     }

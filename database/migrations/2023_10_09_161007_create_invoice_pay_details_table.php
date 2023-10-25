@@ -15,8 +15,8 @@ return new class extends Migration
     {
         Schema::create('invoice_pay_details', function (Blueprint $table) {
             $table->id();
-            $table->unsignedBigInteger('invoice_payments_id');
-            $table->foreign('invoice_payments_id')->references('id')->on('invoice_payments')->onDelete('cascade')->onUpdate('cascade');
+            $table->unsignedBigInteger('invoice_payment_id');
+            $table->foreign('invoice_payment_id')->references('id')->on('invoice_payments')->onDelete('cascade')->onUpdate('cascade');
             $table->double('exchangeRate',18,4);
             $table->date('exchangeDate');
             $table->double('dollar',18,4);

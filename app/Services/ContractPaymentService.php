@@ -15,21 +15,9 @@ class ContractPaymentService{
         $length = $request->query('length', 25);
         $order = $request->query('order', array(1, 'asc'));
 
-
-        $filter = $search['value'];
+        $filter = $search['value'];    
     
-    
-         $query = ContractPayment::select([
-            'id',
-            'suppliername',
-            'description',
-            'reference',
-            'metricTon',
-            'priceMetricTon',
-            'contract_percent',
-            'amountUSD',
-            'paidAmountUSD',
-         ]);
+        $query = ContractPayment::with(['invoice_payment','invoice_payment.invoice_pay_detail']);
     
         if (!empty($filter)) {
             $query
@@ -63,9 +51,11 @@ class ContractPaymentService{
                 $json['data'][] = [
                     "id"                => $value->id,
                     "payment_detail"    => $value->payment_detail,
+                    "invoice_payment"   => $value->invoice_payment,
                     "suppliername"      => $value->suppliername,
                     "description"       => $value->description,
                     "reference"         => $value->reference,
+                    "invoiceno"         => $value->invoiceno,
                     "metricTon"         => $value->metricTon,
                     "priceMetricTon"    => $value->priceMetricTon,
                     "contract_percent"  => $value->contract_percent,

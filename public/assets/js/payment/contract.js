@@ -146,6 +146,10 @@ let tableCon = ConPay.contractTable.DataTable({
         url: ConPay.contractTable.attr("data-url"),
         method: "get"
     },
+    language: {
+        'loadingRecords': '&nbsp;',
+        'processing': 'Loading...'
+    },  
     // order: [[0, 'desc']],
     columns:[
         {
@@ -153,21 +157,6 @@ let tableCon = ConPay.contractTable.DataTable({
             orderable: false,
             data: null,
             defaultContent: '',
-        },
-        { data:'suppliername' },
-        { data:'description' },
-        { data:'reference' },
-        { data:'metricTon' },
-        { data:'priceMetricTon' },
-        { 
-            data:null,
-            render:function(data){
-                let per = Math.round(data.payment_detail.reduce((total,val)=>total+=parseFloat(val.totalPercentPayment),0))
-                return (per==Math.round(data.contract_percent))
-                    ?   per+" / "+Math.round(data.contract_percent)+'<i class="ml-2 fas fa-check-circle text-success"></i>'
-                    :   per+" / "+Math.round(data.contract_percent)+'<i class="fas fa-exclamation-triangle text-warning"></i>';
-
-            }
         },
         { 
             data:null,
@@ -179,7 +168,8 @@ let tableCon = ConPay.contractTable.DataTable({
                         icon:'<i class="far fa-eye"></i>',
                         elementType:'button',
                         id:data.amountUSD,
-                        value:data.id
+                        value:data.id,
+                        disabled: (parseInt(data.contract_percent)==0)
                     },
                     {
                         text:'Payment',
@@ -192,6 +182,55 @@ let tableCon = ConPay.contractTable.DataTable({
                 ])
             }
         },
+        { data:'suppliername' },
+        { data:'description' },
+        { data:'reference' },
+        { data:'metricTon' },
+        { data:'priceMetricTon' },
+        { data:'paidAmountUSD' },
+        { 
+            data:null,
+            render:function(data){
+                let per = Math.round(data.payment_detail.reduce((total,val)=>total+=parseFloat(val.totalPercentPayment),0))
+                return (per==Math.round(data.contract_percent))
+                    ?   per+" / "+Math.round(data.contract_percent)+'<i class="ml-2 fas fa-check-circle text-success"></i>'
+                    :   per+" / "+Math.round(data.contract_percent)+'<i class="fas fa-exclamation-triangle text-warning"></i>';
+
+            }
+        },
+        {
+            data:null,
+            render:function(data){
+                console.log(data);
+                if (data.invoice_payment.length>0) {
+                    let hold=`<table class="table table-bordered" style="width:100%;font-size:11px">
+                                <tr class="text-center">
+                                    <th>No.</th>
+                                    <th>Reference</th>
+                                    <th>Invoice</th>
+                                    <th>MT</th>                                        
+                                    <th>Price MT (USD)</th>
+                                    <th>Amount (USD)</th>
+                                </tr>`;
+                        data.invoice_payment.forEach((val,i)=>{
+                            hold+=` <tr class="text-center">
+                                        <td>${++i}</td>
+                                        <td>${val.reference}</td>
+                                        <td>${val.invoiceno!=null?`<a target="_blank" href="${shipTbl.attr("data-cost").replace("invoice",val.invoice_id)}">${val.invoiceno}</a>`:''}</td>
+                                        <th>${$.number(val.metricTon,true)}</th>                                            
+                                        <th>${$.number(val.priceMetricTon,true)}</th>
+                                        <th>${$.number(val.amountUSD,true)}</th>
+                                    </tr>`
+                        })
+
+                        return hold;
+                } else {
+                    return '<em>No Invoice Available</em>'
+                }
+          
+            }
+        },
+       
     ]
 })
 
@@ -388,6 +427,33 @@ $('select[name="description"]').select2({
                     return {
                         text: item.description.toUpperCase(),
                         id: item.description.toUpperCase(),
+                    }
+                })
+            };
+        },
+        cache: true
+    }
+}).on('select2:close', function(){
+    var element = $(this);
+    var new_category = $.trim(element.val());
+    element.append('<option value="'+new_category+'">'+new_category+'</option>').val(new_category);
+});
+
+
+$('select[name="suppliername"]').select2({
+    allowClear:true,
+    placeholder: 'Select Item',
+    tags:true,
+    ajax: {
+        url: $('select[name="suppliername"]').attr("id"),
+        dataType: 'json',
+        delay: 250,
+        processResults: function (data) {
+            return {
+                results:  $.map(data, function (item) {
+                    return {
+                        text: item.suppliername,
+                        id: item.suppliername,
                     }
                 })
             };
