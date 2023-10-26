@@ -69,11 +69,11 @@
                             <div class="col-lg-4 col-md-4 col-sm-12">
                                 <div class="form-group">
                                     <label for="">Total Quantity in MT</label>
-                                    <input type="text" class="form-control form-control-sm" readonly name="qtymt" value="{{ $detail->qtymt }}">
+                                    <input type="text" class="form-control form-control-sm" name="qtymt" value="{{ $detail->qtymt }}">
                                 </div>
                                 <div class="form-group">
                                     <label for="">Total Quantity in KLS</label>
-                                    <input type="text" class="form-control form-control-sm" readonly name="qtykls" value="{{ $detail->qtykls }}">
+                                    <input type="text" class="form-control form-control-sm" name="qtykls" value="{{ $detail->qtykls }}">
                                 </div>
                             </div>
                             <div class="col-lg-4 col-md-4 col-sm-12">
