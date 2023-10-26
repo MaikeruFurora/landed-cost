@@ -113,11 +113,11 @@
                                             @if (Helper::usrChckCntrl(['OA001']))
                                                 <li><a href="{{ route('authenticate.opening.charge') }}"><i class="fas fa-wallet mr-2" style="font-size:11px"></i>LC Open Amount</a></li>
                                             @endif
-                                            {{-- @if (Helper::usrChckCntrl(['AP001']))
-                                                <li><a href="{{ route('authenticate.contract') }}"><i class="far fa-credit-card mr-2" style="font-size:11px"></i>Payment Advance</a></li>
-                                            @endif --}}
                                             @if (Helper::usrChckCntrl(['AP001']))
-                                                <li><a href="{{ route('authenticate.payment') }}"><i class="far fa-credit-card mr-2" style="font-size:11px"></i>Payment</a></li>
+                                                <li><a href="{{ route('authenticate.payment') }}"><i class="far fa-credit-card mr-2" style="font-size:11px"></i>Payment <b class="text-success">(New)</b></a></li>
+                                            @endif
+                                            @if (Helper::usrChckCntrl(['AP001']))
+                                                <li><a href="{{ route('authenticate.contract') }}"><i class="far fa-credit-card mr-2" style="font-size:11px"></i>Payment <b class="text-red">(Old)</b></a></li>
                                              @endif
                                         </ul>
                                     </li>
