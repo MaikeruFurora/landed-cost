@@ -374,6 +374,7 @@ $(".amount-class").on('keyup',function(e){
                 $("input[name=transaction-date-"+id+"]").val()
             )
         }else{
+            $("input[name=amount-"+id+"]").val(0)
             alertify.alert("Date is empty")
         }
 
