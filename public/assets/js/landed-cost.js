@@ -360,16 +360,22 @@ const requestToSave = (id,amount,referenceno,transactionDate) =>{
 
 $(".amount-class").on('keyup',function(e){
 
+
     if (e.which === 13) {
 
-        let id = $(this).attr("id");
+        let id       = $(this).attr("id");
+        let tranDate = $("input[name=transaction-date-"+id+"]").val() 
 
-        requestToSave( 
-            id, 
-            $("input[name=amount-"+id+"]").val(),
-            $("input[name=referenceno-"+id+"]").val(),
-            $("input[name=transaction-date-"+id+"]").val()
-        )
+        if (tranDate!=null && tranDate!="") {     
+            requestToSave( 
+                id, 
+                $("input[name=amount-"+id+"]").val(),
+                $("input[name=referenceno-"+id+"]").val(),
+                $("input[name=transaction-date-"+id+"]").val()
+            )
+        }else{
+            alertify.alert("Date is empty")
+        }
 
     }
 

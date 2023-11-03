@@ -31,6 +31,7 @@
 
         {{-- datepicker --}}
         <link href="{{ asset('plugins/bootstrap-datepicker/css/bootstrap-datepicker.min.css') }}" rel="stylesheet">
+        <link href="{{ asset('plugins/alertify/css/alertify.css') }}" rel="stylesheet">
 
     </head>
 
@@ -191,6 +192,7 @@
         <script src="{{ asset('plugins/jquery-toast/jquery.toast.js') }}"></script>
         <script src="{{ asset('plugins/sweet-alert2/sweetalert2.min.js') }}"></script>
         <script src="{{ asset('assets/js/global.js') }}"></script>
+        <script src="{{ asset('plugins/alertify/js/alertify.js') }}"></script>
       
         @yield('moreJs')
         
