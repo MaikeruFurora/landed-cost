@@ -372,10 +372,12 @@ $(".amount-class").on('keyup',function(e){
                 $("input[name=amount-"+id+"]").val(),
                 $("input[name=referenceno-"+id+"]").val(),
                 $("input[name=transaction-date-"+id+"]").val()
-            )
-        }else{
-            $("input[name=amount-"+id+"]").val(0)
-            alertify.alert("Date is empty")
+                )
+                $("input[name=transaction-date-"+id+"]").removeClass('is-invalid')
+            }else{
+                $("input[name=amount-"+id+"]").val(0)
+                $("input[name=transaction-date-"+id+"]").addClass('is-invalid')
+                alertify.alert("Date is empty")
         }
 
     }
