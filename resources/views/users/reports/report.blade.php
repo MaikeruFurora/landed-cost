@@ -98,18 +98,18 @@
             <div class="tab-pane fade show active" id="nav-all" role="tabpanel" aria-labelledby="nav-all-tab">
                 <div class="mt-4">
                  <div class="table-responsive">
-                     <table id="allDollarExpenes" class="table table-bordered dt-responsive nowrap table-hovered" style="border-collapse: collapse; border-spacing: 0; width: 100%;font-size:10px">
+                     <table id="allDollarExpenes" class="table table-bordered table-hovered" style="width: 100%;font-size:10px">
                          <thead>
                              <tr>
-                                <th>PARTICULAR</th>
+                                <th width="10%">PARTICULAR</th>
                                 <th width="7%">DATE</th>
                                 <th>ITEM</th>
                                 <th>SUPPLIER</th>
-                                <th>MT(Qty/FCL)</th>
+                                <th  width="6%">MT(Qty/FCL)</th>
                                 <th width="6%">MT(USD)</th>
-                                <th>TOTAL(USD)</th>
+                                <th width="6%">TOTAL(USD)</th>
                                 <th width="6%">ExRate(PHP)</th>
-                                <th>Total(PHP)</th>
+                                <th width="10%">Total(PHP)</th>
                              </tr>
                          </thead>
                          <tbody>
