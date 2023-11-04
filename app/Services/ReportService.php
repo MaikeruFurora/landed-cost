@@ -12,30 +12,31 @@ class ReportService{
         return [
             DB::select("exec dbo.sp_negoFilter ?,?,?,?",array($request->start,$request->end,$request->supplier,$request->item)),
             DB::select("exec dbo.sp_freightFilter ?,?,?,?",array($request->start,$request->end,$request->supplier,$request->item)),
+            DB::select("exec dbo.sp_getReportForDollarBook ?,?,?,?",array($request->start,$request->end,$request->supplier,$request->item)),
         ];
 
-        $data = DB::select("
-        select 
-            c.exchangeRateDate,
-            a.description,
-            a.invoiceno,
-            a.qtymt,
-            c.priceMetricTon,
-            c.exchangeRate,
-            convert(DATE,c.created_at) as created_at
-        from details 
-                a left join 
-            landedcost_particulars b on 
-                a.id = b.detail_id 
-                left join 
-            lcdpnegos c on b.id = c.landedcost_particular_id 
-        where convert(DATE,c.exchangeRateDate) between convert(date,'{$request->start}') AND convert(date,'{$request->end}') 
+        // $data = DB::select("
+        // select 
+        //     c.exchangeRateDate,
+        //     a.description,
+        //     a.invoiceno,
+        //     a.qtymt,
+        //     c.priceMetricTon,
+        //     c.exchangeRate,
+        //     convert(DATE,c.created_at) as created_at
+        // from details 
+        //         a left join 
+        //     landedcost_particulars b on 
+        //         a.id = b.detail_id 
+        //         left join 
+        //     lcdpnegos c on b.id = c.landedcost_particular_id 
+        // where convert(DATE,c.exchangeRateDate) between convert(date,'{$request->start}') AND convert(date,'{$request->end}') 
         
-        and 
-            a.description = '{$request->item}'");
+        // and 
+        //     a.description = '{$request->item}'");
 
             // return $data;
-        return $this->extract($data);
+        // return $this->extract($data);
     }
 
     public function searchTerm($request){

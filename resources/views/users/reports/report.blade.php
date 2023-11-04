@@ -89,12 +89,46 @@
         @endif
         <nav>
             <div class="nav nav-tabs" id="nav-tab" role="tablist">
-              <button class="nav-link active" id="nav-nego-tab" data-toggle="tab" data-target="#nav-nego" type="button" role="tab" aria-controls="nav-nego" aria-selected="true">LCDP Nego</button>
+                <button class="nav-link active" id="nav-all-tab" data-toggle="tab" data-target="#nav-all" type="button" role="tab" aria-controls="nav-all" aria-selected="false">All</button>
+              <button class="nav-link" id="nav-nego-tab" data-toggle="tab" data-target="#nav-nego" type="button" role="tab" aria-controls="nav-nego" aria-selected="true">LCDP Nego</button>
               <button class="nav-link" id="nav-freight-tab" data-toggle="tab" data-target="#nav-freight" type="button" role="tab" aria-controls="nav-freight" aria-selected="false">Freight</button>
             </div>
           </nav>
           <div class="tab-content" id="nav-tabContent">
-            <div class="tab-pane fade show active" id="nav-nego" role="tabpanel" aria-labelledby="nav-nego-tab">
+            <div class="tab-pane fade show active" id="nav-all" role="tabpanel" aria-labelledby="nav-all-tab">
+                <div class="mt-4">
+                 <div class="table-responsive">
+                     <table id="allDollarExpenes" class="table table-bordered dt-responsive nowrap table-hovered" style="border-collapse: collapse; border-spacing: 0; width: 100%;font-size:10px">
+                         <thead>
+                             <tr>
+                                <th>PARTICULAR</th>
+                                <th width="7%">DATE</th>
+                                <th>ITEM</th>
+                                <th>SUPPLIER</th>
+                                <th>MT(Qty/FCL)</th>
+                                <th width="6%">MT(USD)</th>
+                                <th>TOTAL(USD)</th>
+                                <th width="6%">ExRate(PHP)</th>
+                                <th>Total(PHP)</th>
+                             </tr>
+                         </thead>
+                         <tbody>
+                         </tbody>
+                         <tfoot class="bg-secondary text-white">
+                             <tr>
+                                 <th colspan="4">TOTAL</th>
+                                 <th>0</th>
+                                 <th>0</th>
+                                 <th>0</th>
+                                 <th>0</th>
+                                 <th>0</th>
+                             </tr>
+                         </tfoot>
+                     </table>
+                 </div>
+                </div>
+             </div>
+            <div class="tab-pane fade" id="nav-nego" role="tabpanel" aria-labelledby="nav-nego-tab">
                <div class="mt-4">
                 <div class="table-responsive">
                     <table id="negoTable" class="table table-bordered dt-responsive nowrap" style="border-collapse: collapse; border-spacing: 0; width: 100%;font-size:10px">
@@ -259,6 +293,7 @@
             }).done(function(data){
                 negoTable(data[0])
                 freightTable(data[1])
+                allDollarExpenes(data[2])
                 $("#searchForm *").prop("disabled", false)
             }).fail(function (jqxHR, textStatus, errorThrown) {
                 console.log(textStatus)
@@ -419,8 +454,8 @@
         paging:false,
     })
 
-    const negoTable = (data)=>{
-        $("#negoTable").DataTable({
+    const dataTableSetting = (data) => {
+        return {
             responsive:true,
             ordering:false,
             paging:false,
@@ -500,15 +535,23 @@
                         return $.number(data.amountPHP,2)
                     }
                 },
+                
             ],
 
            
-        })
-        
+        }
+    }
+
+    const negoTable = (data)=>{
+        $("#negoTable").DataTable(dataTableSetting(data))
     }
 
     const freightTable = (data)=>{
-        $("#freightTable").DataTable({
+        $("#freightTable").DataTable(dataTableSetting(data))
+    }
+
+    const allDollarExpenes = (data) =>{
+        $("#allDollarExpenes").DataTable({
             responsive:true,
             ordering:false,
             paging:false,
@@ -526,35 +569,36 @@
                 };
     
                 // computing column Total of the complete result 
-                let monTotal = api.column(3,{page:'current'}).data().reduce( function (a, b) {
+                let monTotal = api.column(4,{page:'current'}).data().reduce( function (a, b) {
                     return intVal(a) + intVal(b.qtymt);
                     }, 0 );
                     
-                let tueTotal = api.column(4,{page:'current'}).data().reduce( function (a, b) {
+                let tueTotal = api.column(5,{ page:'current' }).data().reduce( function (a, b) {
                         return intVal(a) + intVal(b.priceMetricTon);
                     }, 0 );
                     
-                let wedTotal = api.column(5,{page:'current'}).data().reduce( function (a, b) {
+                let wedTotal = api.column(6,{ page:'current' }).data().reduce( function (a, b) {
                         return intVal(a) + intVal(b.amountUSD);
-                    }, 0 ) /  api.column(5,{page:'current'}).data().count();
+                    }, 0 ) /  api.column(6,{ page:'current' }).data().count();
                     
-                let thuTotal = api.column(4,{page:'current'}).data().reduce( function (a, b) {
+                let thuTotal = api.column(5,{ page:'current' }).data().reduce( function (a, b) {
                         return intVal(a) + intVal(b.exchangeRate);
-                    }, 0 ) /  api.column(4,{page:'current'}).data().count();
+                    }, 0 ) /  api.column(5,{ page:'current' }).data().count();
 
-                let friTotal = api.column(5,{page:'current'}).data().reduce( function (a, b) {
+                let friTotal = api.column(6,{ page:'current' }).data().reduce( function (a, b) {
                         return intVal(a) + intVal(b.amountPHP);
                     }, 0 );
                 
                 // Update footer by showing the total with the reference of the column index 
                 $( api.column( 0 ).footer() ).html('Total');
-                $( api.column( 3 ).footer() ).html($.number(monTotal,4));
-                $( api.column( 4 ).footer() ).html($.number(tueTotal,4));
-                $( api.column( 5 ).footer() ).html('Avg. '+$.number(wedTotal,4));
-                $( api.column( 6 ).footer() ).html('Avg. '+$.number(thuTotal));
-                $( api.column( 7 ).footer() ).html($.number(friTotal,2));
-            },
+                $( api.column( 4 ).footer() ).html($.number(monTotal,4));
+                $( api.column( 5 ).footer() ).html($.number(tueTotal,4));
+                $( api.column( 6 ).footer() ).html('Avg. '+$.number(wedTotal,4));
+                $( api.column( 7 ).footer() ).html('Avg. '+$.number(thuTotal));
+                $( api.column( 8 ).footer() ).html($.number(friTotal,2));
+        },
             columns:[
+                { data:'particular' },
                 { data:'exchangeRateDate' },
                 { data:'description' },
                 { data:'suppliername' },
@@ -588,9 +632,11 @@
                         return $.number(data.amountPHP,2)
                     }
                 },
+                
             ],
+
+           
         })
-        
     }
 
 
