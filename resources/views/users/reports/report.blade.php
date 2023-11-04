@@ -98,7 +98,7 @@
             <div class="tab-pane fade show active" id="nav-all" role="tabpanel" aria-labelledby="nav-all-tab">
                 <div class="mt-4">
                  <div class="table-responsive">
-                     <table id="allDollarExpenes" class="table table-bordered table-hovered" style="width: 100%;font-size:10px">
+                     <table id="allDollarExpenes" class="table table-bordered table-striped table-hover" style="width: 100%;font-size:10px">
                          <thead>
                              <tr>
                                 <th width="10%">PARTICULAR</th>
