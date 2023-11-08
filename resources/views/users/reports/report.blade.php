@@ -568,6 +568,11 @@
                             i : 0;
                 };
     
+
+                let  countF = api.column(5,{ page:'current' }).data().filter(function (value, index) {
+                    return intVal(value.exchangeRate) !=  0 || value.exchangeRate !=  null ? true : false;
+                }).length;
+
                 // computing column Total of the complete result 
                 let monTotal = api.column(4,{page:'current'}).data().reduce( function (a, b) {
                     return intVal(a) + intVal(b.qtymt);
@@ -579,11 +584,13 @@
                     
                 let wedTotal = api.column(6,{ page:'current' }).data().reduce( function (a, b) {
                         return intVal(a) + intVal(b.amountUSD);
-                    }, 0 ) /  api.column(6,{ page:'current' }).data().count();
-                    
+                    }, 0 ) /  countF;
+
                 let thuTotal = api.column(5,{ page:'current' }).data().reduce( function (a, b) {
                         return intVal(a) + intVal(b.exchangeRate);
-                    }, 0 ) /  api.column(5,{ page:'current' }).data().count();
+                    }, 0 ) /  countF;
+
+                // console.log(api.column(5,{ page:'current' }).data()[5]);
 
                 let friTotal = api.column(6,{ page:'current' }).data().reduce( function (a, b) {
                         return intVal(a) + intVal(b.amountPHP);
