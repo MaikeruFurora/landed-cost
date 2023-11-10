@@ -31,6 +31,7 @@ return new class extends Migration
             $table->date('exchangeRateDate')->nullable();
             $table->text('purpose');
             $table->date('dated_at')->nullable();
+            $table->date('posted_at')->nullable();
             $table->timestamps();
         });
     }
