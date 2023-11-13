@@ -187,7 +187,7 @@ let tableCon = ConPay.contractTable.DataTable({
                         elementType:'button',
                         id:data.amountUSD,
                         value:data.id,
-                        disabled: (checker)
+                        disabled: (checker && (data.invoice_payment.length>0 || data.invoice_payment.length<0))
                     },
 
                 ])
