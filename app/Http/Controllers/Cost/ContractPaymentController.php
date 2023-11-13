@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Cost;
 
 use App\Helper\Helper;
 use App\Http\Controllers\Controller;
+use App\Models\Contract;
 use App\Models\ContractPayment;
 use App\Models\Detail;
 use App\Models\InvoicePayDetail;
@@ -49,6 +50,13 @@ class ContractPaymentController extends Controller
 
         if ($data) {
             return response()->json(['msg'=>'Successfully save data']);
+        }
+    }
+
+    public function destroy(ContractPayment $contractPayment){
+        if ($contractPayment) {
+            $contractPayment->delete();
+            return response()->json(['msg'=>'Successfully removed']);
         }
     }
 

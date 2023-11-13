@@ -105,8 +105,10 @@ Route::middleware(['auth:web','preventBackHistory','auth.user'])->name('authenti
     Route::get('payment',[ContractPaymentController::class,'index'])->name('payment');
     Route::post('payment/store',[ContractPaymentController::class,'store'])->name('payment.store');
     Route::get('payment/list',[ContractPaymentController::class,'list'])->name('payment.list');
+    Route::delete('payment/delete/{contractPayment}',[ContractPaymentController::class,'destroy'])->name('payment.delete');
     Route::post('payment/search',[ContractPaymentController::class,'search'])->name('payment.invoice.search');
     Route::post('payment/search/save',[ContractPaymentController::class,'save'])->name('payment.invoice.save');
+
     //detail payment
     Route::post('payment/detail/store',[ContractPaymentController::class,'storeDetail'])->name('payment.detail.store');
     Route::get('payment/detail/list/{contractPayment}',[ContractPaymentController::class,'listDetail'])->name('payment.detail.list');

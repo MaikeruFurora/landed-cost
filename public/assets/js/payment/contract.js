@@ -161,6 +161,7 @@ let tableCon = ConPay.contractTable.DataTable({
         { 
             data:null,
             render:function(data){
+                let checker = data.invoice_payment.every(v => v.invoiceno!=null);
                 return BaseModel.dropdown([
                     {
                         text:'View / Initial Payment',
@@ -179,6 +180,16 @@ let tableCon = ConPay.contractTable.DataTable({
                         id:data.amountUSD,
                         value:data.id
                     },
+                    {
+                        text:'Remove',
+                        name:'removeContract',
+                        icon:'<i class="fas fa-eraser"></i>',
+                        elementType:'button',
+                        id:data.amountUSD,
+                        value:data.id,
+                        disabled: (checker)
+                    },
+
                 ])
             }
         },
@@ -201,7 +212,6 @@ let tableCon = ConPay.contractTable.DataTable({
         {
             data:null,
             render:function(data){
-                console.log(data);
                 if (data.invoice_payment.length>0) {
                     let hold=`<table class="table table-bordered" style="width:100%;font-size:11px">
                                 <tr class="text-center">
@@ -232,6 +242,38 @@ let tableCon = ConPay.contractTable.DataTable({
         },
        
     ]
+})
+
+/**
+ * 
+ *  REMOVE
+ * 
+ */
+
+$(document).on('click','button[name=removeContract]',function(e){
+    e.preventDefault()
+    let id = this.value
+    alertify.confirm("Are you sure you want remove this item? This process can't be undone.",function(evnt){
+        if (evnt.isTrusted) {
+            $.ajax({
+                url:  ConPay.contractTable.attr("data-remove").replace("cp",id),
+                type: 'DELETE',
+                data: {
+                    _token:BaseModel._token,
+                }
+            }).done(function(data){
+                if (data.msg) {
+                    tableCon.ajax.reload()
+                    toasMessage(data.msg,"success")
+                }
+            }).fail(function (jqxHR, textStatus, errorThrown) {
+                toasMessage(data.msg,jqxHR,"danger")
+            })
+        }
+
+        return false;
+    })
+   
 })
 
 

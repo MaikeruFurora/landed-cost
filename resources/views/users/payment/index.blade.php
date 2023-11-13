@@ -45,6 +45,7 @@
                 <div class="col-8">
                     <table id="contractTable" 
                     data-url="{{ route('authenticate.payment.list') }}"
+                    data-remove="{{ route('authenticate.payment.delete',['cp']) }}"
                     class="table adjust table-bordered table-sm dt-responsive nowrap adjust" 
                     style="border-collapse: collapse; border-spacing: 0; width: 100%;font-size:11px">
                     <thead>
