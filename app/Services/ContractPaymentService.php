@@ -21,14 +21,19 @@ class ContractPaymentService{
     
         if (!empty($filter)) {
             $query
-            ->where('suppliername', 'like', '%'.$filter.'%')
-            ->where('description', 'like', '%'.$filter.'%')
-            ->where('reference', 'like', '%'.$filter.'%')
-            ->where('metricTon', 'like', '%'.$filter.'%')
-            ->where('priceMetricTon', 'like', '%'.$filter.'%')
-            ->where('contract_percent', 'like', '%'.$filter.'%')
-            ->where('amountUSD', 'like', '%'.$filter.'%')
-            ->where('paidAmountUSD', 'like', '%'.$filter.'%');
+            ->orWhere('suppliername', 'like', '%'.$filter.'%')
+            ->orWhere('description', 'like', '%'.$filter.'%')
+            ->orWhere('reference', 'like', '%'.$filter.'%')
+            ->orWhere('metricTon', 'like', '%'.$filter.'%')
+            ->orWhere('priceMetricTon', 'like', '%'.$filter.'%')
+            ->orWhere('contract_percent', 'like', '%'.$filter.'%')
+            ->orWhere('amountUSD', 'like', '%'.$filter.'%')
+            ->orWhere('paidAmountUSD', 'like', '%'.$filter.'%')
+            ->orWhereHas('invoice_payment',function($q) use ($filter){
+                // return $q->whereHas('invoice_pay_detail',function($query) use ($filter){
+                   return $q->where('reference','like', '%'.$filter.'%');
+                // });
+            });
         }
     
         $recordsTotal = $query->count();
@@ -86,11 +91,11 @@ class ContractPaymentService{
     
         if (!empty($filter)) {
             $query
-            ->where('exchangeDate', 'like', '%'.$filter.'%')
-            ->where('exchangeRate', 'like', '%'.$filter.'%')
-            ->where('dollar', 'like', '%'.$filter.'%')
-            ->where('totalAmountInPHP', 'like', '%'.$filter.'%')
-            ->where('totalPercentPayment', 'like', '%'.$filter.'%');
+            ->orWhere('exchangeDate', 'like', '%'.$filter.'%')
+            ->orWhere('exchangeRate', 'like', '%'.$filter.'%')
+            ->orWhere('dollar', 'like', '%'.$filter.'%')
+            ->orWhere('totalAmountInPHP', 'like', '%'.$filter.'%')
+            ->orWhere('totalPercentPayment', 'like', '%'.$filter.'%');
         }
     
         $recordsTotal = $query->count();

@@ -24,10 +24,10 @@ class InvoicePaymentService{
     
         if (!empty($filter)) {
             $query
-            ->where('reference', 'like', '%'.$filter.'%')
-            ->where('metricTon', 'like', '%'.$filter.'%')
-            ->where('priceMetricTon', 'like', '%'.$filter.'%')
-            ->where('amountUSD', 'like', '%'.$filter.'%');
+            ->orWhere('reference', 'like', '%'.$filter.'%')
+            ->orWhere('metricTon', 'like', '%'.$filter.'%')
+            ->orWhere('priceMetricTon', 'like', '%'.$filter.'%')
+            ->orWhere('amountUSD', 'like', '%'.$filter.'%');
         }
     
         $recordsTotal = $query->count();
