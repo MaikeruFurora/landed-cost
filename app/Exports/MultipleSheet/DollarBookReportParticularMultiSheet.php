@@ -1,12 +1,13 @@
 <?php
 
-namespace App\Exports;
+namespace App\Exports\MultipleSheet;
 
+use App\Exports\DollarBookReport;
 use Illuminate\Support\Facades\DB;
 use Maatwebsite\Excel\Concerns\FromCollection;
 use Maatwebsite\Excel\Concerns\WithMultipleSheets;
 
-class MultipleWorkSheet implements WithMultipleSheets
+class DollarBookReportParticularMultiSheet implements WithMultipleSheets
 {
 
     public $from;

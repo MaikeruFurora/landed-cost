@@ -35,7 +35,7 @@ class ContractPaymentController extends Controller
     } 
 
      public function index(){
-        $particular = Particular::whereIn('p_code',['FR','SF','BC'])->get(['id','p_name','p_code']);
+        $particular = Particular::whereIn('p_code',['FR','SF','BC','CM'])->get(['id','p_name','p_code']);
         return view('users.payment.index',compact('particular'));
     }
 

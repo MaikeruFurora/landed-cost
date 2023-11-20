@@ -17,7 +17,7 @@
                   <option value="dollarReport">Dollar Report</option>
                   <option value="fundReport">Fund Transfer</option>
                   <option value="projectedCostReport">Landed Cost Tabsheet</option>
-                  <option value="dollarBook">Dollar Book</option>
+                  <option value="dollarBook">Dollar Expense Per PARTICULAR</option>
               </select>
           </div>
           <div class="form-group company_details">
@@ -30,8 +30,7 @@
           </div>
           <div class="form-group itemName_details">
             <label for="">Item</label>
-            <select name="itemName" data-placeholder="- All Item -" class="form-control" style="width:100%;height:50%">
-              <option value='All'>- All Item -</option>
+            <select name="itemName" class="form-control" style="width:100%;height:50%">
             </select>
           </div>
           <div class="input-daterange" id="report-range-modal">

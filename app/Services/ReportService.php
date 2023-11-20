@@ -47,8 +47,10 @@ class ReportService{
         
         ->limit(5)->get(['description']);
 
-        // $data[] = (object) ['description' => 'All']; 
-
+        if (!empty($request->all)) {
+            $data[0] = (object) ['description' => 'All']; 
+        }
+        
         return $data;
 
     }

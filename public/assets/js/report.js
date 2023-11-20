@@ -171,6 +171,7 @@ $('select[name="itemName"]').select2({
 placeholder: function(){
   $(this).data('placeholder');
 },
+placeholder: 'Select an item',
 dropdownParent: $('#dutiesModal'),
 closeOnSelect: true,
 allowClear: true,
@@ -178,6 +179,12 @@ ajax: {
   url: 'report/filter/description',
   dataType: 'json',
   delay: 250,
+  data: function (params) {
+        return { 
+            term:params.term,
+            all: 'YES'
+        };
+    },
   processResults: function (data) {
       return {
           results:  $.map(data, function (item) {

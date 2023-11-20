@@ -10,8 +10,10 @@ use App\Models\Company;
 use App\Exports\DutiesReport;
 use App\Exports\DollarReport;
 use App\Exports\FundReport;
-use App\Exports\MultipleWorkSheet;
+use App\Exports\MultipleSheet\DollarBookReportParticularMultiSheet;
+use App\Exports\MultipleSheet\ProjectedCostReportMultiSheet;
 use App\Exports\ProjectedCostReport;
+use App\Exports\ProjectedCostReportM;
 use App\Models\Particular;
 use Maatwebsite\Excel\Facades\Excel;
 use Illuminate\Http\Request;
@@ -55,7 +57,6 @@ class ReportController extends Controller
     public function searchItem(Request $request){
 
         $data =  $this->reportService->searchTerm($request);
-        // $data[0]=["description" => "ALL"];
 
         return response()->json($data);
 
@@ -111,34 +112,28 @@ class ReportController extends Controller
             case 'fundReport':
                 // return DB::select("exec dbo.sp_getDollarReport ?,?,?",array($request->from,$request->to,$request->company_id));
                 return Excel::download(new FundReport($request->from,$request->to,$request->company_id),
-                            'Dollar Report - '.date("F_d_Y",strtotime($request->from)).'-'.date("F_d_Y",strtotime($request->to)).'.xlsx'
+                            'Fund Report - '.date("F_d_Y",strtotime($request->from)).'-'.date("F_d_Y",strtotime($request->to)).'.xlsx'
                         );
                 break;
 
             case 'projectedCostReport':
-                $itemName = empty($request->itemName) ? 'All' : $request->itemName;
-                return Excel::download(new ProjectedCostReport($request->from,$request->to,$itemName),
+                if ($request->itemName!='All') { 
+                    return Excel::download(new ProjectedCostReport($request->from,$request->to,$request->itemName),
                         'Projected Cost Report - '.date("F_d_Y",strtotime($request->from)).'-'.date("F_d_Y",strtotime($request->to)).'.xlsx'
                     );
+                }else{
+                    return Excel::download(new ProjectedCostReportMultiSheet($request->from,$request->to),
+                        'Projected Cost Report - '.date("F_d_Y",strtotime($request->from)).'-'.date("F_d_Y",strtotime($request->to)).'.xlsx'
+                    );
+                }
+
                     
                 break;
             case 'dollarBook':
-                    return Excel::download(new MultipleWorkSheet($request->from,$request->to),
-                        'DOLLARBOOK'.'.xlsx'
+                    return Excel::download(new DollarBookReportParticularMultiSheet($request->from,$request->to),
+                        'Dollar Expense'.'.xlsx'
                     );
                     // return DB::select("exec dbo.sp_getPivotTabSheet ?,?",array($request->from,$request->to));
-                  
-
-                    $data = DB::select("exec dbo.sp_getDollarBookReport ?,?",array($request->from,$request->to));
-                    $coll = collect($data);
-                    $key  = collect($data)->unique(['REF'])->pluck('REF');
-                    $res  = $coll->groupBy('REF');
-                    for ($i=0; $i <count($key); $i++) {
-                        return ($res[$key[1]]);
-                        // for ($j=0; $j < count($res[$key[$i]]) ; $j++) { 
-                        //     print_r($res[$key[$i]]['INVOICE']);
-                        // }
-                    }
                     break;
             
             default:
