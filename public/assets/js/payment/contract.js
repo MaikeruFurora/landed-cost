@@ -202,11 +202,13 @@ let tableCon = ConPay.contractTable.DataTable({
         { 
             data:null,
             render:function(data){
+               if (data.contract_percent!=0) {
                 let per = Math.round(data.payment_detail.reduce((total,val)=>total+=parseFloat(val.totalPercentPayment),0))
                 return (per==Math.round(data.contract_percent))
                     ?   per+" / "+Math.round(data.contract_percent)+'<i class="ml-2 fas fa-check-circle text-success"></i>'
                     :   per+" / "+Math.round(data.contract_percent)+'<i class="fas fa-exclamation-triangle text-warning"></i>';
-
+               }
+               return ''
             }
         },
         {
@@ -223,10 +225,11 @@ let tableCon = ConPay.contractTable.DataTable({
                                     <th>Amount (USD)</th>
                                 </tr>`;
                         data.invoice_payment.forEach((val,i)=>{
+                            // <td>${val.invoiceno!=null?`<a target="_blank" href="#">${val.invoiceno}</a>`:''}</td>
                             hold+=` <tr class="text-center">
                                         <td>${++i}</td>
                                         <td>${val.reference}</td>
-                                        <td>${val.invoiceno!=null?`<a target="_blank" href="${shipTbl.attr("data-cost").replace("invoice",val.invoice_id)}">${val.invoiceno}</a>`:''}</td>
+                                        <td>${val.invoiceno!=null?val.invoiceno:''}</td>
                                         <th>${$.number(val.metricTon,true)}</th>                                            
                                         <th>${$.number(val.priceMetricTon,true)}</th>
                                         <th>${$.number(val.amountUSD,true)}</th>

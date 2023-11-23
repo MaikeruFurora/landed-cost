@@ -7,6 +7,7 @@ use App\Http\Controllers\Controller;
 use App\Models\Contract;
 use App\Models\ContractPayment;
 use App\Models\Detail;
+use App\Models\Freight;
 use App\Models\InvoicePayDetail;
 use App\Models\InvoicePayment;
 use App\Models\LandedcostParticular;
@@ -17,8 +18,8 @@ use App\Models\PaymentDetail;
 use App\Services\ContractPaymentService;
 use App\Services\DataService;
 use App\Services\NegoService;
+use App\Services\FreightService;
 use Illuminate\Http\Request;
-use PHPUnit\TextUI\Help;
 
 class ContractPaymentController extends Controller
 {
@@ -26,12 +27,14 @@ class ContractPaymentController extends Controller
     protected $contractPaymentService;
     protected $dataService;
     protected $negoService;
+    protected $freightService;
     
-    public function __construct(ContractPaymentService $contractPaymentService,DataService $dataService,NegoService $negoService)
+    public function __construct(ContractPaymentService $contractPaymentService,DataService $dataService,NegoService $negoService,FreightService $freightService)
     {
         $this->contractPaymentService   = $contractPaymentService;
         $this->dataService              = $dataService;
         $this->negoService              = $negoService;
+        $this->freightService           = $freightService;
     } 
 
      public function index(){
@@ -97,6 +100,7 @@ class ContractPaymentController extends Controller
     }
 
     public function save(Request $request){
+
     
         /* This code block is related to saving an invoice for a contract. */
         $particular      = $this->negoService->checkFirstParticular();
@@ -143,15 +147,17 @@ class ContractPaymentController extends Controller
                 }
 
                 $dataOtherpay =  InvoicePayment::with('other_payment')->find($request->invoice_payment);
-
+                
                 foreach ($dataOtherpay->other_payment as $key => $value) {
                     $prtclr = Particular::checkIfExists($value->particular);
-                    if (Particular::checkIfExists($value->particular)) {
-                      LandedcostParticular::checkExistInvoiceAndParticular($detail->id,$prtclr->id)->update([
-                            'amount'            => $value->totalAmountInPHP,
-                            'referenceno'       => $value->dollar.'*'.$value->exchangeRate.'*'.$value->quantity,
-                            'transaction_date'  => $value->exchangeDate,
-                        ]);
+                    if ($prtclr) {
+                        $landedCostParticular = LandedcostParticular::checkExistInvoiceAndParticular($detail->id,$prtclr->id);
+                       if ($value->particular==='FR') {
+                                $this->freightCode($value,$landedCostParticular->first());
+                                $landedCostParticular->update($this->LCField($value));
+                       }else{
+                            $landedCostParticular->update($this->LCField($value));
+                       }
                     }
                 }
 
@@ -175,6 +181,28 @@ class ContractPaymentController extends Controller
             }
         }
             
+    }
+
+    public function LCField($value){
+       return [
+            'amount'            => $value->totalAmountInPHP,
+            'referenceno'       => $value->quantity."*".number_format($value->dollar,2).'*'.number_format($value->exchangeRate,2),
+            'transaction_date'  => $value->exchangeDate,
+       ];
+    }
+
+    public function freightCode($value,$lcParticular){
+        $freightRequest = new Request();
+        $freightRequest->setMethod('POST');
+        $freightRequest->request->add([
+            'id'                => null,
+            'dollarRate'        => $value->dollar,
+            'exchangeRate'      => $value->exchangeRate,
+            'exchangeRateDate'  => $value->exchangeDate,
+            'vesselType'        => $value->quantity
+        ]);
+
+        $this->freightService->freightStore($freightRequest,LandedcostParticular::find($lcParticular->id));
     }
 
 

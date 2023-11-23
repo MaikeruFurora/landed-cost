@@ -15,7 +15,7 @@ let otherPaymentTable;
 Other.form.find("button[name=cancelButton]").on('click',function(){
     Other.form[0].reset()
     Other.form.find('input[name=id]').val('')
-    $(this).hide()
+    Other.form.find("button[name=cancelButton]").hide()
 }).hide()
 
 Other.table.DataTable({
@@ -97,6 +97,7 @@ Other.form.on('submit',function(e){
         if (data.msg) {
             Other.form[0].reset()
             Other.form.find('input[name=id]').val('')
+            Other.form.find("button[name=cancelButton]").hide()
             toasMessage(data.msg,"success")
             otherPaymentTable.ajax.reload()
         }

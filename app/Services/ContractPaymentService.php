@@ -31,9 +31,11 @@ class ContractPaymentService{
             ->orWhere('paidAmountUSD', 'like', '%'.$filter.'%')
             ->orWhereHas('invoice_payment',function($q) use ($filter){
                 // return $q->whereHas('invoice_pay_detail',function($query) use ($filter){
-                   return $q->where('reference','like', '%'.$filter.'%');
+                    $q->where('reference','like', '%'.$filter.'%')
+                        ->orwhere('invoiceno','like', '%'.$filter.'%')
+                        ->orwhere('priceMetricTon','like', '%'.$filter.'%');
                 // });
-            });
+            }); 
         }
     
         $recordsTotal = $query->count();

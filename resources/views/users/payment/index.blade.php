@@ -139,6 +139,6 @@
     <script src="{{ asset('plugins/bootstrap-popover/jquery.webui-popover.min.js') }}"></script>
     <script src="{{ asset('assets/js/payment/contract.js') }}"></script>
     <script src="{{ asset('assets/js/payment/payment.js') }}"></script>
-    <script src="{{ asset('assets/js/payment/freight.js') }}"></script>
+    {{-- <script src="{{ asset('assets/js/payment/freight.js') }}"></script> --}}
     <script src="{{ asset('assets/js/payment/other.js') }}"></script>
 @endsection

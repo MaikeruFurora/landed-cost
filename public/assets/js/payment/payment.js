@@ -455,6 +455,7 @@ const searchInvoiceTable = (data,control) =>{
 }
 
 $(document).on('click','button[name=addInvoiceContract]',function(data){
+    let btn = $("button[name=addInvoiceContract]");
     $.ajax({
         url:  shipTbl.attr("data-invoice"),
         type: 'POST',
@@ -462,6 +463,9 @@ $(document).on('click','button[name=addInvoiceContract]',function(data){
             _token:BaseModel._token,
             invoice_payment: $("#searchInvoiceTable").attr("data-invoicePayment"),
             invoiceno:$(this).val()
+        },
+        beforeSend:function(){
+            return btn.html(`<span class="spinner-border spinner-border-sm"></span>`).prop('disabled',true)
         }
     }).done(function(data){
         if (data.msg) {
@@ -471,7 +475,9 @@ $(document).on('click','button[name=addInvoiceContract]',function(data){
             $("#modalPayment").modal("hide")
             $("#searchInvoiceTable").DataTable()
         }
+         btn.prop('disabled',false)
     }).fail(function (jqxHR, textStatus, errorThrown) {
+        btn.prop('disabled',false)
         toasMessage(data.msg,jqxHR,"danger")
     })
 })
