@@ -9,9 +9,11 @@
                 <input type="hidden" name="weight"   value="{{ $detail->weight }}">
                 <div class="row">
                     <div class="col-lg-3 col-md-3 col-sm-12">
-                        <div class="form-group">
+                        <div class="form-group mb-0">
                             <label for="">Supplier's Name</label>
-                            <input type="text" class="form-control form-control-sm" name="suppliername" value="{{ $detail->suppliername }}" @if(!empty($detail->posted_at)) disabled @endif required>
+                            <select style="" id="{{ route("authenticate.report.filter.supplier") }}" name="suppliername" class="form-control"  data-id="{{ $detail->suppliername }}" data-name="{{ $detail->suppliername }}" ></select>
+                            <em><small style="font-size: 10px" class="supplier_reflect">{{ $detail->suppliername }}</small></em>
+                            {{-- <input type="text" class="form-control form-control-sm" name="suppliername" value="{{ $detail->suppliername }}" @if(!empty($detail->posted_at)) disabled @endif required> --}}
                         </div>
                         <div class="form-group">
                             <label for="">PO Number</label>

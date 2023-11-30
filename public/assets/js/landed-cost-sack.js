@@ -274,3 +274,32 @@ $("#invoiceForm").on('submit',function(e){
 $("button[name=print]").on('click',function(){
     BaseModel.loadToPrint($(this).val())
 })
+
+$('select[name="suppliername"]').select2({
+    tags:true,
+    allowClear:true,
+    placeholder: 'Select supplier',
+    ajax: {
+      url: $('select[name="suppliername"]').attr("id"),
+      dataType: 'json',
+      delay: 250,
+      processResults: function (data) {
+          return {
+              results:  $.map(data, function (item) {
+                  return {
+                      text: item.suppliername,
+                      id: item.suppliername,
+                  }
+              })
+          };
+      },
+      cache: true
+    }
+    }).on('select2:close', function(){
+    var element = $(this);
+    var new_category = $.trim(element.val());
+    element.append('<option value="'+new_category+'">'+new_category+'</option>').val(new_category);
+    $(".supplier_reflect").text(new_category)
+});
+
+$('select[name="suppliername"]').append( new Option($('select[name="suppliername"]').attr('data-name'), $('select[name="suppliername"]').attr('data-id'), true, true)).trigger('change');

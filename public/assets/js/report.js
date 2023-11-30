@@ -403,7 +403,13 @@ $("#allDollarExpenes").DataTable({
       $( api.column( 8 ).footer() ).html($.number(friTotal,2));
 },
   columns:[
-      { data:'particular' },
+    
+        { 
+            data:null,
+            render:function(data){
+                return data.invoiceID!=null?`<a target="_blank" href="${$("#searchForm").attr("data-cost").replace("invoice",data.invoiceID)}">${data.particular}</a>`:data.particular;
+            }
+        },
       { data:'exchangeRateDate' },
       { data:'description' },
       { data:'suppliername' },

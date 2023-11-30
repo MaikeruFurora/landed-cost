@@ -70,7 +70,8 @@
         @if (Helper::usrChckCntrl(['RP002']))
                 <div class="col-lg-4 col-md-4 col-sm-12 ">
                         <!-- action="{{ route('authenticate.report') }}" -->
-                    <form id="searchForm" action="{{ route("authenticate.report.filter") }}" autocomplete="off">@csrf
+                    <form id="searchForm" action="{{ route("authenticate.report.filter") }}" autocomplete="off"
+                    data-cost="{{ route('authenticate.details.landedcost',['invoice']) }}">@csrf
                         <div class="form-group mb-2">
                             <select id="{{ route("authenticate.report.filter.description") }}" name="item" class="form-control"></select>
                         </div>

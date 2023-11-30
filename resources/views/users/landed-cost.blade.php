@@ -1,5 +1,6 @@
 @extends('../_layout/app')
 @section('moreCss')
+<link href="{{ asset('plugins/select2/select2.min.css') }}" rel="stylesheet">
 <style>
     label{
         font-size: 11px;
@@ -102,6 +103,7 @@
 @endsection
 @section('moreJs')
 <script src="{{ asset('plugins/jquery-number/jquery.number.js') }}"></script>
+<script src="{{ asset('plugins/select2/select2.min.js') }}"></script>
 <script src="{{ asset('assets/js/landed-cost.js')}}"></script>
 <script src="{{ asset('assets/js/company.js')}}"></script>
 <script src="{{ asset('assets/js/nego.js')}}"></script>

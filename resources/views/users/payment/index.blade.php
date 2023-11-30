@@ -113,11 +113,11 @@
                     data-url="{{ route('authenticate.payment.list') }}"
                     data-remove="{{ route('authenticate.payment.delete',['cp']) }}"
                     class="table adjust table-bordered table-sm dt-responsive nowrap adjust" 
-                    style="border-collapse: collapse; border-spacing: 0; width: 100%;font-size:11px">
+                    style="border-collapse: collapse; border-spacing: 0; width: 100%;font-size:10px">
                     <thead>
                         <tr>
-                            <th width="8%"></th>
-                            <th class="text-center" width="10%">Action</th>
+                            <th width="3%"></th>
+                            <th class="text-center" width="5%">Action</th>
                             <th width="20%">Supplier</th>
                             <th width="20%">Item Description</th>
                             <th>Contract Ref.</th>
