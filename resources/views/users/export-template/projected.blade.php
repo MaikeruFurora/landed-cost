@@ -67,7 +67,7 @@
                     @endforeach
                     <th>
                         @php
-                            $res = $projectedCost/$item->qtykls;
+                            $res = ($projectedCost/$item->qtykls) ?? 0;
                             echo number_format($res,4);
                             $res=0;
                         @endphp

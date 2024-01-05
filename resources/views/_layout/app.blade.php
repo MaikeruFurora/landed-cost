@@ -51,7 +51,8 @@
                         <div>
                             
                             <a href="#" class="logo">
-                                <img src="{{ asset('assets/images/landed-icon-white.png') }}" alt="" height="35"> 
+                                <img src="{{ asset('assets/images/landed-icon-white.png') }}" alt="" height="35"
+                                data-container="body" data-toggle="popover" data-placement="top" class="text-danger" style="font-size: 9px" data-content="{{ env("DB_HOST") }}"> 
                             </a>
 
                         </div>

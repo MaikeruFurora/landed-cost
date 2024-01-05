@@ -130,8 +130,11 @@ ConPay.contractForm.on('submit',function(e){
         if (data.msg) {
             ConPay.contractForm[0].reset()
             ConPay.contractForm.find('input[name=id]').val('')
+            ConPay.contractForm.find("select[name=description]").append(new Option(data.description, null, true, true)).trigger('change');
+        ConPay.contractForm.find("select[name=suppliername]").append(new Option(data.suppliername, null, true, true)).trigger('change');
             toasMessage(data.msg,"success")
             tableCon.ajax.reload()
+            
         }
     }).fail(function (jqxHR, textStatus, errorThrown) {
         toasMessage(data.msg,jqxHR,"danger")
@@ -179,6 +182,22 @@ let tableCon = ConPay.contractTable.DataTable({
                         elementType:'button',
                         id:data.amountUSD,
                         value:data.id
+                    },
+                    {
+                        text:'Edit',
+                        name:'editContract',
+                        icon:'<i class="fas fa-edit"></i>',
+                        elementType:'button',
+                        id:data.amountUSD,
+                        value:data.id,
+                        disabled: (checker && (data.invoice_payment.length>0 || data.invoice_payment.length<0))
+                    },
+                    {
+                        text:'',
+                        name:'',
+                        icon:'',
+                        elementType:'button',
+                        disabled: (checker && (data.invoice_payment.length>0 || data.invoice_payment.length<0))
                     },
                     {
                         text:'Remove',
@@ -277,6 +296,29 @@ $(document).on('click','button[name=removeContract]',function(e){
         return false;
     })
    
+})
+
+/**
+ * 
+ * edit contract
+ * 
+ */
+
+$(document).on('click','button[name=editContract]',function(e){
+    e.preventDefault()
+    console.log($(this).attr("id"));
+    const data = tableCon.row( $(this).closest('tr') ).data()
+    console.log(data);
+
+    $.each($('#contractForm .form-control'),(ind, value) => {
+        console.log(data[value.name]);
+        // console.log(data[value.name]);
+        ConPay.contractForm.find("input[name="+value.name+"]").val(data[value.name]);
+        ConPay.contractForm.find("input[name=paidAmountUSD]").prop('disabled',data.payment_detail.length>0)
+        ConPay.contractForm.find("input[name=contract_percent]").prop('disabled',data.payment_detail.length>0)
+        ConPay.contractForm.find("select[name=description]").append(new Option(data.description, data.description, true, true)).trigger('change');
+        ConPay.contractForm.find("select[name=suppliername]").append(new Option(data.suppliername, data.suppliername, true, true)).trigger('change');
+    });
 })
 
 

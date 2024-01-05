@@ -41,6 +41,7 @@ class ReportService{
 
     public function searchTerm($request){
 
+        
         $data =  Detail::groupby(['description'])->orderby('description','asc')
         
         ->where('description', 'like', '%'.$request->get('term').'%')
@@ -48,7 +49,7 @@ class ReportService{
         ->limit(5)->get(['description']);
 
         if (!empty($request->all)) {
-            $data[0] = (object) ['description' => 'All']; 
+            $data[] = (object) ['description' => 'All']; 
         }
         
         return $data;
