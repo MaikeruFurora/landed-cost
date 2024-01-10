@@ -160,6 +160,8 @@ Route::middleware(['auth:web','preventBackHistory','auth.user'])->name('authenti
     Route::get('report/print',[ReportController::class,'print']);
     ////////
     Route::get('report/projected-cost/list',[ReportController::class,'projectedCostList']);
+    // preview page
+    Route::get('report/projected-cost/{itemName}/{from}/{to}',[ReportController::class,'preview'])->name('preview');
     
     //export duties
     Route::get('report/export',[ReportController::class,'exportReport'])->name('report.export');

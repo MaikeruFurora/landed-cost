@@ -30,7 +30,9 @@ class ProjectedCostReportMultiSheet implements WithMultipleSheets
         $res =  $coll->groupBy('description');
         $key  = collect($data)->unique(['description'])->pluck('description');
         for ($i=0; $i <count($key) ; $i++) { 
-           $sheets[]= new ProjectedCostReportM($res[$key[$i]],$this->from,$this->to,$key[$i]);
+            if ( $key[$i]!='EMPTY SACK') {
+           $sheets[]= new ProjectedCostReportM($res[$key[$i]],$this->from,$this->to,$i.'sss');
+            }
         }
 
         return $sheets;

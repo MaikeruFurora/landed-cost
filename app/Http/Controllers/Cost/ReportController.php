@@ -150,4 +150,18 @@ class ReportController extends Controller
 
     }
 
+    //preview
+    public function preview($itemName,$from,$to){
+        $cleanName   = str_replace("_","%",$itemName);
+        $particulars = Particular::get(['id','p_name']);
+        $data        =  DB::select("exec dbo.sp_getlcTabsheetReport ?,?,?",array($from,$to,$cleanName));
+        return view('users.reports.preview.projectedCostList',[        
+            'search'        => $cleanName,
+            'data'          => $data,
+            'particulars'   => $particulars,
+            'to'            => $to,
+            'from'          => $from
+        ]);
+    }
+
 }

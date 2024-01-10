@@ -27,6 +27,7 @@
                 <th colspan="<?=(count($particulars)+5)?>" style="background: "></th>
             </tr>
             <tr class="" style="border:1px solid black">
+                <th>Supplier</th>
                 <th>Invoice</th>
                 <th>Description</th>
                 <th>AVG ExRate(PHP)</th>
@@ -36,10 +37,13 @@
                 @endforeach
                 <th>Projected Cost</th>
             </tr>
-           
-            @foreach($data as $item)
+           @php
+                $sort = $data->sortBy('suppliername');
+           @endphp
+            @foreach($sort as $item)
                 <tr>
-                    <th class="">{{ $item->invoiceno }}</th>
+                    <td class="">{{ $item->suppliername }}</td>
+                    <td class="">{{ $item->invoiceno }}</td>
                     <th class="">{{ $item->description }}</th>
                     @php
                         $projectedCost=0;
@@ -50,7 +54,7 @@
                         $avgInPHP = (array_sum(array_column($avgRes,'exchangeRate')));
                     @endphp
                     <th>
-                        {{ (empty($avgInPHP)?'':($avgInPHP/count($avgRes))) }}
+                        {{ number_format((empty($avgInPHP)?'':($avgInPHP/count($avgRes))),4) }}
                     </th>
                     <th class="">{{ $item->qtykls }}</th>
                     @php

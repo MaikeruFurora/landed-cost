@@ -12,11 +12,11 @@
         <form action="{{ route('authenticate.report.export') }}" autocomplete="off" id="exportForm">
           <div class="form-group">
               <label for="">Type of report</label>
-              <select name="type" class="custom-select custom-select-sm">
+              <select name="type" id="type" class="custom-select custom-select-sm">
                   <option value="dutiesReport">Duties Report</option>
                   <option value="dollarReport">Dollar Report</option>
                   <option value="fundReport">Fund Transfer</option>
-                  <option value="projectedCostReport">Landed Cost Tabsheet</option>
+                  <option value="projectedCostReport" id="{{ route('authenticate.preview',[':name',':from',':to']) }}">Landed Cost Tabsheet</option>
                   <option value="dollarBook">Dollar Expense Per PARTICULAR</option>
               </select>
           </div>

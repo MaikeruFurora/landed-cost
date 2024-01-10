@@ -210,5 +210,6 @@
 <script src="{{ asset('plugins/datatables/responsive.bootstrap4.min.js') }}"></script>
 <script src="{{ asset('plugins/jquery-number/jquery.number.js') }}"></script>
 <script src="{{ asset('plugins/select2/select2.min.js') }}"></script>
+<script src="{{ asset('plugins/moment/moment.js') }}"></script>
 <script src="{{ asset('assets/js/report.js') }}"></script>
 @endsection
