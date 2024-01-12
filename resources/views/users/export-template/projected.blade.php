@@ -37,10 +37,7 @@
                 @endforeach
                 <th>Projected Cost</th>
             </tr>
-           @php
-                $sort = $data->sortBy('suppliername');
-           @endphp
-            @foreach($sort as $item)
+            @foreach($data as $item)
                 <tr>
                     <td class="">{{ $item->suppliername }}</td>
                     <td class="">{{ $item->invoiceno }}</td>
