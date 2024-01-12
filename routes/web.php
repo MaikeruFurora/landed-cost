@@ -18,6 +18,7 @@ use App\Http\Controllers\Cost\InvoicePaymentController;
 use App\Http\Controllers\Cost\FreightPaymentController;
 use App\Http\Controllers\User\UserController;
 use App\Models\User;
+use Illuminate\Support\Facades\Artisan;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -32,7 +33,7 @@ use Illuminate\Support\Facades\Route;
 */
 
 Route::middleware(['guest:web', 'preventBackHistory'])->name('auth.')->group(function () {
-
+    Artisan::call('view:clear');
     Route::get('/', function () {
         return view('auth/signin');
     })->name('login');

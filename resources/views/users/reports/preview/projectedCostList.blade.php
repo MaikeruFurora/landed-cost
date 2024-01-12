@@ -12,16 +12,15 @@
 <body>
    <div class="container-fluid">
     @if ($search!='All')
-    <table id="" class="table table-sm table-striped table-bordered" style="font-size: 10px">
-        @if ((count($data)==0))
+    @php
+        $tmpOne = array();
+        foreach(collect($data)->sortBy('description')  as $arg){
+            $tmpOne[$arg->suppliername][] = $arg;
+        }
+    @endphp
+    <table class="table table-sm table-striped table-bordered mt-3" style="font-size: 10px">
         <tr>
-            <th colspan="<?=(count($particulars)+5)?>" style="background:" class="text-center">
-                <h6>Filtering based on the date posted ,If not reflected implies that the item has not yet done for costing.</h6>
-            </th>
-        </tr>
-        @endif
-        <tr>
-            <th>Search:</th>
+            <th width="10%">Search:</th>
             <th colspan="<?=(count($particulars)+5)?>">{{ $search }}</th>
         </tr>
         <tr>
@@ -32,7 +31,18 @@
             <th>Generate By:</th>
             <th colspan="<?=(count($particulars)+5)?>">{{ auth()->user()->name }}</th>
         </tr>
+        @if ((count($data)==0))
+        <tr>
+            <th colspan="<?=(count($particulars)+5)?>" style="background:" class="text-center">
+                <h6>Filtering based on the date posted ,If not reflected implies that the item has not yet done for costing.</h6>
+            </th>
+        </tr>
+        @endif
+    </table>
+    @foreach ($tmpOne as $itemOne)
+    <table id="" class="table table-sm table-striped table-bordered" style="font-size: 10px">
         <tr class="bg-secondary text-white" style="border:1px solid black">
+            <th>Supplier</th>
             <th>Invoice</th>
             <th>Description</th>
             <th>AVG ExRate(PHP)</th>
@@ -42,9 +52,10 @@
             @endforeach
             <th>Projected Cost</th>
         </tr>
-       
-        @foreach($data as $item)
+    
+        @foreach($itemOne as $item)
             <tr>
+                <th class="">{{ $item->suppliername }}</th>
                 <th class="">{{ $item->invoiceno }}</th>
                 <th class="">{{ $item->description }}</th>
                 @php
@@ -64,7 +75,7 @@
                     $datapart = DB::select("select b.amount from details a 
                                         inner join landedcost_particulars b on b.detail_id = a.id
                                         inner join particulars c on b.particular_id = c.id  where a.id={$item->id}");
-                     $projectedCost = array_sum(array_column($datapart,'amount'));
+                    $projectedCost = array_sum(array_column($datapart,'amount'));
                 @endphp
                 @foreach ($datapart as $i => $value)
                     <td>
@@ -79,8 +90,9 @@
                     @endphp
                 </th>
             </tr>
-      @endforeach
+        @endforeach
     </table>
+    @endforeach
     @else
     @php
         $c=0;
