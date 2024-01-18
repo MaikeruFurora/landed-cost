@@ -84,7 +84,7 @@
                </thead>
                 <tbody class="showData">
                     <tr class="header text-center">
-                        <td colspan="12">No data available</td>
+                        <td colspan="15">No data available</td>
                     </tr>
                 </tbody>
                 <tfooter class="thead-dark">

@@ -46,8 +46,12 @@ class LandedCostController extends Controller
 
             $this->landedCostService->checkParticular($detail);
         
-            $this->landedCostService->updateAmntAndRef($detail);
-    
+            if (empty($detail->posted_at)) {
+                
+                $this->landedCostService->updateAmntAndRef($detail);
+            
+            }
+            
             $detail->load(['landedcost_particulars','lcopeningcharges','landedcost_particulars.particular','lcopeningcharges.open_amount']);
     
             $companies = Company::get(['id','companyname']);
@@ -105,8 +109,12 @@ class LandedCostController extends Controller
 
         $this->landedCostService->checkParticular($detail);
 
-        $this->landedCostService->updateAmntAndRef($detail);
-        
+        if (empty($detail->posted_at)) {
+            
+            $this->landedCostService->updateAmntAndRef($detail);
+
+        }
+
         $detail->load(['landedcost_particulars','lcopeningcharges','landedcost_particulars.particular','lcopeningcharges.open_amount','landedcost_particulars'=>function($q){
                 return $q->with('lcdpnego')->get();
         }]);

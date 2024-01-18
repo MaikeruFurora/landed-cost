@@ -120,7 +120,7 @@
             <div class="card-footer p-1">
                 <div class="row justify-content-between">
                     <div class="col-4">
-                        <small class="ml-2"></small>
+                        <small class="ml-2">{{ $detail->sap }}</small>
                     </div>
                     <div class="col-4">
                         <!-- accounting -->
