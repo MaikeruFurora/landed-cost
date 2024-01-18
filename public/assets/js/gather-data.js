@@ -46,6 +46,7 @@
                             <input type="hidden" name="fcl-${i}" value="${ val['fcl'] }"> 
                             <input type="hidden" name="blno-${i}" value="${ val['blno'] }"> 
                             <input type="hidden" name="doc_date-${i}" value="${ val['doc_date'] }"> 
+                            <input type="hidden" name="sap-${i}" value="${ val['sap'] }"> 
                             
                             <td>${ val['pono'] }</td>
                             <td>${ val['itemcode'] }</td>
@@ -58,6 +59,7 @@
                             <td>${ val['qtykls'] } </td>
                             <td>${ val['qtymt'] } </td>
                             <td><textarea class="d-none" type="hidden" name="data-${i}">${ JSON.stringify(val['data']) }</textarea> ${ val['fcl'] } </td>
+                            <td>${ val['sap'] } </td>
                             <td>
                                 <button class="btnSave btn btn-sm btn-primary m-0 py-1" style="font-size:10px" value="${i}" type="submit" >Save <i class="fas fa-sign-in-alt"></i></button>
                             </td>
@@ -123,6 +125,7 @@
                 let fcl         = $("input[name=fcl-"+iterate+"]").val()
                 let blno        = $("input[name=blno-"+iterate+"]").val()
                 let doc_date    = $("input[name=doc_date-"+iterate+"]").val()
+                let sap    = $("input[name=sap-"+iterate+"]").val()
                 let data       = $("textarea[name=data-"+iterate+"]").val()
                 $.ajax({
                     url:`po/store`,
@@ -130,7 +133,7 @@
                     data:{
                         _token:BaseModel._token,suppliername,
                         pono,itemcode,cardname,cardcode,vessel,description,invoiceno,
-                        broker,createdate,docdate,weight,quantity,qtykls,qtymt,fcl,doc_date,blno,data
+                        broker,createdate,docdate,weight,quantity,qtykls,qtymt,fcl,doc_date,blno,data,sap
                     },
                     beforeSend:function(){
                         $("body").html(`
@@ -174,7 +177,7 @@
                 beforeSend:function(){
                     $("tbody.showData").html(`
                         <tr class="header text-center">
-                            <td colspan="12">
+                            <td colspan="15">
                                 <div class="spinner-border spinner-border-sm" role="status">
                                     <span class="sr-only">Loading...</span>
                                 </div> Getting data...

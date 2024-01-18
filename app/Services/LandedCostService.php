@@ -57,17 +57,17 @@ class LandedCostService{
 
                     // 'amount'=>      empty($landedparticular->detail->posted_at) ? $this->getBrokerageAmount($landedparticular->detail->invoiceno) : $landedparticular->amount,
 
-                    'amount'    =>   ((empty($landedparticular->amount) || $landedparticular->amount==0) ?  $this->getBrokerageAmount($landedparticular->detail->invoiceno) : $landedparticular->amount),
+                    'amount'    =>   ((empty($landedparticular->amount) || $landedparticular->amount==0) ?  $this->getBrokerageAmount($landedparticular->detail->invoiceno,$landedparticular->detail->sap) : $landedparticular->amount),
 
-                    'referenceno'=> empty($landedparticular->detail->posted_at) ? $this->getBrokerageReference($landedparticular->detail->invoiceno) : $landedparticular->referenceno,
+                    'referenceno'=> empty($landedparticular->detail->posted_at) ? $this->getBrokerageReference($landedparticular->detail->invoiceno,$landedparticular->detail->sap) : $landedparticular->referenceno,
 
                 ]);
                 
             } else {
 
-                if (!empty($this->getInsuranceReference($landedparticular->detail->invoiceno))) {
+                if (!empty($this->getInsuranceReference($landedparticular->detail->invoiceno,$landedparticular->detail->sap))) {
                     
-                    [$docDate,$docRef] = explode("_",$this->getInsuranceReference($landedparticular->detail->invoiceno));
+                    [$docDate,$docRef] = explode("_",$this->getInsuranceReference($landedparticular->detail->invoiceno,$landedparticular->detail->sap));
                     
                 } else {
                     
@@ -78,7 +78,7 @@ class LandedCostService{
                /* Updating the amount,referenceno and transaction_date of the particular. */
                 $landedparticular->update([
 
-                    'amount'            => (empty($landedparticular->amount) || $landedparticular->amount==0) ? $this->getInsuranceAmount($landedparticular->detail->invoiceno) ?? null: $landedparticular->amount,
+                    'amount'            => (empty($landedparticular->amount) || $landedparticular->amount==0) ? $this->getInsuranceAmount($landedparticular->detail->invoiceno,$landedparticular->detail->sap) ?? null: $landedparticular->amount,
                     
                     // 'amount'            => empty($landedparticular->detail->posted_at)  ? $this->getInsuranceAmount($landedparticular->detail->invoiceno) : $landedparticular->amount,
 
@@ -112,27 +112,27 @@ class LandedCostService{
 
     }
 
-    public function getBrokerageAmount($invoice){
+    public function getBrokerageAmount($invoice,$sap = NULL){
 
-        return DB::select('exec dbo.sp_getBrokerage ?,?',array($invoice,'amount'))[0]->amount;
-
-    }
-
-    public function getBrokerageReference($invoice){
-        
-        return DB::select('exec dbo.sp_getBrokerage ?,?',array($invoice,'reference'))[0]->refno;
+        return DB::select('exec dbo.sp_getBrokerage ?,?,?',array($invoice,'amount',$sap))[0]->amount;
 
     }
 
-    public function getInsuranceAmount($invoice){
+    public function getBrokerageReference($invoice,$sap = NULL){
         
-        return DB::select("exec sp_getInsurance ?,?",array($invoice,'amount'))[0]->amount ?? null;
+        return DB::select('exec dbo.sp_getBrokerage ?,?,?',array($invoice,'reference',$sap))[0]->refno;
 
     }
 
-    public function getInsuranceReference($invoice){
+    public function getInsuranceAmount($invoice,$sap = NULL){
         
-        $getData =  DB::select("exec sp_getInsurance ?,?",array($invoice,'reference'));
+        return DB::select("exec sp_getInsurance ?,?,?",array($invoice,'amount',$sap))[0]->amount ?? null;
+
+    }
+
+    public function getInsuranceReference($invoice,$sap = NULL){
+        
+        $getData =  DB::select("exec sp_getInsurance ?,?,?",array($invoice,'reference',$sap));
 
         return !empty($getData)?$getData[0]->docdate.'_'.$getData[0]->refno:'';
 

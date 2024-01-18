@@ -454,7 +454,7 @@ autoTotalLandedCost()
     }).fail(function (jqxHR, textStatus, errorThrown) {
         $("#invoiceForm").find('.btn-success').html('<i class="fas fa-user-shield"></i> Save').attr('disabled',false)
         console.log(errorThrown);
-        toasMessage(textStatus,jqxHR,"danger")
+        toasMessage("Warning","Please check all fields","danger")
     })
  })
 

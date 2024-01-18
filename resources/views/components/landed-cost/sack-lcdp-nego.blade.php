@@ -45,7 +45,10 @@
                                     </tr>
                                 </thead>
                                 <tbody>
-                                    @foreach ($detail->item as $i => $item)
+                                    @php
+                                        $sorting = collect($detail->item)->sortBy('description')
+                                    @endphp
+                                    @foreach ($sorting as $i => $item)
                                     <tr>
                                         <td><small><b>{{ $item->description }}</b></small></td>
                                         <td><input type="text" class="form-control form-control-sm number-class" data-qty="{{ $i }}" disabled value="{{ $item->qtypcs }}" required tabindex="-1"></td>

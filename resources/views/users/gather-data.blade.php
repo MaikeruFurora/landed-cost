@@ -78,6 +78,7 @@
                        <th>Qty(KLS)</th>
                        <th>Qty(MT)</th>
                        <th>FCL</th>
+                       <th>SAP</th>
                        <th>Action</th>
                    </tr>
                </thead>
@@ -99,6 +100,7 @@
                        <th>Qty(KLS)</th>
                        <th>Qty(MT)</th>
                        <th>FCL</th>
+                       <th>SAP</th>
                        <th>Action</th>
                    </tr>
                </tfooter>

@@ -51,6 +51,7 @@ class Detail extends Model implements Auditable
             'doc_date'      => $request['doc_date'],
             'posted_at'     => $request['posted_at'] ?? NULL,
             'company_id'    => $request['selectCompany'] ?? NULL,
+            'sap'           => $request['sap'],
        ];
     }
 

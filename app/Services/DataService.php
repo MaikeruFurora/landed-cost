@@ -86,7 +86,7 @@ class DataService{
                             'cardcode'      => $data[0]->CardCode ?? '',
                             'vessel'        => $data[0]->vessel ?? '',
                             'description'   => (strpos($data[0]->Dscription, 'EMPTY SACK') !== false)?'EMPTY SACK':$data[0]->Dscription ?? '',
-                            'broker'        => $data[0]->Broker ?? '',
+                            'broker'        => strtoupper($data[0]->Broker) ?? '',
                             'createdate'    => $data[0]->CreateDate ?? '',
                             'docdate'       => $data[0]->DocDate ?? '',
                             'weight'        => (int)$data[0]->Weight,
@@ -97,6 +97,7 @@ class DataService{
                             'qtymt'         => array_sum(array_column($data,'QtyInMT')),
                             'fcl'           => count($data),
                             'doc_date'      => $data[0]->CreateDate,
+                            'sap'           => $data[0]->sap,
                             'data'          => ($permission)?$data:[]
                         ];
 
