@@ -165,6 +165,10 @@
                             <td><b>Broker</b></td>
                             <td>{{ $detail->broker }}</td>
                         </tr>
+                        <tr>
+                            <td><b>Destination</b></td>
+                            <td>{{ $detail->destination }}</td>
+                        </tr>
                     </table>
                 </div>
             </div>

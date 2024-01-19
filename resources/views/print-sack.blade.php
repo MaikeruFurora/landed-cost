@@ -141,6 +141,10 @@
               <th>Broker</th>
               <td>{{ $detail->broker }}</td>
             </tr>
+            <tr>
+              <td><b>Destination</b></td>
+              <td>{{ $detail->destination }}</td>
+            </tr>
           </table>
           <!--*** CONTENT GOES HERE ***-->
           @php
