@@ -6,6 +6,7 @@ use App\Helper\Helper;
 use App\Models\LandedcostParticular;
 use App\Models\Particular;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Str;
 
 class LandedCostService{
 
@@ -59,7 +60,8 @@ class LandedCostService{
 
                     'amount'    =>   ((empty($landedparticular->amount) || $landedparticular->amount==0) ?  $this->getBrokerageAmount($landedparticular->detail->invoiceno,$landedparticular->detail->sap) : $landedparticular->amount),
 
-                    'referenceno'=> empty($landedparticular->detail->posted_at) ? $this->getBrokerageReference($landedparticular->detail->invoiceno,$landedparticular->detail->sap) : $landedparticular->referenceno,
+                    'referenceno'=>    
+                    Str::limit(empty($landedparticular->detail->posted_at) ? $this->getBrokerageReference($landedparticular->detail->invoiceno,$landedparticular->detail->sap) : $landedparticular->referenceno, 50),
 
                 ]);
                 
@@ -82,7 +84,7 @@ class LandedCostService{
                     
                     // 'amount'            => empty($landedparticular->detail->posted_at)  ? $this->getInsuranceAmount($landedparticular->detail->invoiceno) : $landedparticular->amount,
 
-                    'referenceno'       => empty($landedparticular->detail->posted_at)  ? ($docRef ) : $landedparticular->referenceno,
+                    'referenceno'       => Str::limit(empty($landedparticular->detail->posted_at)  ? ($docRef ) : $landedparticular->referenceno, 50),
                     
                     'transaction_date'  => empty($landedparticular->detail->posted_at)  ? ($docDate) : $landedparticular->transaction_date
 
