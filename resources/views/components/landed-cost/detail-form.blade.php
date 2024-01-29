@@ -58,11 +58,11 @@
                             <div class="col-lg-4 col-md-4 col-sm-12">
                                 <div class="form-group">
                                     <label for="">Quantity</label>
-                                    <input type="text" class="form-control form-control-sm" readonly name="quantity" value="{{ $detail->quantity }}">
+                                    <input type="text" class="form-control form-control-sm"  name="quantity" value="{{ $detail->quantity }}">
                                 </div>
                                 <div class="form-group">
                                     <label for="">Full Container Load</label>
-                                    <input type="text" class="form-control form-control-sm" readonly name="fcl" value="{{ $detail->fcl }}">
+                                    <input type="text" class="form-control form-control-sm"  name="fcl" value="{{ $detail->fcl }}">
                                 </div>
                             </div>
                             <div class="col-lg-4 col-md-4 col-sm-12">

@@ -34,7 +34,7 @@ class RedirectIfAuthenticated
                         Auth::guard('web')->logout();
 
                     }
-                     return redirect()->route('auth.signin')->with('msg','You are not allowed to access this system');
+                     return redirect()->route('auth.login')->with('msg','You are not allowed to access this system');
        
                 }
             }
