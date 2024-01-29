@@ -26,7 +26,7 @@
                         </div>
                         <div class="form-group">
                             <label for="">Destination</label>
-                            <input type="text" class="form-control form-control-sm" name="invoiceno" value="{{ $detail->destination }}">
+                            <input type="text" class="form-control form-control-sm" name="destination" value="{{ $detail->destination }}">
                         </div>
                     </div>
                     <div class="col-lg-3 col-md-3 col-sm-12">
