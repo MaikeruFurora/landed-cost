@@ -22,7 +22,7 @@
                         </div>
                         <div class="form-group">
                             <label for="">Invoice Number</label>
-                            <input type="text" class="form-control form-control-sm" readonly name="invoiceno" value="{{ $detail->invoiceno }}">
+                            <input type="text" class="form-control form-control-sm" name="invoiceno" value="{{ $detail->invoiceno }}">
                         </div>
                         <div class="form-group">
                             <label for="">Destination</label>

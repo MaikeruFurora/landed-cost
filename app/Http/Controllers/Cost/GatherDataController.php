@@ -15,6 +15,7 @@ class GatherDataController extends Controller
 {
 
     protected $dataService;
+    
     public function __construct(DataService $dataService)
     {
         $this->dataService = $dataService;
