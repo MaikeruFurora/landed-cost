@@ -33,7 +33,7 @@
                         <div>
                             <div >
                                 <a href="index.html" class="logo logo-admin">
-                                    <img src="{{ asset('assets/images/landed-icon-black.png') }}" height="60" alt="logo">
+                                    <img src="{{ asset('assets/images/landed-icon-black.png') }}" height="100" alt="logo">
                                 </a>
                             </div>
                             <h5 class="font-14 text-muted">
