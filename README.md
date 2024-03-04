@@ -1,6 +1,6 @@
 # LANDED COST
 
-
+![Screenshot_6](https://github.com/MaikeruFurora/landed-cost/assets/34005796/b25a330e-de6a-4ff8-a58d-5add47014686)
 
 ## Getting started
 
