@@ -2,7 +2,7 @@
 
 ![Screenshot_6](https://github.com/MaikeruFurora/landed-cost/assets/34005796/b25a330e-de6a-4ff8-a58d-5add47014686)
 
-![Screenshot_7](https://github.com/MaikeruFurora/landed-cost/assets/34005796/e4000cda-c89d-4bee-b72f-197ac7754083)
+![Screenshot_7](https://github.com/MaikeruFurora/landed-cost/assets/34005796/31d184a2-0f6d-4289-bb86-895db5714e01)
 ## Getting started
 
 To make it easy for you to get started with GitLab, here's a list of recommended next steps.
