@@ -68,11 +68,11 @@
                             <div class="col-lg-4 col-md-4 col-sm-12">
                                 <div class="form-group">
                                     <label for="">Total Quantity in MT</label>
-                                    <input type="text" class="form-control form-control-sm" name="qtymt" value="{{ $detail->qtymt }}" readonly>
+                                    <input type="text" class="form-control form-control-sm" name="qtymt" value="{{ $detail->qtymt }}" @if('mila'!=auth()->user()->username) readonly @endif>
                                 </div>
                                 <div class="form-group">
                                     <label for="">Total Quantity in KLS</label>
-                                    <input type="text" class="form-control form-control-sm" name="qtykls" value="{{ $detail->qtykls }}" readonly>
+                                    <input type="text" class="form-control form-control-sm" name="qtykls" value="{{ $detail->qtykls }}" @if('mila'!=auth()->user()->username) readonly @endif>
                                 </div>
                             </div>
                             <div class="col-lg-4 col-md-4 col-sm-12">
