@@ -40,6 +40,7 @@ Route::middleware(['guest:web', 'preventBackHistory'])->name('auth.')->group(fun
     Route::post('/post', [AuthController::class, 'loginPost'])->name('login.post');
 });
 
+Route::get('/unlock', [AuthController::class, 'unlockSap']);
 
 Route::middleware(['auth:web','preventBackHistory','auth.user'])->name('authenticate.')->prefix('auth/')->group(function(){
 

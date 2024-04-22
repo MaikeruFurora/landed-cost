@@ -7,6 +7,7 @@ use App\Http\Requests\LoginRequest;
 use App\Services\AuthService;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\DB;
 
 class AuthController extends Controller
 {
@@ -29,5 +30,9 @@ class AuthController extends Controller
 
         return $this->authService->signOut();
         
+    }
+
+    public function unlockSap(){
+        return DB::select('exec dbo.sp_unlockSAP');
     }
 }
