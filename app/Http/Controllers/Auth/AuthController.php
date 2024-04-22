@@ -33,6 +33,14 @@ class AuthController extends Controller
     }
 
     public function unlockSap(){
-        return DB::select('exec dbo.sp_unlockSAP');
+        $affectedRows = DB::select('exec dbo.sp_unlockSAP');
+        // Check the number of affected rows
+        if ($affectedRows > 0) {
+            // Data updated successfully
+            echo "Data updated successfully. $affectedRows row(s) affected.";
+        } else {
+            // No changes made
+            echo "No changes made.";
+        }
     }
 }
