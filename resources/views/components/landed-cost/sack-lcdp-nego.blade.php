@@ -94,10 +94,12 @@
                     </table>
                 </div>
             </div>
+            @if(!empty($detail->posted_at))
             <div class="modal-footer p-1">
                 <button type="button" class="btn btn-sm btn-secondary" data-dismiss="modal">Close</button>
                 <button type="button" class="btnNegoSubmit btn btn-sm btn-primary" value="{{ $landedCostParticular->id }}">Save Transaction</button>
             </div>
+            @endif
         </div>
     </div>
 </div>

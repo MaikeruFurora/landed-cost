@@ -71,7 +71,7 @@
                     </button>
                 </div>
                 
-                @if(empty($detail->posted_at)) 
+                {{-- @if(empty($detail->posted_at))  --}}
                 <div class="col-lg-1 col-md-12 col-sm-12">
                     @if($landedCostParticular->particular->action)
                         
@@ -109,7 +109,7 @@
                         ><i class="fas fa-info-circle"></i>&nbsp;&nbsp;View</button>
                         @endif
                 </div>
-                @endif
+                {{-- @endif --}}
             </div>
         </div>
     </div>

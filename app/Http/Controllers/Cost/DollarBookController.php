@@ -55,7 +55,6 @@ class DollarBookController extends Controller
             return view('users.dollarbook.print.authority-of-debit',compact('data','dd'));
         }
 
-
     }
 
     public function bankHistoryList(Request $request){
