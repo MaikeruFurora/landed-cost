@@ -41,7 +41,8 @@
    </form> --}}
 </x-page-title>
 <!-- Button trigger modal -->
-<div class="card" oncopy="return false" oncut="return false" onpaste="return false">
+{{-- <div class="card" oncopy="return false" oncut="return false" onpaste="return false"> --}}
+    <div class="card">
     <div class="card-body">
        <ul class="nav nav-tabs" id="myTab" role="tablist">
             <li class="nav-item " role="presentation">

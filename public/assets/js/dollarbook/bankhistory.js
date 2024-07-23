@@ -49,7 +49,7 @@ let bankHistoryTable = $("#bankHistoryTable").DataTable({
 })
 
 $(document).on('click','button[name=print]',function(){
-    
+    console.log($(this).attr("id"));
     if ($(this).attr("id")!='TTA') {
         BaseModel.loadToPrint(`dollarbook/fund/print/${$(this).val()}`)
     } else {
@@ -139,62 +139,62 @@ $(document).on('click','button[name=editBtn_bankHistory]',function(){
 
 
 
-let bankHistoryTableDraft = $("#bankHistoryTableDraft").DataTable({
-    "serverSide": true,
-    paging:true,
-    "ajax": {
-        url: "dollarbook/bankhistory/list", 
-        method: "get"
-    },
-    // order: [[0, 'desc']],
-    columns:[
-    { 
-        data:'transactionNo'
-    },
-    { 
-        data:null,
-        render:function(data){
-            return data.types=='TOF'?"TELEGRAPHIC OF FUND":"AUTHORITY TO DEBIT"
-        }
-    },
-    { 
-        data:null,
-        render:function(data){
-            return data.currencyType+' '+data.amount
-        }
-    },
-    { 
-        data:'companyname'
-    },
-    { 
-        data:null,
-        render:function(data){
-            return data.toName!=""?data.toName:data.toAccountNo
-        }
-    },
-    { 
-        data:null,
-        render:function(data){
-            //<a href="dollarbook/fund/export/${data.id}" class="dropdown-item border"><i class="fas fa-download"></i> Download .docx file</a>
-            return `<div class="btn-group btn-group-sm" role="group">
-                        <button type="button" class="btn btn-primary dropdown-toggle" data-toggle="dropdown" aria-expanded="false" style="font-size:11px">Action</button>
-                        <div class="dropdown-menu" style="font-size:11px">
-                            ${BaseModel.findPrev('DB009')?`<a href="dollarbook/fund/export/${data.id}" class="dropdown-item border"><i class="fas fa-download"></i> Download .docx file</a>`:''}
-                            ${BaseModel.findPrev('DB007')?`<button type="button" class="dropdown-item border" name="print" value="${data.id}" id="${data.types}"><i class="fas fa-print"></i> Print Preview</button>`:''}
-                            ${BaseModel.findPrev('DB008')?`<button type="button" class="dropdown-item border" name="editBtn_bankHistory" value="${data.id}" id="${data.types}"><i class="fas fa-edit"></i> Edit</button>`:''}
-                        </div>
-                    </div>`
-        }
-    },
-    ]
-})
+// let bankHistoryTableDraft = $("#bankHistoryTableDraft").DataTable({
+//     "serverSide": true,
+//     paging:true,
+//     "ajax": {
+//         url: "dollarbook/bankhistory/list", 
+//         method: "get"
+//     },
+//     // order: [[0, 'desc']],
+//     columns:[
+//     { 
+//         data:'transactionNo'
+//     },
+//     { 
+//         data:null,
+//         render:function(data){
+//             return data.types=='TOF'?"TELEGRAPHIC OF FUND":"AUTHORITY TO DEBIT"
+//         }
+//     },
+//     { 
+//         data:null,
+//         render:function(data){
+//             return data.currencyType+' '+data.amount
+//         }
+//     },
+//     { 
+//         data:'companyname'
+//     },
+//     { 
+//         data:null,
+//         render:function(data){
+//             return data.toName!=""?data.toName:data.toAccountNo
+//         }
+//     },
+//     { 
+//         data:null,
+//         render:function(data){
+//             //<a href="dollarbook/fund/export/${data.id}" class="dropdown-item border"><i class="fas fa-download"></i> Download .docx file</a>
+//             return `<div class="btn-group btn-group-sm" role="group">
+//                         <button type="button" class="btn btn-primary dropdown-toggle" data-toggle="dropdown" aria-expanded="false" style="font-size:11px">Action</button>
+//                         <div class="dropdown-menu" style="font-size:11px">
+//                             ${BaseModel.findPrev('DB009')?`<a href="dollarbook/fund/export/${data.id}" class="dropdown-item border"><i class="fas fa-download"></i> Download .docx file</a>`:''}
+//                             ${BaseModel.findPrev('DB007')?`<button type="button" class="dropdown-item border" name="print" value="${data.id}" id="${data.types}"><i class="fas fa-print"></i> Print Preview</button>`:''}
+//                             ${BaseModel.findPrev('DB008')?`<button type="button" class="dropdown-item border" name="editBtn_bankHistory" value="${data.id}" id="${data.types}"><i class="fas fa-edit"></i> Edit</button>`:''}
+//                         </div>
+//                     </div>`
+//         }
+//     },
+//     ]
+// })
 
-$(document).on('click','button[name=print]',function(){
+// $(document).on('click','button[name=print]',function(){
     
-    if ($(this).attr("id")!='TTA') {
-        BaseModel.loadToPrint(`dollarbook/fund/print/${$(this).val()}`)
-    } else {
-        window.open(`dollarbook/fund/print-view/telegPDF/${$(this).val()}/tt2`);
-    }
+//     if ($(this).attr("id")!='TTA') {
+//         BaseModel.loadToPrint(`dollarbook/fund/print/${$(this).val()}`)
+//     } else {
+//         window.open(`dollarbook/fund/print-view/telegPDF/${$(this).val()}/tt2`);
+//     }
 
-})
+// })
