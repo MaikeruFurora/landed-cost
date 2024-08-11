@@ -15,6 +15,7 @@
               <select name="type" id="type" class="custom-select custom-select-sm">
                   <option value="dutiesReport">Duties Report</option>
                   <option value="dollarReport">Dollar Report</option>
+                  <option value="dollarPurchasedReport">Dollar Purchased Report (AOD)</option>
                   <option value="fundReport">Fund Transfer</option>
                   <option value="projectedCostReport" id="{{ route('authenticate.preview',[':name',':from',':to']) }}">Landed Cost Tabsheet</option>
                   <option value="dollarBook">Dollar Expense Per PARTICULAR</option>

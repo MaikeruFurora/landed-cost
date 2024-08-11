@@ -14,6 +14,7 @@ use App\Exports\MultipleSheet\DollarBookReportParticularMultiSheet;
 use App\Exports\MultipleSheet\ProjectedCostReportMultiSheet;
 use App\Exports\ProjectedCostReport;
 use App\Exports\ProjectedCostReportM;
+use App\Exports\DollarPurchasedReport;
 use App\Models\Particular;
 use Maatwebsite\Excel\Facades\Excel;
 use Illuminate\Http\Request;
@@ -127,7 +128,6 @@ class ReportController extends Controller
                     );
                 }
 
-                    
                 break;
             case 'dollarBook':
                     return Excel::download(new DollarBookReportParticularMultiSheet($request->from,$request->to),
@@ -135,6 +135,13 @@ class ReportController extends Controller
                     );
                     // return DB::select("exec dbo.sp_getPivotTabSheet ?,?",array($request->from,$request->to));
                     break;
+            
+            case 'dollarPurchasedReport':
+                return Excel::download(new DollarPurchasedReport($request->from,$request->to,$request->company_id),
+                    'Dollar Purchased'.'.xlsx'
+                );
+                // return DB::select("exec dbo.sp_getPivotTabSheet ?,?",array($request->from,$request->to));
+                break;
             
             default:
                 return false;
