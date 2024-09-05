@@ -84,9 +84,9 @@ class LandedCostService{
                     
                     // 'amount'            => empty($landedparticular->detail->posted_at)  ? $this->getInsuranceAmount($landedparticular->detail->invoiceno) : $landedparticular->amount,
 
-                    'referenceno'       => Str::limit(empty($landedparticular->detail->posted_at)  ? ($docRef ) : $landedparticular->referenceno, 50),
+                    'referenceno'       => Str::limit(empty($landedparticular->detail->posted_at) && !empty($docRef)  ? ($docRef ) : $landedparticular->referenceno, 50),
                     
-                    'transaction_date'  => empty($landedparticular->detail->posted_at)  ? ($docDate) : $landedparticular->transaction_date
+                    'transaction_date'  => empty($landedparticular->detail->posted_at) && !empty($docDate)  ? ($docDate) : $landedparticular->transaction_date
 
                 ]);
             }
