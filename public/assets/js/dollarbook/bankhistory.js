@@ -143,7 +143,7 @@ $(document).on('click','button[name=print]',function(){
 
 $(document).on('click','button[name=editBtn_bankHistory]',function(){
 
-    let dataRow = bankHistoryTable.row($(this).closest('tr'));
+    let dataRow = bankHistoryTableDraft.row($(this).closest('tr'));
 
     bankFormModal.find(".my-card-header em").text(dataRow.data()['companyname'])
 
