@@ -135,7 +135,14 @@ const BaseModel = {
         
     },
 
-
+    handleAjaxError:(jqxHR) =>{
+        if (jqxHR.status === 419 || jqxHR.status === 401) {
+            alert('Your session has expired. You will be redirected to the login page.');
+            window.location.href = '/'; // Replace with your login page URL
+        } else {
+            toasMessage("Information", jqxHR.responseJSON.msg,"warning");
+        }
+    },
 
 }
 
@@ -156,7 +163,7 @@ const toasMessage = (heading,text,icon) =>{
         timeout = window.setTimeout(function () {
             // trigger the new event on event.target, so that it can bubble appropriately
             $(event.target).trigger('mousemoveend');
-        }, 1000);
+        }, 5000);
     });
 }(jQuery));
 

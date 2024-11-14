@@ -190,10 +190,10 @@
         <script src="{{ asset('assets/js/jquery.slimscroll.js') }}"></script>
         {{-- datepicker --}}
         <script src="{{ asset('plugins/bootstrap-datepicker/js/bootstrap-datepicker.min.js') }}"></script>
-        <script src="{{ asset('plugins/jquery-toast/jquery.toast.js') }}"></script>
-        <script src="{{ asset('plugins/sweet-alert2/sweetalert2.min.js') }}"></script>
-        <script src="{{ asset('assets/js/global.js') }}"></script>
-        <script src="{{ asset('plugins/alertify/js/alertify.js') }}"></script>
+        <script src="{{ asset('plugins/jquery-toast/jquery.toast.js') }}?v={{ time() }}"></script>
+        <script src="{{ asset('plugins/sweet-alert2/sweetalert2.min.js') }}?v={{ time() }}"></script>
+        <script src="{{ asset('assets/js/global.js') }}?v={{ time() }}"></script>
+        <script src="{{ asset('plugins/alertify/js/alertify.js') }}?v={{ time() }}"></script>
       
         @yield('moreJs')
         

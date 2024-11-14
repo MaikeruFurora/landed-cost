@@ -174,6 +174,7 @@ Route::middleware(['auth:web','preventBackHistory','auth.user'])->name('authenti
     Route::get('dollarbook/company-details',[DollarBookController::class,'getCompanyDetails']);
     Route::get('dollarbook/bankinfo/list',[DollarBookController::class,'bankInfoList']);
     Route::get('dollarbook/bankinfo/edit/{bankHistory}',[DollarBookController::class,'bankInfo']);
+    Route::put('dollarbook/bankinfo/post/{bankHistory}',[DollarBookController::class,'requestForPosted']);
     Route::post('dollarbook/fund/store',[DollarBookController::class,'fundStore']);
     Route::get('dollarbook/fund/print/{bankHistory}',[DollarBookController::class,'printTemplate']);
     Route::get('dollarbook/fund/print-view/telegPDF/{telegraphicHistory}/{file}',[DollarBookController::class,'telegFDF']);

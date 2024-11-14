@@ -87,6 +87,7 @@
             <div class="tab-pane fade" id="draft" role="tabpanel" aria-labelledby="draft-tab">
                 @if (Helper::usrChckCntrl(['DB003']))
                 <div class="table-responsive mt-4">
+                    <p><b class="text-danger ml-3">* Draft</b> - is an initial or incomplete version</p>
                     <table id="bankHistoryTableDraft" class="table table-sm table-bordered text-center" style="font-size: 11px" width="100%">
                         <thead class="bg-secondary text-white">
                         <tr>
@@ -110,6 +111,7 @@
             <div class="tab-pane fade" id="posted" role="tabpanel" aria-labelledby="posted-tab">
                 @if (Helper::usrChckCntrl(['DB003']))
                 <div class="table-responsive mt-4">
+                    <p><b class="text-success ml-3">* Posted</b> - the item has been finalized, published,</p>
                     <table id="bankHistoryTable" class="table table-sm table-bordered text-center" style="font-size: 11px" width="100%">
                         <thead class="bg-secondary text-white">
                         <tr>
@@ -174,7 +176,7 @@
 
     <script src="{{ asset('plugins/typeahead/bootstrap3-typeahead.min.js') }}"></script>
     <script src="{{ asset('plugins/summernote/summernote-bs4.min.js') }}"></script>
-    <script src="{{ asset('assets/js/dollarbook/dollarbook.js') }}"></script>
-    <script src="{{ asset('assets/js/dollarbook/bankhistory.js') }}"></script>
-    <script src="{{ asset('assets/js/dollarbook/telegraphic.js') }}"></script>
+    <script src="{{ asset('assets/js/dollarbook/dollarbook.js') }}?v={{ time() }}"></script>
+    <script src="{{ asset('assets/js/dollarbook/bankhistory.js') }}?v={{ time() }}"></script>
+    <script src="{{ asset('assets/js/dollarbook/telegraphic.js') }}?v={{ time() }}"></script>
 @endsection

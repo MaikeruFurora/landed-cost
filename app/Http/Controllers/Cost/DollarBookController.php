@@ -4,12 +4,14 @@ namespace App\Http\Controllers\Cost;
 
 use App\Helper\Helper;
 use App\Http\Controllers\Controller;
+use App\Models\Bank;
 use App\Models\BankHistory;
 use App\Models\Branch;
 use App\Models\Company;
 use App\Models\Contract;
 use App\Models\TelegraphicHistory;
 use App\Services\DollarBookService;
+use Carbon\Carbon;
 use FPDM;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
@@ -67,6 +69,18 @@ class DollarBookController extends Controller
 
         return $this->dollarBookService->bankList($request);
 
+    }
+
+    public function requestForPosted(BankHistory $bankHistory,Request $request){
+        if ($bankHistory->update(['posted_at' => Carbon::now()]))
+            return response()->json([
+                'msg'  => 'Request for posting successfully submited',
+                'data' => $bankHistory
+            ]);
+        else
+            return response()->json([
+                'msg' => 'Failed to request for posting'
+            ], 422);
     }
 
     public function telegraphicHistoryList(Request $request){

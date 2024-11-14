@@ -86,11 +86,7 @@ class DollarBookService{
     
         $sortColumns = array('companyname','companies.acronym','bankName','branchName','accountNo');
     
-        $query = BankHistory::select('bank_histories.id','types','amount','toName','toBankName','toBranchName','toAccountNo','purpose','branchName','bankName','companyname','transactionNo','currencyType')
-                        ->join('accounts','bank_histories.account_id','accounts.id')
-                        ->join('branches','accounts.branch_id','branches.id')
-                        ->join('banks','branches.bank_id','banks.id')
-                        ->join('companies','banks.company_id','companies.id');
+        $query = $this->queryForPosted($request);
     
         if (!empty($filter)) {
             $query
@@ -144,6 +140,24 @@ class DollarBookService{
 
         return $json;
 
+    }
+
+
+    public function queryForPosted($request){
+        $q = BankHistory::select('bank_histories.id','types','amount','toName','toBankName','toBranchName','toAccountNo','purpose','branchName','bankName','companyname','transactionNo','currencyType')
+            ->join('accounts','bank_histories.account_id','accounts.id')
+            ->join('branches','accounts.branch_id','branches.id')
+            ->join('banks','branches.bank_id','banks.id')
+            ->join('companies','banks.company_id','companies.id');
+        if ($request->posted=="false") {
+            $q->whereNull('bank_histories.posted_at');
+            //->whereDate('bank_histories.created_at', '>=', date('Y-m-d', strtotime('nov 12, 2024')));
+        }else{
+            $q->whereNotNull('bank_histories.posted_at');
+            //->whereDate('bank_histories.created_at', '<=', date('Y-m-d', strtotime('nov 12, 2024')));
+        }
+
+        return $q;
     }
 
     public function telegraphicHistoryList($request){
