@@ -16,7 +16,7 @@ let bankHistoryTable = $("#bankHistoryTable").DataTable({
     { 
         data:null,
         render:function(data){
-            return data.types=='TOF'?"TELEGRAPHIC OF FUND":"AUTHORITY TO DEBIT"
+            return data.types=='TOF'?"TRANSFER OF FUND":"AUTHORITY TO DEBIT"
         }
     },
     { 
@@ -71,7 +71,7 @@ let bankHistoryTableDraft = $("#bankHistoryTableDraft").DataTable({
     { 
         data:null,
         render:function(data){
-            return data.types=='TOF'?"TELEGRAPHIC OF FUND":"AUTHORITY TO DEBIT"
+            return data.types=='TOF'?"TRANSFER OF FUND":"AUTHORITY TO DEBIT"
         }
     },
     { 
