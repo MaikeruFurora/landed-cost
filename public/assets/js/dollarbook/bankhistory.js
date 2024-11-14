@@ -37,12 +37,14 @@ let bankHistoryTable = $("#bankHistoryTable").DataTable({
     { 
         data:null,
         render:function(data){
-            //<a href="dollarbook/fund/export/${data.id}" class="dropdown-item border"><i class="fas fa-download"></i> Download .docx file</a>
+            // <a href="dollarbook/fund/export/${data.id}" class="dropdown-item border"><i class="fas fa-download"></i> Download .docx file</a>
+            // ${BaseModel.findPrev('DB008')?`<button type="button" class="dropdown-item border" name="editBtn_bankHistory" value="${data.id}" id="${data.types}"><i class="fas fa-edit"></i> Edit</button>`:''}
             return `<div class="btn-group btn-group-sm" role="group">
                         <button type="button" class="btn btn-primary dropdown-toggle" data-toggle="dropdown" aria-expanded="false" style="font-size:11px">Action</button>
                         <div class="dropdown-menu" style="font-size:11px">
                             ${BaseModel.findPrev('DB009')?`<a href="dollarbook/fund/export/${data.id}" class="dropdown-item border"><i class="fas fa-download"></i> Download .docx file</a>`:''}
-                            ${BaseModel.findPrev('DB007')?`<button type="button" class="dropdown-item border" name="print" value="${data.id}" id="${data.types}"><i class="fas fa-print"></i> Print Preview</button>`:''} 
+                            ${BaseModel.findPrev('DB007')?`<button type="button" class="dropdown-item border" name="print" value="${data.id}" id="${data.types}"><i class="fas fa-print"></i> Print Preview</button>`:''}
+                            
                         </div>
                     </div>`
         }
