@@ -52,6 +52,84 @@ let bankHistoryTable = $("#bankHistoryTable").DataTable({
     ]
 })
 
+
+let bankHistoryTableDraft = $("#bankHistoryTableDraft").DataTable({
+    "serverSide": true,
+    paging:true,
+    "ajax": {
+        url: "dollarbook/bankhistory/list", 
+        method: "get",
+        data: function ( d ) {
+            d.posted = false;
+        }
+    },
+    // order: [[0, 'desc']],
+    columns:[
+    { 
+        data:'transactionNo'
+    },
+    { 
+        data:null,
+        render:function(data){
+            return data.types=='TOF'?"TELEGRAPHIC OF FUND":"AUTHORITY TO DEBIT"
+        }
+    },
+    { 
+        data:null,
+        render:function(data){
+            return data.currencyType+' '+data.amount
+        }
+    },
+    { 
+        data:'companyname'
+    },
+    { 
+        data:null,
+        render:function(data){
+            return data.toName!=""?data.toName:data.toAccountNo
+        }
+    },
+    { 
+        data:null,
+        render:function(data){
+            //<a href="dollarbook/fund/export/${data.id}" class="dropdown-item border"><i class="fas fa-download"></i> Download .docx file</a>
+            // ${BaseModel.findPrev('DB009')?`<a href="dollarbook/fund/export/${data.id}" class="dropdown-item border"><i class="fas fa-download"></i> Download .docx file</a>`:''}
+            // ${BaseModel.findPrev('DB007')?`<button type="button" class="dropdown-item border" name="print" value="${data.id}" id="${data.types}"><i class="fas fa-print"></i> Print Preview</button>`:''}
+            // 
+            return `<div class="btn-group btn-group-sm" role="group">
+                        <button type="button" class="btn btn-primary dropdown-toggle" data-toggle="dropdown" aria-expanded="false" style="font-size:11px">Action</button>
+                        <div class="dropdown-menu" style="font-size:11px">
+                            ${BaseModel.findPrev('DB008')?`<button type="button" class="dropdown-item border" name="editBtn_bankHistory" value="${data.id}" id="${data.types}"><i class="fas fa-edit"></i> Edit</button>`:''}
+                            ${BaseModel.findPrev('DB008')?`<button type="button" class="dropdown-item border" name="postBtn_bankHistory" value="${data.id}" id="${data.transactionNo}"><i class="fas fa-check-circle"></i> Post</button>`:''}
+                        </div>
+                    </div>`
+        }
+    },
+    ]
+})
+
+
+$(document).on('click','button[name=postBtn_bankHistory]',function(){    
+    let button = $(this)
+    alertify.confirm(`Are you sure you want to post this? This action is not reversible. ${button.attr('id')}`, function(e){
+        if (e) {
+            $.ajax({
+                url:`dollarbook/bankinfo/post/${button.val()}`,
+                data:{
+                    _token:BaseModel._token
+                },
+                type:'PUT',
+            }).done(function(res){
+                alertify.alert(`Successfully posted the transaction <b>${button.attr('id')}</b>`)
+                bankHistoryTableDraft.ajax.reload();
+            }).fail(BaseModel.handleAjaxError)
+        } else {
+            return false
+        }
+    });
+})
+
+
 $(document).on('click','button[name=print]',function(){
     console.log($(this).attr("id"));
     if ($(this).attr("id")!='TTA') {
@@ -142,83 +220,6 @@ $(document).on('click','button[name=editBtn_bankHistory]',function(){
 
 })
 
-
-
-let bankHistoryTableDraft = $("#bankHistoryTableDraft").DataTable({
-    "serverSide": true,
-    paging:true,
-    "ajax": {
-        url: "dollarbook/bankhistory/list", 
-        method: "get",
-        data: function ( d ) {
-            d.posted = false;
-        }
-    },
-    // order: [[0, 'desc']],
-    columns:[
-    { 
-        data:'transactionNo'
-    },
-    { 
-        data:null,
-        render:function(data){
-            return data.types=='TOF'?"TELEGRAPHIC OF FUND":"AUTHORITY TO DEBIT"
-        }
-    },
-    { 
-        data:null,
-        render:function(data){
-            return data.currencyType+' '+data.amount
-        }
-    },
-    { 
-        data:'companyname'
-    },
-    { 
-        data:null,
-        render:function(data){
-            return data.toName!=""?data.toName:data.toAccountNo
-        }
-    },
-    { 
-        data:null,
-        render:function(data){
-            //<a href="dollarbook/fund/export/${data.id}" class="dropdown-item border"><i class="fas fa-download"></i> Download .docx file</a>
-            // ${BaseModel.findPrev('DB009')?`<a href="dollarbook/fund/export/${data.id}" class="dropdown-item border"><i class="fas fa-download"></i> Download .docx file</a>`:''}
-            // ${BaseModel.findPrev('DB007')?`<button type="button" class="dropdown-item border" name="print" value="${data.id}" id="${data.types}"><i class="fas fa-print"></i> Print Preview</button>`:''}
-            // 
-            return `<div class="btn-group btn-group-sm" role="group">
-                        <button type="button" class="btn btn-primary dropdown-toggle" data-toggle="dropdown" aria-expanded="false" style="font-size:11px">Action</button>
-                        <div class="dropdown-menu" style="font-size:11px">
-                            ${BaseModel.findPrev('DB008')?`<button type="button" class="dropdown-item border" name="editBtn_bankHistory" value="${data.id}" id="${data.types}"><i class="fas fa-edit"></i> Edit</button>`:''}
-                            ${BaseModel.findPrev('DB008')?`<button type="button" class="dropdown-item border" name="postBtn_bankHistory" value="${data.id}" id="${data.transactionNo}"><i class="fas fa-check-circle"></i> Post</button>`:''}
-                        </div>
-                    </div>`
-        }
-    },
-    ]
-})
-
-
-$(document).on('click','button[name=postBtn_bankHistory]',function(){    
-    let button = $(this)
-    alertify.confirm(`Are you sure you want to post this? This action is not reversible. ${button.attr('id')}`, function(e){
-        if (e) {
-            $.ajax({
-                url:`dollarbook/bankinfo/post/${button.val()}`,
-                data:{
-                    _token:BaseModel._token
-                },
-                type:'PUT',
-            }).done(function(res){
-                alertify.alert(`Successfully posted the transaction <b>${button.attr('id')}</b>`)
-                bankHistoryTableDraft.ajax.reload();
-            }).fail(BaseModel.handleAjaxError)
-        } else {
-            return false
-        }
-    });
-})
 
 // $(document).on('click','button[name=print]',function(){
     
