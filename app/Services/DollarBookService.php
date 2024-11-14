@@ -86,19 +86,25 @@ class DollarBookService{
     
         $sortColumns = array('companyname','companies.acronym','bankName','branchName','accountNo');
     
-        $query = $this->queryForPosted($request);
-    
-        if (!empty($filter)) {
-            $query
-            ->where('types', 'like', '%'.$filter.'%')
-            ->orwhere('toName', 'like', '%'.$filter.'%')
-            ->orwhere('toBankName', 'like', '%'.$filter.'%')
-            ->orwhere('toAccountNo', 'like', '%'.$filter.'%')
-            ->orwhere('bankName', 'like', '%'.$filter.'%')
-            ->orwhere('branchName', 'like', '%'.$filter.'%')
-            ->orwhere('companyname', 'like', '%'.$filter.'%')
-            ->orwhere('transactionNo', 'like', '%'.$filter.'%');
-        }
+        $query = BankHistory::select('bank_histories.id', 'types', 'amount', 'toName', 'toBankName', 'toBranchName', 'toAccountNo', 'purpose', 'branchName', 'bankName', 'companyname', 'transactionNo', 'currencyType', 'bank_histories.posted_at')
+                ->join('accounts', 'bank_histories.account_id', '=', 'accounts.id')
+                ->join('branches', 'accounts.branch_id', '=', 'branches.id')
+                ->join('banks', 'branches.bank_id', '=', 'banks.id')
+                ->join('companies', 'banks.company_id', '=', 'companies.id')
+                ->whereNotNull('bank_histories.posted_at');
+
+            if (!empty($filter)) {
+                $query->where(function ($query) use ($filter) {
+                    $query->orWhere('types', 'like', '%' . $filter . '%')
+                        ->orWhere('toName', 'like', '%' . $filter . '%')
+                        ->orWhere('toBankName', 'like', '%' . $filter . '%')
+                        ->orWhere('toAccountNo', 'like', '%' . $filter . '%')
+                        ->orWhere('bankName', 'like', '%' . $filter . '%')
+                        ->orWhere('branchName', 'like', '%' . $filter . '%')
+                        ->orWhere('companyname', 'like', '%' . $filter . '%')
+                        ->orWhere('transactionNo', 'like', '%' . $filter . '%');
+                });
+            }
     
         $recordsTotal = $query->count();
     
@@ -134,6 +140,7 @@ class DollarBookService{
                     "companyname"   => $value->companyname,
                     "transactionNo" => $value->transactionNo,
                     "currencyType"  => $value->currencyType,
+                    "posted_at"     => $value->posted_at,
                     "id"            => $value->id,
                 ];
         }
@@ -143,22 +150,83 @@ class DollarBookService{
     }
 
 
-    public function queryForPosted($request){
-        $q = BankHistory::select('bank_histories.id','types','amount','toName','toBankName','toBranchName','toAccountNo','purpose','branchName','bankName','companyname','transactionNo','currencyType')
+    public function bankHistoryListDraft($request){
+
+        $search = $request->query('search', array('value' => '', 'regex' => false));
+        $draw = $request->query('draw', 0);
+        $start = $request->query('start', 0);
+        $length = $request->query('length', 25);
+        $order = $request->query('order', array(1, 'asc'));
+    
+        $filter = $search['value'];
+    
+        $sortColumns = array('companyname','companies.acronym','bankName','branchName','accountNo');
+    
+        $query= BankHistory::select('bank_histories.id','types','amount','toName','toBankName','toBranchName','toAccountNo','purpose','branchName','bankName','companyname','transactionNo','currencyType','bank_histories.posted_at')
             ->join('accounts','bank_histories.account_id','accounts.id')
             ->join('branches','accounts.branch_id','branches.id')
             ->join('banks','branches.bank_id','banks.id')
-            ->join('companies','banks.company_id','companies.id');
-        if ($request->posted=="false") {
-            $q->whereNull('bank_histories.posted_at');
-            //->whereDate('bank_histories.created_at', '>=', date('Y-m-d', strtotime('nov 12, 2024')));
-        }else{
-            $q->whereNotNull('bank_histories.posted_at');
-            //->whereDate('bank_histories.created_at', '<=', date('Y-m-d', strtotime('nov 12, 2024')));
+            ->join('companies','banks.company_id','companies.id')
+            ->whereNull('bank_histories.posted_at');
+    
+            if (!empty($filter)) {
+                $query->where(function ($query) use ($filter) {
+                    $query->orWhere('types', 'like', '%' . $filter . '%')
+                        ->orWhere('toName', 'like', '%' . $filter . '%')
+                        ->orWhere('toBankName', 'like', '%' . $filter . '%')
+                        ->orWhere('toAccountNo', 'like', '%' . $filter . '%')
+                        ->orWhere('bankName', 'like', '%' . $filter . '%')
+                        ->orWhere('branchName', 'like', '%' . $filter . '%')
+                        ->orWhere('companyname', 'like', '%' . $filter . '%')
+                        ->orWhere('transactionNo', 'like', '%' . $filter . '%');
+                });
+            }
+    
+        $recordsTotal = $query->count();
+    
+        $sortColumnName = $sortColumns[$order[0]['column']];
+    
+        $query->take($length)->skip($start);
+
+        // if($draw==1){
+        //     $query->orderBy($sortColumnName, $order[0]['dir']);
+        // }
+    
+        $json = array(
+            'draw' => $draw,
+            'recordsTotal' => $recordsTotal,
+            'recordsFiltered' => $recordsTotal,
+            'data' => [],
+        );
+    
+        $products = $query->get();
+
+        foreach ($products as $value) {
+           
+                $json['data'][] = [
+                    "types"         => $value->types,
+                    "amount"        => number_format($value->amount,2),
+                    "toName"        => $value->toName,
+                    "toBankName"    => $value->toBankName,
+                    "toBranchName"  => $value->toBranchName,
+                    "toAccountNo"   => $value->toAccountNo,
+                    "purpose"       => $value->purpose,
+                    "branchName"    => $value->branchName,
+                    "bankName"      => $value->bankName,
+                    "companyname"   => $value->companyname,
+                    "transactionNo" => $value->transactionNo,
+                    "currencyType"  => $value->currencyType,
+                    "posted_at"     => $value->posted_at,
+                    "id"            => $value->id,
+                ];
         }
 
-        return $q;
+        return $json;
+
     }
+
+
+   
 
     public function telegraphicHistoryList($request){
 

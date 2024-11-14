@@ -61,7 +61,13 @@ class DollarBookController extends Controller
 
     public function bankHistoryList(Request $request){
 
-        return $this->dollarBookService->bankHistoryList($request);
+        if ($request->posted=="false") { 
+            return $this->dollarBookService->bankHistoryListDraft($request);
+        }else{
+            return $this->dollarBookService->bankHistoryList($request);
+
+        }
+
 
     }
 

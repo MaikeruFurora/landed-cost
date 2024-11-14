@@ -1,3 +1,21 @@
+// Attach shown.bs.tab event for each tab
+$('a[data-toggle="tab"]').on('shown.bs.tab', function (e) {
+    var target = $(e.target).attr("data-target"); // Get the target tab ID
+    
+    // Refresh the DataTable based on the active tab
+    if (target === "#account") {
+        alert('account')
+      companybankTable.ajax.reload(null, false); // Refreshes without resetting pagination
+    } else if (target === "#draft") {
+      bankHistoryTableDraft.ajax.reload(null, false);
+    } else if (target === "#posted") {
+      bankHistoryTable.ajax.reload(null, false);
+    } else if (target === "#config") {
+      telegraphicHistoryTable.ajax.reload(null, false);
+    }
+});
+
+
 let bankHistoryTable = $("#bankHistoryTable").DataTable({
     "serverSide": true,
     paging:true,
