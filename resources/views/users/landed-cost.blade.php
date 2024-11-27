@@ -104,8 +104,8 @@
 @section('moreJs')
 <script src="{{ asset('plugins/jquery-number/jquery.number.js') }}"></script>
 <script src="{{ asset('plugins/select2/select2.min.js') }}"></script>
-<script src="{{ asset('assets/js/landed-cost.js')}}"></script>
-<script src="{{ asset('assets/js/company.js')}}"></script>
-<script src="{{ asset('assets/js/nego.js')}}"></script>
-<script src="{{ asset('assets/js/freight.js')}}"></script>
+<script src="{{ asset('assets/js/landed-cost.js')}}?v={{ time() }}"></script>
+<script src="{{ asset('assets/js/company.js')}}?v={{ time() }}"></script>
+<script src="{{ asset('assets/js/nego.js')}}?v={{ time() }}"></script>
+<script src="{{ asset('assets/js/freight.js')}}?v={{ time() }}"></script>
 @endsection

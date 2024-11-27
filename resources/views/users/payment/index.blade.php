@@ -150,9 +150,9 @@
     <script src="{{ asset('plugins/datatables/responsive.bootstrap4.min.js') }}"></script>
     <script src="{{ asset('plugins/jquery-number/jquery.number.js') }}"></script>
     <script src="{{ asset('plugins/select2/select2.min.js') }}"></script>
-    <script src="{{ asset('plugins/bootstrap-popover/jquery.webui-popover.min.js') }}"></script>
-    <script src="{{ asset('assets/js/payment/contract.js') }}"></script>
-    <script src="{{ asset('assets/js/payment/payment.js') }}"></script>
+    <script src="{{ asset('plugins/bootstrap-popover/jquery.webui-popover.min.js') }}?v={{ time() }}"></script>
+    <script src="{{ asset('assets/js/payment/contract.js') }}?v={{ time() }}"></script>
+    <script src="{{ asset('assets/js/payment/payment.js') }}?v={{ time() }}"></script>
     {{-- <script src="{{ asset('assets/js/payment/freight.js') }}"></script> --}}
-    <script src="{{ asset('assets/js/payment/other.js') }}"></script>
+    <script src="{{ asset('assets/js/payment/other.js') }}?v={{ time() }}"></script>
 @endsection

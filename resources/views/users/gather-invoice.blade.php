@@ -69,5 +69,5 @@
 </div>
 @endsection
 @section('moreJs')
- <script src="{{ asset('assets/js/gather-invoice.js') }}"></script>
+ <script src="{{ asset('assets/js/gather-invoice.js') }}?v={{ time() }}"></script>
 @endsection

@@ -3,8 +3,7 @@ $('a[data-toggle="tab"]').on('shown.bs.tab', function (e) {
     var target = $(e.target).attr("data-target"); // Get the target tab ID
     
     // Refresh the DataTable based on the active tab
-    if (target === "#account") {
-        alert('account')
+    if (target === "#account") { 
       companybankTable.ajax.reload(null, false); // Refreshes without resetting pagination
     } else if (target === "#draft") {
       bankHistoryTableDraft.ajax.reload(null, false);

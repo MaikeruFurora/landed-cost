@@ -110,5 +110,5 @@
 </div>
 @endsection
 @section('moreJs')
-<script src="{{ asset('assets/js/gather-data.js') }}"></script>
+<script src="{{ asset('assets/js/gather-data.js') }}?v={{ time() }}"></script>
 @endsection
