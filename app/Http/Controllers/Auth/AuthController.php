@@ -37,7 +37,7 @@ class AuthController extends Controller
             // Execute the stored procedure
             DB::statement('exec dbo.sp_unlockSAP');
             // If execution is successful, this block will run
-            echo "Data updated successfully.";
+            return view('auth.unlocked');
         } catch (\Throwable $th) {
             // If there's an error, this block will run
             echo "An error occurred: " . $th->getMessage();
