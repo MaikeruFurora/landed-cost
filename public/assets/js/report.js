@@ -232,6 +232,9 @@ switch ($(this).val()) {
           $(".company_details").hide()
           $(".itemName_details").show()
       break;
+  case "LCopening":
+        $(".company_details").hide()
+    break;
   case "dollarBook":
           $(".company_details").hide()
           $(".itemName_details").hide()
