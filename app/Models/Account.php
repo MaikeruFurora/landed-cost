@@ -45,7 +45,8 @@ class Account extends Model
 
             'currencyType'  => $request->input('currencyType'),
 
-            'accountStatus' => $request->has('accountStatus')
+            'accountStatus' => true,
+            // 'accountStatus' => $request->has('accountStatus')
 
         ];
 
