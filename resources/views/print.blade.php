@@ -226,11 +226,17 @@
                                 </div>
                                 <div class="col-4 text-left">
                                 &#8369;&nbsp;
-                                @if(empty($detail->actualQtyKLS) || $detail->actualQtyKLS==0)
-                                    {{ number_format($totalLandedCost/$detail->qtykls,4) }}
+                                @if ((empty($detail->actualQtyKLS) || $detail->actualQtyKLS==0) && $detail->qtykls==0)
+                                    {{ number_format($totalLandedCost,4) }}
                                 @else
-                                    {{ number_format($totalLandedCost/$detail->actualQtyKLS,4) }}
+                                {{-- rice, salt and chemicals --}}
+                                    @if(empty($detail->actualQtyKLS) || $detail->actualQtyKLS==0)
+                                        {{ number_format($totalLandedCost/$detail->qtykls,4) }}
+                                    @else
+                                        {{ number_format($totalLandedCost/$detail->actualQtyKLS,4) }}
+                                    @endif
                                 @endif
+                               
                                 </div>
                             </div>
                             </th>
