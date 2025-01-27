@@ -62,7 +62,7 @@
                                 </div>
                                 <div class="form-group">
                                     <label for="">Full Container Load</label>
-                                    <input type="text" class="form-control form-control-sm"  name="fcl" value="{{ $detail->fcl }}" readonly>
+                                    <input type="text" class="form-control form-control-sm"  name="fcl" value="{{ $detail->fcl }}">
                                 </div>
                             </div>
                             <div class="col-lg-4 col-md-4 col-sm-12">
