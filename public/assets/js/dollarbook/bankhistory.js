@@ -224,10 +224,15 @@ $(document).on('click','button[name=editBtn_bankHistory]',function(){
         $("input[name=toName]").val(data.toName).prop('readonly',true)
 
         $("input[name=types]").val(data.types).prop('readonly',true)
+        
+        // $('textarea[name=purposes]').summernote({
+        //     'code':data.purpose
+        // }).summernote('disable'); 
+        // Set the content after initialization
+        $('textarea[name=purposes]').summernote('code', data.purpose);
 
-        $('textarea[name=purposes]').summernote({
-            'code':data.purpose
-        }).summernote('disable');  
+        // Then disable it
+        $('textarea[name=purposes]').summernote('disable'); 
 
         bankFormModal.modal("show")
 

@@ -11,6 +11,7 @@ class Helper{
     public static $currencyType = [
         array('acronym' =>'PHP','','Currency'=>'Peso'),
         array('acronym' =>'USD','','Currency'=>'US Dollar'),
+        array('acronym' =>'CNY','','Currency'=>'Chinese Yuan'),
     ];
 
     public static $intact_particular=[
