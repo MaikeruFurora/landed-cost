@@ -17,7 +17,7 @@ if (invoice.length>0) {
 }
 })
 
-
+let currentRequest = null;
 let dataTableInvoice =  $('#datatable').DataTable({
 "serverSide": true,
 // pageLength: 5,
@@ -29,9 +29,20 @@ createdRow:function( row, data, dataIndex){
 
 order: [[0, 'desc']],
 paging:true,
+searchDelay: 500,
 "ajax": {
     url: "details/list", 
-    method: "get"
+    method: "get",
+    beforeSend: function(jqXHR) {
+        if (currentRequest && currentRequest.readyState !== 4) {
+            currentRequest.abort();
+        }
+        currentRequest = jqXHR;
+    },
+    error: function(xhr, error, thrown) {
+        console.warn("Ajax error:", error, thrown);
+        console.log("Response:", xhr.responseText);
+    }
 },
 columns:[
     {

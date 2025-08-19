@@ -86,14 +86,26 @@ const editTransaction = (id,type) =>{
         console.log(textStatus);
     })
 }
-
+let currentRequest = null;
 let telegraphicHistoryTable = $("#telegraphicHistoryTable").DataTable({
     "serverSide": true,
     "responsive": true,
     "paging":true,
+    "searchDelay": 500,
     "ajax": {
         url: "dollarbook/telegraphichistory/list", 
-        method: "get"
+        method: "get",
+        beforeSend: function(jqXHR) {
+        if (currentRequest && currentRequest.readyState !== 4) {
+            currentRequest.abort();
+        }
+        currentRequest = jqXHR;
+    },
+    error: function(xhr, error, thrown) {
+        console.warn("Ajax error:", error, thrown);
+        console.log("Response:", xhr.responseText);
+    }
+
     },
     // order: [[0, 'desc']],
     columns:[

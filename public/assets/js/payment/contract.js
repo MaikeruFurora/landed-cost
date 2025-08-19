@@ -153,6 +153,15 @@ let tableCon = ConPay.contractTable.DataTable({
         'loadingRecords': '&nbsp;',
         'processing': 'Loading...'
     },  
+    "createdRow": function( row, data, dataIndex){
+        let per = Math.round(data.payment_detail.reduce((total,val)=>total+=parseFloat(val.totalPercentPayment),0))
+         if (data.contract_percent!=0) {
+            if(per==Math.round(data.contract_percent)){
+                $(row).find("td").addClass('highlight');   
+            }
+        } 
+        return '';
+    },
     // order: [[0, 'desc']],
     columns:[
         {
