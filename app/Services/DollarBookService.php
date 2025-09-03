@@ -36,6 +36,8 @@ class DollarBookService{
             ->orwhere('branchName', 'like', '%'.$filter.'%')
             ->orwhere('accountNo', 'like', '%'.$filter.'%');
         }
+
+        $query->where('companyStatus', 1);
     
         $recordsTotal = $query->count();
     
