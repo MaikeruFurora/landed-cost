@@ -180,6 +180,7 @@
                 @if (count($prices)!=0)
                 <tbody>
                   @foreach ($detail->item as $i => $item)
+                   @if ($landedCostParticular->particular->p_active)
                   <tr>
                       <td class="text-left">{{ $item->description }}</td>
                       <td>{{ number_format($item->qtypcs,4) }}</td>
@@ -224,6 +225,7 @@
                           @endphp
                       </td>
                   </tr>
+                  @endif
                   @endforeach
                   <tr>
                       <th>TOTAL</th>

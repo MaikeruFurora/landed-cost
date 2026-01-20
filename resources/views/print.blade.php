@@ -192,6 +192,7 @@
                     $negArr = [];
                     @endphp
                     @foreach($detail->landedcost_particulars->sortBy('particular.p_sort', SORT_REGULAR, false) as $landedCostParticular)
+                        @if ($landedCostParticular->particular->p_active)
                         <tr>
                             <td>{{ ++$i }}</td>
                             <th>{{ $landedCostParticular->particular->p_name }}</th>
@@ -206,6 +207,7 @@
                                 @endphp
                             @endif
                         </tr>
+                        @endif
                     @endforeach
                     <tfoot>
                         <tr>
