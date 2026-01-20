@@ -66,27 +66,27 @@ class Company extends Model implements Auditable
     }
 
 
-     // Automatically encrypt before save
-    public function setCompanynameAttribute($value)
-    {
-        $this->attributes['companyname'] = Crypt::encryptString($value);
-    }
+    //  // Automatically encrypt before save
+    // public function setCompanynameAttribute($value)
+    // {
+    //     $this->attributes['companyname'] = Crypt::encryptString($value);
+    // }
 
-    // Automatically decrypt when reading
-    public function getCompanynameAttribute($value)
-    {
-        return Crypt::decryptString($value);
-    }
+    // // Automatically decrypt when reading
+    // public function getCompanynameAttribute($value)
+    // {
+    //     return Crypt::decryptString($value);
+    // }
 
-     // Automatically encrypt before save
-    public function setAcronymAttribute($value)
-    {
-        $this->attributes['Acronym'] = Crypt::encryptString($value);
-    }
+    //  // Automatically encrypt before save
+    // public function setAcronymAttribute($value)
+    // {
+    //     $this->attributes['Acronym'] = Crypt::encryptString($value);
+    // }
 
-    // Automatically decrypt when reading
-    public function getAcronymAttribute($value)
-    {
-        return Crypt::decryptString($value);
-    }
+    // // Automatically decrypt when reading
+    // public function getAcronymAttribute($value)
+    // {
+    //     return Crypt::decryptString($value);
+    // }
 }
