@@ -39,11 +39,13 @@
         <div class="row">
             @foreach($detail->landedcost_particulars->sortBy('particular.p_sort', SORT_REGULAR, false) as $landedCostParticular)
                 @if(in_array($landedCostParticular->particular->id,auth()->user()->myRights()) || auth()->user()->type)
+                    @if ($landedCostParticular->particular->p_active)
                     <x-landed-cost.landed-cost-input 
-                        :landedCostParticular="$landedCostParticular"
-                        :detail="$detail"
-                        :companies="$companies"
-                    />
+                            :landedCostParticular="$landedCostParticular"
+                            :detail="$detail"
+                            :companies="$companies"
+                        />
+                    @endif
                 @endif
             @endforeach
         </div>

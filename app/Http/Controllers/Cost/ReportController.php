@@ -16,6 +16,7 @@ use App\Exports\ProjectedCostReport;
 use App\Exports\ProjectedCostReportM;
 use App\Exports\DollarPurchasedReport;
 use App\Exports\LCopeningReport;
+use App\Exports\CustomDutiesReport;
 use App\Models\Particular;
 use Maatwebsite\Excel\Facades\Excel;
 use Illuminate\Http\Request;
@@ -148,6 +149,13 @@ class ReportController extends Controller
                 // return DB::select("exec dbo.sp_getDollarReport ?,?,?",array($request->from,$request->to,$request->company_id));
                 return Excel::download(new LCopeningReport($request->from,$request->to,$request->company_id),
                             'LC Opening Report - '.date("F_d_Y",strtotime($request->from)).'-'.date("F_d_Y",strtotime($request->to)).'.xlsx'
+                        );
+                break;
+
+            case 'customDutiesReport':
+                // return DB::select("exec dbo.sp_getDollarReport ?,?,?",array($request->from,$request->to,$request->company_id));
+                return Excel::download(new CustomDutiesReport($request->from,$request->to),
+                            'Custom Duties Report - '.strtotime($request->from).'.xlsx'
                         );
                 break;
             

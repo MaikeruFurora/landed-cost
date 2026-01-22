@@ -20,12 +20,13 @@
             <p class="text-muted m-b-30">Drag & drop hierarchical list with mouse and touch compatibility </p>
             <ul id="sortable" class="list-unstyled list-unstyled">
                 @forelse($data as $key => $value)
-                <li id="item-{{ $value->id }}" class="list-group-item d-flex justify-content-between align-items-center">
+                <li id="item-{{ $value->id }}" class="list-group-item d-flex justify-content-between align-items-center ">
                     {{ $value->p_code.' - '.$value->p_name }}
                     <div class="btn-group" role="group" aria-label="Basic example">
                         @if($value->action)
                             <button type="button" class="btn btn-sm btn-dark"><i class="fas fa-check-circle text-success"></i></button>
                         @endif
+                            {!! !$value->p_active ? '<span class="badge badge-danger py-2">Inactive</span>':'' !!} 
                             <button type="button" name="edit" value="{{ $value->id }}" class="btn btn-primary btn-sm" style="font-size:10px;"><i class="far fa-edit"></i> Edit</button>
                     </div>
                 </li>
@@ -41,7 +42,7 @@
     <div class="col-lg-4 col-md-4 col-sm-12">
         <div class="card">
             <div class="card-header">
-                Create From
+                Create Form
             </div>
             <div class="card-body">
               <form method="POST" action="{{ route('authenticate.particular.store') }}" autocomplete="off">@csrf
@@ -61,6 +62,13 @@
                     @error('p_code')
                         <small class="form-text text-danger">{{ $message }}</small>
                     @enderror
+                </div>
+                <div class="form-group">
+                    <label for="nameInput">Status</label>
+                    <select type="text" class="form-control form-control-sm" id="nameInput" name="active" required>
+                        <option value="1">Active</option>
+                        <option value="0">Inactive</option>
+                    </select>
                 </div>
                 <div class="form-group">
                    <div class="row">

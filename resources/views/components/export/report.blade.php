@@ -13,13 +13,14 @@
           <div class="form-group">
               <label for="">Type of report</label>
               <select name="type" id="type" class="custom-select custom-select-sm">
-                  <option value="dutiesReport">Duties Report</option>
-                  <option value="dollarReport">Dollar Report</option>
-                  <option value="dollarPurchasedReport">Dollar Purchased Report (AOD)</option>
-                  <option value="fundReport">Fund Transfer</option>
-                  <option value="projectedCostReport" id="{{ route('authenticate.preview',[':name',':from',':to']) }}">Landed Cost Tabsheet</option>
-                  <option value="dollarBook">Dollar Expense Per PARTICULAR</option>
-                  <option value="LCopening">LC Opening Report</option>
+                <option value="dutiesReport">Duties Report</option>
+                <option value="dollarReport">Dollar Report</option>
+                <option value="dollarPurchasedReport">Dollar Purchased Report (AOD)</option>
+                <option value="fundReport">Fund Transfer</option>
+                <option value="projectedCostReport" id="{{ route('authenticate.preview',[':name',':from',':to']) }}">Landed Cost Tabsheet</option>
+                <option value="dollarBook">Dollar Expense Per PARTICULAR</option>
+                <option value="LCopening">LC Opening Report</option>
+                <option value="customDutiesReport">Custom Duties Report</option>
               </select>
           </div>
           <div class="form-group company_details">
@@ -46,7 +47,7 @@
             </div>
           </div>
           <div class="form-group">
-              <button type="submit" class="btn btn-sm btn-success btn-block"><i class="fas fa-cloud-download-alt"></i> Download Excel File</button>
+              <button type="submit" class="btn btn-sm btn-success btn-block"><i class="fas fa-cloud-download-alt"></i> <span class="txt">Export</span></button>
           </div>
         </form>
       </div>

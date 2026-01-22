@@ -240,6 +240,11 @@ switch ($(this).val()) {
           $(".itemName_details").hide()
       break;
 
+  case "customDutiesReport":
+            $(".company_details").hide()
+            $(".itemName_details").hide()
+        break;
+
   default:
       $(".company_details").show()
       $(".itemName_details").hide()
@@ -454,34 +459,62 @@ $("#allDollarExpenes").DataTable({
 }
 
 
-$("#exportForm").on('submit',function(e){
-    // e.preventDefault()
-    let name     = $("select[name=itemName]").val() 
-    let from     = $("input[name=from]").val() 
-    let to       = $("input[name=to]").val()
-    // $.ajax({
-    //     url: $('select[name=type] option:checked').attr('id'),
-    //     type:'GET',
-    //     data: {
-    //         name,from,to
-    //     },
-    //     processData: false,
-    //     contentType: false,
-    //     cache: false,
-    //     beforeSend:function(){
+// $("#exportForm").on('submit',function(e){
+//     // e.preventDefault()
+//     let name     = $("select[name=itemName]").val() 
+//     let from     = $("input[name=from]").val() 
+//     let to       = $("input[name=to]").val()
+//     // $.ajax({
+//     //     url: $('select[name=type] option:checked').attr('id'),
+//     //     type:'GET',
+//     //     data: {
+//     //         name,from,to
+//     //     },
+//     //     processData: false,
+//     //     contentType: false,
+//     //     cache: false,
+//     //     beforeSend:function(){
             
-    //     }
-    //     }).done(function(data){
+//     //     }
+//     //     }).done(function(data){
            
-    //     }).fail(function (jqxHR, textStatus, errorThrown) {
-    //         console.log(textStatus)
-    //     })     
+//     //     }).fail(function (jqxHR, textStatus, errorThrown) {
+//     //         console.log(textStatus)
+//     //     })     
         
-    let url = $('select[name=type] option:checked').attr('id');
-                moment.suppressDeprecationWarnings = true;
-    let momentDatefrom = moment(moment(from), "YYYY-MM-DD");
-    let momentDateto = moment(moment(to), "YYYY-MM-DD");
-    let newUrl   = url.replace(":name",name.replace("%","_")).replace(":from", momentDatefrom.format("DD-MM-YYYY")).replace(":to",momentDateto.format("DD-MM-YYYY"));
-        return window.open(newUrl,'_blank')
+//     let url = $('select[name=type] option:checked').attr('id');
+//                 moment.suppressDeprecationWarnings = true;
+//     let momentDatefrom = moment(moment(from), "YYYY-MM-DD");
+//     let momentDateto = moment(moment(to), "YYYY-MM-DD");
+//     let newUrl   = url.replace(":name",name.replace("%","_")).replace(":from", momentDatefrom.format("DD-MM-YYYY")).replace(":to",momentDateto.format("DD-MM-YYYY"));
+//         return window.open(newUrl,'_blank')
 
-})
+// })
+
+
+$("#exportForm").on("submit", function (e) {
+    // e.preventDefault();
+
+    const btn = $(this).find("button[type=submit]");
+    const oldText = btn.text();
+ 
+
+    let name = $("select[name=itemName]").val();
+    let from = $("input[name=from]").val();
+    let to   = $("input[name=to]").val();
+
+    let url = $('select[name=type] option:checked').attr('id');
+
+    moment.suppressDeprecationWarnings = true;
+    let momentDatefrom = moment(moment(from), "YYYY-MM-DD");
+    let momentDateto   = moment(moment(to), "YYYY-MM-DD");
+
+    let newUrl = url
+        .replace(":name", name.replace("%", "_"))
+        .replace(":from", momentDatefrom.format("DD-MM-YYYY"))
+        .replace(":to", momentDateto.format("DD-MM-YYYY"));
+
+    window.open(newUrl, "_blank");
+ 
+    
+});

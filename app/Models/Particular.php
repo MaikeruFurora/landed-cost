@@ -20,7 +20,8 @@ class Particular extends Model implements Auditable
     protected $casts = [
         'p_sort' => 'integer',
         'action' => 'boolean',
-        'company' => 'boolean'
+        'company' => 'boolean',
+        'p_active' => 'boolean',
     ];
     public function scopeParticularStore($q,$request){
 
@@ -48,7 +49,9 @@ class Particular extends Model implements Auditable
 
                 // 'action' => $request->input('action') ?? false,
 
-                'p_code' => $request->input('code')
+                'p_code' => $request->input('code'),
+
+                'p_active' => $request->input('active') ?? false
             ];
 
     }

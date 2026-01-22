@@ -47,7 +47,7 @@ class ParticularService{
 
     public function getData(){
 
-        $data =  Particular::orderBy('p_sort', 'ASC')->get(['id','p_name','p_sort','p_code','action']);
+        $data =  Particular::orderBy('p_sort', 'ASC')->get(['id','p_name','p_sort','p_code','action','p_active']);
 
         return $data->sortBy('p_sort', SORT_REGULAR, false);
     }

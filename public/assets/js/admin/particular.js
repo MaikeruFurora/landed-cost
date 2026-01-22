@@ -42,6 +42,7 @@ $(function() {
           $("input[name='sort']").val(data.p_sort)
           $("input[name='code']").val(data.p_code).prop('readonly',data.action)
           $("select[name='action']").val((data.action)?1:0).prop('disabled',data.action)
+          $("select[name='active']").val((data.p_active)?1:0)
           $("input[name='strOrpdt']").val('update')
           $("button[name='btnCancel']").show()
       }).fail(function(a,b,c){
@@ -54,6 +55,7 @@ $(function() {
       $("input[name='id']").val('')
       $("input[name='code']").val('').prop('disabled',false).prop('readonly',false)
       $("input[name='sort']").val('')
+      $("select[name='active']").prop('selectedIndex',0)
       $("select[name='action']").prop('selectedIndex',0)
       $("input[name='strOrpdt']").val('store')
       $(this).hide()
