@@ -28,7 +28,7 @@
                 <th>INSURANCE</th>
                 <th>SHIPPING FREIGHT</th>
                 <th>VAT</th>
-                <th>BROKERTAGE FEE</th>
+                <th>BROKERAGE FEE</th>
                 <th>ADDTIONAL DUTY</th>
                 <th>BANK INTEREST CHARGE</th>
                 <th>SHIPPING CHARGE IN DOLLAR</th>
@@ -37,6 +37,7 @@
                 <th>OTHER EXPENSE 1</th>
                 <th>OTHER EXPENSE 2</th>
                 <th>OTHER EXPENSE 3</th>
+                <th>TOTAL COST</th> 
                 <th>PROJECTED COST</th> 
             </tr>
         </thead>
@@ -70,6 +71,7 @@
                     <td>{{ $item->{'Other Expense 1'} }}</td> 
                     <td>{{ $item->{'Other Expense 2'} }}</td>
                     <td>{{ $item->{'Other Expense 3'} }}</td>
+                    <td>{{ $item->{'total_landed_cost'} }}</td>
                     <td>{{ $item->{'Projected Cost'} }}</td>
                 </tr> 
             @empty
