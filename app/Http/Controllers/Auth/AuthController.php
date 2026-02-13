@@ -35,7 +35,7 @@ class AuthController extends Controller
     public function unlockSap(){
         try {
             // Execute the stored procedure
-            DB::statement('exec dbo.sp_unlockSAP');
+            // DB::statement('exec dbo.sp_unlockSAP');
             // If execution is successful, this block will run
             return view('auth.unlocked');
         } catch (\Throwable $th) {
