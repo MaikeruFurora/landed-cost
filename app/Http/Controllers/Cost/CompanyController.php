@@ -19,7 +19,7 @@ class CompanyController extends Controller
     
     public function list(){
 
-        $data = Company::orderBy('created_at','desc')->get();
+        $data = Company::where('companyStatus',1)->orderBy('created_at','desc')->get();
 
         return $data;
     }
